@@ -53,8 +53,9 @@ const macros = [
 
 const PROV_CLASS: Record<string, string> = {
   'Original': 'green', 'Creator-stated': 'green', 'Editorially completed': 'amber',
-  'Culinary reconstruction': 'orange', 'Incomplete': 'grey',
+  'Culinary reconstruction': 'orange', 'Incomplete': '',
 };
+const VCLASS: Record<string, string> = { A: 'green', B: 'amber', C: 'orange', D: '' };
 const VLABEL: Record<string, string> = {
   A: 'Caption largely available — close to cookable', B: 'Useful partial recipe — a quantity or step may be missing',
   C: 'Concept known — method is a conservative outline', D: 'Could not be identified — needs a screenshot or caption',
@@ -74,8 +75,8 @@ const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) ||
       <header class="recipe__header--solo">
         <div class="recipe__eyebrow">
           <span class="codeword recipe__codeword">{d.id}</span>
-          <span class={`provbadge provbadge--${PROV_CLASS[prov]}`}>{prov}</span>
-          {d.verification && <span class={`vbadge vbadge--${d.verification}`} title={VLABEL[d.verification]}>Source {d.verification}</span>}
+          <span class={`pill ${PROV_CLASS[prov] ? 'pill--' + PROV_CLASS[prov] : ''}`}>{prov}</span>
+          {d.verification && <span class={`pill ${VCLASS[d.verification] ? 'pill--' + VCLASS[d.verification] : ''}`} title={VLABEL[d.verification]}>Source {d.verification}</span>}
         </div>
         <h1 class="recipe__title">{d.title}</h1>
         {d.description && <p class="recipe__desc">{d.description}</p>}

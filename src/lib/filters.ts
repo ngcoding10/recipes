@@ -196,3 +196,22 @@ export function keywordMatches(words: string[], keyword: string): boolean {
     return false;
   });
 }
+
+// ---------------------------------------------------------------------------
+// Meal tabs: the four big buckets shown as a segmented control on the library.
+// Each tab selects a set of mealTags (OR within the field).
+// ---------------------------------------------------------------------------
+export const MEAL_TABS: Array<{ key: string; label: string; short: string; tags: string[] }> = [
+  { key: 'all', label: 'All', short: 'All', tags: [] },
+  { key: 'breakfast', label: 'Breakfast', short: 'Breakfast', tags: ['breakfast', 'brunch'] },
+  { key: 'lunch', label: 'Lunch', short: 'Lunch', tags: ['lunch'] },
+  { key: 'dinner', label: 'Dinner', short: 'Dinner', tags: ['dinner'] },
+  { key: 'snacks', label: 'Snacks & desserts', short: 'Snacks', tags: ['snack', 'dessert', 'side', 'appetizer', 'drink'] },
+];
+
+/** Which tab (if any) exactly matches the current meal selection. */
+export function activeMealTab(meal: string[]): string | null {
+  const key = [...meal].sort().join(',');
+  const tab = MEAL_TABS.find((t) => [...t.tags].sort().join(',') === key);
+  return tab ? tab.key : null;
+}

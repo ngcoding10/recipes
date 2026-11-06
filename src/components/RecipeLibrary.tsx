@@ -3,8 +3,10 @@ import type { FilterState, RecipeData } from '../lib/types';
 import {
   EMPTY_FILTERS,
   MULTI_FIELDS,
+  MEAL_TABS,
   TIME_RANGES,
   SORTS,
+  activeMealTab,
   buildFacets,
   filtersFromParams,
   filtersToParams,
@@ -39,6 +41,9 @@ const VERIFICATION_LABEL: Record<string, string> = {
   C: 'C · outline',
   D: 'D · needs caption',
 };
+
+/** Groups shown inside the "Filters" sheet (meal lives in the tabs instead). */
+const PANEL_FIELDS = MULTI_FIELDS.filter((f) => f !== 'meal');
 
 function optionLabel(field: MultiField, value: string): string {
   if (field === 'verification') return VERIFICATION_LABEL[value] ?? value;
@@ -86,20 +91,34 @@ export default function RecipeLibrary({ recipes, base }: Props) {
     return list;
   }, [filters.keywords, draft]);
 
-  const results = useMemo(() => {
-    let base = recipes;
+  // Recipes matching keywords + every facet EXCEPT meal — used for tab counts.
+  const preMeal = useMemo(() => {
+    let list = recipes;
     if (activeKeywords.length) {
-      // A recipe must match EVERY keyword (AND), using precise word-level matching.
-      base = recipes.filter((r) => {
+      list = recipes.filter((r) => {
         const words = wordIndex.get(r.slug) ?? [];
         return activeKeywords.every((kw) => keywordMatches(words, kw));
       });
     }
-    const filtered = base.filter((r) => matchesFacets(r, filters));
-    return sortRecipes(filtered, filters.sort);
+    const noMeal = { ...filters, meal: [] };
+    return list.filter((r) => matchesFacets(r, noMeal));
   }, [filters, activeKeywords, wordIndex, recipes]);
 
-  const activeCount = countActive(filters);
+  const tabCounts = useMemo(() => {
+    const out: Record<string, number> = {};
+    for (const t of MEAL_TABS) {
+      out[t.key] = t.tags.length ? preMeal.filter((r) => r.mealTags.some((m) => t.tags.includes(m))).length : preMeal.length;
+    }
+    return out;
+  }, [preMeal]);
+
+  const results = useMemo(() => {
+    const filtered = filters.meal.length ? preMeal.filter((r) => filters.meal.some((m) => r.mealTags.includes(m))) : preMeal;
+    return sortRecipes(filtered, filters.sort);
+  }, [preMeal, filters.meal, filters.sort]);
+
+  const activeTab = activeMealTab(filters.meal) ?? (filters.meal.length ? 'custom' : 'all');
+  const panelCount = countActive({ ...filters, meal: [] });
 
   // --- Mutators ---
   const toggleValue = (field: MultiField, value: string) => {
@@ -109,8 +128,11 @@ export default function RecipeLibrary({ recipes, base }: Props) {
       return { ...f, [field]: [...set] };
     });
   };
-  const setTime = (value: string) =>
-    setFilters((f) => ({ ...f, time: f.time === value ? '' : value }));
+  const setTime = (value: string) => setFilters((f) => ({ ...f, time: f.time === value ? '' : value }));
+  const pickTab = (key: string) => {
+    const tab = MEAL_TABS.find((t) => t.key === key);
+    setFilters((f) => ({ ...f, meal: tab ? [...tab.tags] : [] }));
+  };
   const clearAll = () => {
     setDraft('');
     setFilters((f) => ({ ...EMPTY_FILTERS, sort: f.sort }));
@@ -123,148 +145,135 @@ export default function RecipeLibrary({ recipes, base }: Props) {
     if (!kw) return;
     setFilters((f) => (f.keywords.includes(kw) ? f : { ...f, keywords: [...f.keywords, kw] }));
   };
-  const removeKeyword = (kw: string) =>
-    setFilters((f) => ({ ...f, keywords: f.keywords.filter((k) => k !== kw) }));
+  const removeKeyword = (kw: string) => setFilters((f) => ({ ...f, keywords: f.keywords.filter((k) => k !== kw) }));
   const onKeywordKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' || e.key === ',') {
       e.preventDefault();
       commitKeyword();
     } else if (e.key === 'Backspace' && draft === '' && filters.keywords.length) {
-      // Backspace on an empty box removes the last keyword.
       setFilters((f) => ({ ...f, keywords: f.keywords.slice(0, -1) }));
     }
   };
 
-  // --- Build the removable active-chip list (facets only; keyword tokens live in the search box) ---
+  // --- Removable active-chip list (panel facets + time; keywords live in the search box) ---
   const chips: Array<{ key: string; label: string; onRemove: () => void }> = [];
-  for (const field of MULTI_FIELDS) {
+  for (const field of PANEL_FIELDS) {
     for (const value of filters[field]) {
-      chips.push({
-        key: `${field}:${value}`,
-        label: `${FIELD_LABEL[field]}: ${optionLabel(field, value)}`,
-        onRemove: () => toggleValue(field, value),
-      });
+      chips.push({ key: `${field}:${value}`, label: `${FIELD_LABEL[field]}: ${optionLabel(field, value)}`, onRemove: () => toggleValue(field, value) });
     }
+  }
+  if (activeTab === 'custom') {
+    for (const value of filters.meal) chips.push({ key: `meal:${value}`, label: `Meal: ${labelize(value)}`, onRemove: () => toggleValue('meal', value) });
   }
   if (filters.time) {
     const t = TIME_RANGES.find((x) => x.value === filters.time);
-    chips.push({
-      key: 'time',
-      label: t ? t.label : filters.time,
-      onRemove: () => setFilters((f) => ({ ...f, time: '' })),
-    });
+    chips.push({ key: 'time', label: t ? t.label : filters.time, onRemove: () => setFilters((f) => ({ ...f, time: '' })) });
   }
 
   // Link each card back with the current filter state preserved.
   const cardHref = (slug: string) => {
     const qs = filtersToParams(filters).toString();
-    const target = `${base}/${slug}`;
+    const target = `${base}/${slug}/`;
     return qs ? `${target}?from=${encodeURIComponent(qs)}` : target;
   };
 
+  const anyActive = chips.length > 0 || filters.keywords.length > 0 || activeTab !== 'all';
+
   return (
     <div className="library">
-      {/* ---------------- Search + controls ---------------- */}
-      <div className="library__controls">
-        <div className="search" onClick={(e) => (e.currentTarget.querySelector('input') as HTMLInputElement | null)?.focus()}>
-          <svg className="search__icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true">
+      {/* ---------------- Search ---------------- */}
+      <div className="library__search">
+        <div className="tokenbox" onClick={(e) => (e.currentTarget.querySelector('input') as HTMLInputElement | null)?.focus()}>
+          <svg className="tokenbox__icon" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
             <circle cx="11" cy="11" r="7" /><path d="M21 21l-4.3-4.3" />
           </svg>
-          <div className="search__tokens">
+          <div className="tokenbox__tokens">
             {filters.keywords.map((kw) => (
               <span className="ktoken" key={kw}>
                 {kw}
-                <button
-                  type="button"
-                  className="ktoken__x"
-                  onClick={(e) => { e.stopPropagation(); removeKeyword(kw); }}
-                  aria-label={`Remove keyword ${kw}`}
-                >×</button>
+                <button type="button" className="ktoken__x" onClick={(e) => { e.stopPropagation(); removeKeyword(kw); }} aria-label={`Remove keyword ${kw}`}>×</button>
               </span>
             ))}
             <input
               type="text"
-              className="search__input"
-              placeholder={filters.keywords.length ? 'Add another keyword…' : 'Type a keyword, press Enter…'}
+              className="tokenbox__input"
+              placeholder={filters.keywords.length ? 'Add another keyword…' : 'Search chicken, pasta, R0012… then Enter'}
               aria-label="Add a search keyword, then press Enter"
               value={draft}
               autoComplete="off"
+              enterKeyHint="done"
               onChange={(e) => setDraft(e.target.value)}
               onKeyDown={onKeywordKeyDown}
               onBlur={commitKeyword}
             />
           </div>
           {(filters.keywords.length > 0 || draft) && (
-            <button
-              className="search__clear"
-              onClick={(e) => { e.stopPropagation(); setDraft(''); setFilters((f) => ({ ...f, keywords: [] })); }}
-              aria-label="Clear all keywords"
-            >×</button>
+            <button className="tokenbox__clear" onClick={(e) => { e.stopPropagation(); setDraft(''); setFilters((f) => ({ ...f, keywords: [] })); }} aria-label="Clear all keywords">×</button>
           )}
-        </div>
-
-        <div className="controls-row">
-          <button
-            className="filters-toggle"
-            aria-expanded={panelOpen}
-            aria-controls="filter-panel"
-            onClick={() => setPanelOpen((o) => !o)}
-          >
-            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M3 5h18M6 12h12M10 19h4"/></svg>
-            Filters
-            {activeCount > 0 && <span className="filters-toggle__badge">{activeCount}</span>}
-          </button>
-
-          <label className="sort">
-            <span className="sort__label">Sort</span>
-            <select
-              className="sort__select"
-              value={filters.sort}
-              onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value }))}
-            >
-              {SORTS.map((s) => (
-                <option key={s.value} value={s.value}>{s.label}</option>
-              ))}
-            </select>
-          </label>
         </div>
       </div>
 
+      {/* ---------------- Meal tabs ---------------- */}
+      <div className="segmented library__tabs" role="tablist" aria-label="Meal">
+        {MEAL_TABS.map((t) => (
+          <button
+            key={t.key}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === t.key}
+            className={`segmented__btn${activeTab === t.key ? ' segmented__btn--on' : ''}`}
+            onClick={() => pickTab(t.key)}
+          >
+            <span className="library__tab-long">{t.label}</span>
+            <span className="library__tab-short">{t.short}</span>
+            <span className="segmented__count">{tabCounts[t.key]}</span>
+          </button>
+        ))}
+      </div>
+
+      {/* ---------------- Controls row ---------------- */}
+      <div className="library__controls">
+        <button className={`btn btn--outline btn--sm filters-toggle${panelOpen ? ' filters-toggle--open' : ''}`} aria-expanded={panelOpen} aria-controls="filter-panel" onClick={() => setPanelOpen((o) => !o)}>
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true"><path d="M3 6h18M7 12h10M10 18h4"/></svg>
+          Filters
+          {panelCount > 0 && <span className="filters-toggle__badge">{panelCount}</span>}
+        </button>
+
+        <label className="sort">
+          <span className="visually-hidden">Sort</span>
+          <select className="sort__select" value={filters.sort} onChange={(e) => setFilters((f) => ({ ...f, sort: e.target.value }))}>
+            {SORTS.map((s) => <option key={s.value} value={s.value}>{s.label}</option>)}
+          </select>
+        </label>
+
+        <p className="count" aria-live="polite">
+          <strong>{results.length}</strong> {results.length === 1 ? 'recipe' : 'recipes'}
+        </p>
+      </div>
+
       {/* ---------------- Filter panel ---------------- */}
-      <div id="filter-panel" className={`panel${panelOpen ? ' panel--open' : ''}`} hidden={!panelOpen}>
+      <div id="filter-panel" className="panel" hidden={!panelOpen}>
         <div className="panel__grid">
           <fieldset className="group">
             <legend className="group__title">Total time</legend>
             <div className="chips-choice">
               {TIME_RANGES.map((t) => (
-                <button
-                  key={t.value}
-                  type="button"
-                  className={`choice${filters.time === t.value ? ' choice--on' : ''}`}
-                  aria-pressed={filters.time === t.value}
-                  onClick={() => setTime(t.value)}
-                >
+                <button key={t.value} type="button" className={`choice${filters.time === t.value ? ' choice--on' : ''}`} aria-pressed={filters.time === t.value} onClick={() => setTime(t.value)}>
                   {t.label}
                 </button>
               ))}
             </div>
           </fieldset>
 
-          {MULTI_FIELDS.map((field) =>
+          {PANEL_FIELDS.map((field) =>
             facets[field].length ? (
-              <fieldset className="group" key={field}>
+              <fieldset className={`group${field === 'tags' ? ' group--wide' : ''}`} key={field}>
                 <legend className="group__title">{FIELD_LABEL[field]}</legend>
                 <div className="chips-choice">
                   {facets[field].map((value) => {
                     const on = filters[field].includes(value);
                     return (
-                      <button
-                        key={value}
-                        type="button"
-                        className={`choice${on ? ' choice--on' : ''}`}
-                        aria-pressed={on}
-                        onClick={() => toggleValue(field, value)}
-                      >
+                      <button key={value} type="button" className={`choice${on ? ' choice--on' : ''}`} aria-pressed={on} onClick={() => toggleValue(field, value)}>
                         {optionLabel(field, value)}
                       </button>
                     );
@@ -274,43 +283,37 @@ export default function RecipeLibrary({ recipes, base }: Props) {
             ) : null
           )}
         </div>
+        <div className="panel__foot">
+          <button className="btn btn--dark btn--sm" onClick={() => setPanelOpen(false)}>Show {results.length} {results.length === 1 ? 'recipe' : 'recipes'}</button>
+          {panelCount > 0 && <button className="btn-link" onClick={() => setFilters((f) => ({ ...EMPTY_FILTERS, keywords: f.keywords, meal: f.meal, sort: f.sort }))}>Reset filters</button>}
+        </div>
       </div>
 
-      {/* ---------------- Result summary + active chips ---------------- */}
-      <div className="library__summary">
-        <p className="count" aria-live="polite">
-          <strong>{results.length}</strong> {results.length === 1 ? 'recipe' : 'recipes'}
-          {(activeCount > 0 || activeKeywords.length > 0) && <span className="count__of"> of {recipes.length}</span>}
-        </p>
-        {(chips.length > 0 || filters.keywords.length > 0) && (
-          <div className="active-chips">
-            {chips.map((c) => (
-              <button key={c.key} className="active-chip" onClick={c.onRemove}>
-                <span>{c.label}</span>
-                <span className="active-chip__x" aria-hidden="true">×</span>
-                <span className="visually-hidden">— remove filter</span>
-              </button>
-            ))}
-            <button className="clear-all" onClick={clearAll}>Clear all</button>
-          </div>
-        )}
-      </div>
+      {/* ---------------- Active chips ---------------- */}
+      {chips.length > 0 && (
+        <div className="active-chips">
+          {chips.map((c) => (
+            <button key={c.key} className="active-chip" onClick={c.onRemove}>
+              <span>{c.label}</span>
+              <span className="active-chip__x" aria-hidden="true">×</span>
+              <span className="visually-hidden">— remove filter</span>
+            </button>
+          ))}
+          <button className="btn-link clear-all" onClick={clearAll}>Clear all</button>
+        </div>
+      )}
 
       {/* ---------------- Results grid / empty state ---------------- */}
       {results.length > 0 ? (
         <div className="grid">
-          {results.map((r) => (
-            <RecipeCard key={r.slug} recipe={r} href={cardHref(r.slug)} />
-          ))}
+          {results.map((r) => <RecipeCard key={r.slug} recipe={r} href={cardHref(r.slug)} />)}
         </div>
       ) : (
         <div className="empty">
-          <div className="empty__mark" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11h18"/><path d="M12 3a9 9 0 0 0-9 9 9 9 0 0 0 9 9 9 9 0 0 0 9-9 9 9 0 0 0-9-9Z"/><path d="M8 15c1 1 2.5 1.5 4 1.5s3-.5 4-1.5"/></svg>
-          </div>
-          <h2 className="empty__title">Nothing on the menu — yet</h2>
-          <p className="empty__body">No recipes match these filters. Try loosening one, or start fresh.</p>
-          <button className="btn-primary" onClick={clearAll}>Clear all filters</button>
+          <div className="empty__mark" aria-hidden="true">🍽️</div>
+          <h2 className="empty__title">Nothing matches yet</h2>
+          <p className="empty__body">Try a different meal, loosen a filter, or check the keyword spelling.</p>
+          {anyActive && <button className="btn btn--primary" onClick={clearAll}>Clear everything</button>}
         </div>
       )}
     </div>

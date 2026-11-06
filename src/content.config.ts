@@ -87,7 +87,6 @@ const recipes = defineCollection({
     texture: z.string().optional(),
     mealPrep: z.string().optional(),
     freezer: z.string().optional(),
-    storage: z.string().optional(),
 
     // --- Provenance ---
     source: z.string().optional(), // original Instagram reel URL

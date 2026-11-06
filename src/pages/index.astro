@@ -2,62 +2,19 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import RecipeLibrary from '../components/RecipeLibrary.tsx';
-import type { RecipeData } from '../lib/types';
+import { toRecipeData } from '../lib/collection';
 import '../styles/library.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const entries = await getCollection('recipes');
-
-const recipes: RecipeData[] = entries.map((entry) => {
-  const d = entry.data;
-  return {
-    slug: entry.id,
-    id: d.id,
-    title: d.title,
-    description: d.description,
-    servings: d.servings,
-    servingSize: d.servingSize,
-    totalTimeMin: d.totalTimeMin,
-    totalTimeText: d.totalTimeText,
-    cuisine: d.cuisine,
-    meal: d.meal,
-    mealTags: d.mealTags ?? [],
-    protein: d.protein,
-    proteinTags: d.proteinTags ?? [],
-    difficulty: d.difficulty,
-    difficultyText: d.difficultyText,
-    cost: d.cost,
-    dietary: d.dietary,
-    dietaryTags: d.dietaryTags ?? [],
-    tags: d.tags ?? [],
-    allergens: d.allergens,
-    equipment: d.equipment,
-    cookingMethod: d.cookingMethod,
-    flavor: d.flavor,
-    texture: d.texture,
-    mealPrep: d.mealPrep,
-    freezer: d.freezer,
-    storage: d.storage,
-    source: d.source,
-    verification: d.verification,
-    provenance: d.provenance,
-    nutrition: d.workingNutrition ? { ...d.nutrition, calories: d.workingNutrition.calories ?? d.nutrition?.calories } : d.nutrition,
-    keywords: d.keywords ?? [],
-    ingredients: d.ingredients ?? [],
-    image: d.image ? `${base}${d.image}` : undefined,
-  };
-});
+const recipes = entries.map((e) => toRecipeData(e, base));
 ---
 
 <Base title="The Pantry — my recipe library">
-  <section class="hero container">
-    <p class="hero__eyebrow">The Pantry</p>
-    <h1 class="hero__title">Recipes <em>by codeword</em>.</h1>
-    <p class="hero__lede">
-      A personal library of {recipes.length} recipes, saved from the wild and organized by
-      hand. Search an ingredient, a flavor, or a codeword; filter by meal, protein, or how much
-      time you've got.
-    </p>
+  <section class="page-head container">
+    <p class="page-head__eyebrow">The Pantry</p>
+    <h1 class="page-head__title">Recipes <em>by codeword</em>.</h1>
+    <p class="page-head__lede">{recipes.length} recipes, searchable by ingredient, codeword or tag. Pick a meal, add a keyword, and cook.</p>
   </section>
 
   <div class="container">

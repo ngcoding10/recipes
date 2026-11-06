@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+import Scan from '../components/Scan.tsx';
+import '../styles/tools.css';
+---
+
+<Base title="Scan a food label — The Pantry">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">Scan</p>
+    <h1 class="page-head__title">Is this <em>good for me</em>?</h1>
+    <p class="page-head__lede">Photograph an ingredients label. The text is read on your phone, every ingredient is checked against a built-in additive database, and you get a score out of 100 with the worst ingredients explained.</p>
+  </section>
+  <div class="container container--narrow tools">
+    <Scan client:load />
+  </div>
+</Base>

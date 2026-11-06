@@ -1,0 +1,28 @@
+---
+import Base from '../layouts/Base.astro';
+import ApiKeyBox from '../components/ApiKeyBox.tsx';
+import '../styles/tools.css';
+---
+
+<Base title="Settings — The Pantry">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">Settings</p>
+    <h1 class="page-head__title">Your <em>keys</em> and privacy.</h1>
+    <p class="page-head__lede">Everything here stays on this device. Nothing is written to the website or to GitHub.</p>
+  </section>
+
+  <div class="container container--narrow tools">
+    <div class="card-surface tools__card">
+      <ApiKeyBox client:load />
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">What uses the key</h2>
+      <ul class="tools__list">
+        <li><strong>Cook with what I have → Make me a new recipe.</strong> One call per recipe, usually well under a cent.</li>
+        <li><strong>Scan → AI check.</strong> Sends the photo once for a second opinion; around one to two cents per photo.</li>
+      </ul>
+      <p class="tools__muted">Matching your pantry against the library and the label-reading scan both run fully on your phone and cost nothing.</p>
+    </div>
+  </div>
+</Base>
