@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { analyzeLabel, type LabelAnalysis } from '../lib/label';
+import { analyzeLabel, type LabelAnalysis, type ProductKind, type ScoringMode } from '../lib/label';
+import { RISK_LABEL, YUKA_LABEL } from '../data/additives';
 import { askClaude, extractJson, fileToImageBlock, getKey, KEY_EVENT, type ContentBlock } from '../lib/ai';
 import ApiKeyBox from './ApiKeyBox';
 
 type Stage = 'idle' | 'ocr' | 'ready' | 'error';
+type KindChoice = ProductKind | 'auto';
 
 interface AiResult {
   score: number;
@@ -17,7 +19,7 @@ interface AiResult {
   confidence?: 'low' | 'medium' | 'high';
 }
 
-const RISK_LABEL: Record<number, string> = { 0: 'No known concern', 1: 'Limited concern', 2: 'Moderate concern', 3: 'High concern' };
+const KIND_LABEL: Record<ProductKind, string> = { food: 'Food', cosmetic: 'Cosmetic', household: 'Household' };
 
 function ScoreRing({ score, grade, label, sub }: { score: number; grade: string; label: string; sub?: string }) {
   const r = 54;
@@ -57,6 +59,12 @@ async function downscale(file: File, maxSide = 1800): Promise<Blob> {
   } finally { URL.revokeObjectURL(url); }
 }
 
+function YukaPill({ yuka }: { yuka?: 'red' | 'orange' | 'yellow' | 'green' }) {
+  if (!yuka) return null;
+  const cls = yuka === 'red' ? 'pill--red' : yuka === 'orange' ? 'pill--orange' : yuka === 'yellow' ? 'pill--amber' : 'pill--green';
+  return <span className={`pill ${cls} ingr__yuka`}>{YUKA_LABEL[yuka]}</span>;
+}
+
 export default function Scan() {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
@@ -71,6 +79,8 @@ export default function Scan() {
   const [aiError, setAiError] = useState('');
   const [pasteMode, setPasteMode] = useState(false);
   const [drag, setDrag] = useState(false);
+  const [kind, setKind] = useState<KindChoice>('auto');
+  const [mode, setMode] = useState<ScoringMode>('evidence');
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
 
@@ -78,14 +88,16 @@ export default function Scan() {
     setHasKey(!!getKey());
     const sync = () => setHasKey(!!getKey());
     window.addEventListener(KEY_EVENT, sync);
+    try { const m = localStorage.getItem('pantry.scanMode'); if (m === 'yuka' || m === 'evidence') setMode(m); } catch { /* ignore */ }
     return () => window.removeEventListener(KEY_EVENT, sync);
   }, []);
+  useEffect(() => { try { localStorage.setItem('pantry.scanMode', mode); } catch { /* ignore */ } }, [mode]);
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
-  const analysis: LabelAnalysis | null = useMemo(() => (text.trim() ? analyzeLabel(text) : null), [text]);
+  const analysis: LabelAnalysis | null = useMemo(() => (text.trim() ? analyzeLabel(text, { kind, mode }) : null), [text, kind, mode]);
 
   const reset = () => {
-    setFile(null); setPreview(''); setStage('idle'); setProgress(0); setStatus(''); setText(''); setAi(null); setAiError(''); setShowAll(false);
+    setFile(null); setPreview(''); setStage('idle'); setProgress(0); setStatus(''); setText(''); setAi(null); setAiError(''); setShowAll(false); setKind('auto');
   };
 
   const onFile = async (f: File | undefined) => {
@@ -124,19 +136,20 @@ export default function Scan() {
       const content: ContentBlock[] = [];
       if (file) content.push(await fileToImageBlock(file));
       const found = analysis?.flagged.map((g) => `${g.match?.name ?? g.raw} (risk ${g.risk})`).join('; ') || 'none';
+      const k = analysis?.kind ?? 'food';
       content.push({ type: 'text', text:
-`Analyse this food like the Yuka app would. ${file ? 'A photo is attached.' : 'No photo; use the label text only.'}
+`Analyse this ${k} product like the Yuka app would. ${file ? 'A photo is attached.' : 'No photo; use the label text only.'}
 Label text read by OCR (may contain errors):
 """${text.slice(0, 4000)}"""
-Our additive database already flagged: ${found}.
+Our ingredient database already flagged: ${found}.
 Return JSON only:
 {"productGuess":"what the product most likely is","score":0-100,"summary":"two sentences, plain English",
- "nutritionNotes":"what the nutrition panel or visible food suggests about sugar, salt, saturated fat, fibre, protein — say 'not visible' if you cannot see it",
- "items":[{"name":"ingredient or food item","score":0-100,"note":"short reason"}],
- "concerns":[{"title":"","severity":"low|moderate|high","detail":"why, with the public classification (IARC group, EU/US ban, EFSA opinion) where one exists"}],
+ "nutritionNotes":"${k === 'food' ? 'what the nutrition panel or visible food suggests about sugar, salt, saturated fat, fibre, protein — say \'not visible\' if you cannot see it' : 'what the product type and claims suggest (leave-on vs rinse-off, spray vs cream, baby/child use) and how that changes exposure'}",
+ "items":[{"name":"ingredient or item","score":0-100,"note":"short reason"}],
+ "concerns":[{"title":"","severity":"low|moderate|high","detail":"why, with the public classification (IARC group, EU/US ban, EFSA/SCCS opinion) where one exists"}],
  "positives":["..."],"swaps":["healthier alternatives"],"confidence":"low|medium|high"}
-Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of processing. Be precise and calm: distinguish 'possibly carcinogenic (IARC 2B)' from 'carcinogenic (Group 1)'. Never diagnose. If the image is not food, say so in summary and give score 0.` });
-      const reply = await askClaude({ system: 'You are a careful food-label and nutrition analyst. You only state classifications you are sure of and you say when something is uncertain or not visible. This is educational, not medical advice.', content, maxTokens: 1800, temperature: 0.2 });
+Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of processing. Scoring for cosmetics: the worst ingredient sets the band (high-risk ingredient → under 25, moderate → under 50), then the rest adjust within the band. Be precise and calm: distinguish 'possibly carcinogenic (IARC 2B)' from 'carcinogenic (Group 1)' and from hormone or allergy concerns. Never diagnose. If the image is not a product, say so in summary and give score 0.` });
+      const reply = await askClaude({ system: 'You are a careful food-label, cosmetic-ingredient and nutrition analyst. You only state classifications you are sure of and you say when something is uncertain or not visible. This is educational, not medical advice.', content, maxTokens: 1800, temperature: 0.2 });
       const data = extractJson<AiResult>(reply);
       if (typeof data.score !== 'number') throw new Error('The AI reply was incomplete. Try again.');
       data.score = Math.max(0, Math.min(100, Math.round(data.score)));
@@ -149,6 +162,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
   };
 
   const combined = analysis && ai ? Math.round(0.4 * analysis.score + 0.6 * ai.score) : null;
+  const shown = combined ?? analysis?.score ?? 0;
 
   return (
     <div className="scan">
@@ -168,7 +182,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
               <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><use href="#i-camera" /></svg>
             </div>
             <div className="scan__drop-title">Photograph the ingredients list</div>
-            <div className="scan__drop-sub">Fill the frame with the label, hold steady, good light. Reading happens on your device, free.</div>
+            <div className="scan__drop-sub">Food, cosmetics or household products. Fill the frame with the label, hold steady, good light. Reading happens on your device, free.</div>
           </div>
           <div className="tools__actions">
             <button className="btn btn--primary" onClick={() => cameraRef.current?.click()}>
@@ -202,7 +216,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
           {(stage === 'ready' || stage === 'error' || pasteMode) && (
             <div className="field" style={{ marginTop: '0.9rem' }}>
               <span className="field__label">{stage === 'ready' ? 'Text we read (fix any mistakes and the score updates)' : 'Ingredient list'}</span>
-              <textarea className="input scan__ocr" value={text} onChange={(e) => setText(e.target.value)} placeholder="Ingredients: sugar, wheat flour, palm oil, cocoa, emulsifier (soy lecithin), E102, salt…" />
+              <textarea className="input scan__ocr" value={text} onChange={(e) => setText(e.target.value)} placeholder="Ingredients: sugar, wheat flour, palm oil, cocoa, emulsifier (soy lecithin), E102, salt…  or  Aqua, Glycerin, Parfum, Phenoxyethanol…" />
               {pasteMode && !file && <div className="tools__row"><button className="btn-link" onClick={() => setPasteMode(false)}>Use a photo instead</button></div>}
             </div>
           )}
@@ -213,14 +227,42 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
       {analysis && analysis.ingredients.length > 0 && (
         <>
           <div className="card-surface tools__card">
+            <div className="scan__modes">
+              <div className="scan__mode">
+                <span className="field__label">Product</span>
+                <div className="segmented">
+                  {(['auto', 'food', 'cosmetic', 'household'] as KindChoice[]).map((k) => (
+                    <button key={k} type="button" className={`segmented__btn${kind === k ? ' segmented__btn--on' : ''}`} onClick={() => setKind(k)}>
+                      {k === 'auto' ? `Auto (${KIND_LABEL[analysis.detectedKind]})` : KIND_LABEL[k]}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="scan__mode">
+                <span className="field__label">Scoring</span>
+                <div className="segmented">
+                  <button type="button" className={`segmented__btn${mode === 'evidence' ? ' segmented__btn--on' : ''}`} onClick={() => setMode('evidence')}>Evidence-based</button>
+                  <button type="button" className={`segmented__btn${mode === 'yuka' ? ' segmented__btn--on' : ''}`} onClick={() => setMode('yuka')}>Yuka-style</button>
+                </div>
+              </div>
+            </div>
+            <p className="tools__hint">
+              {mode === 'evidence'
+                ? 'Evidence-based: concern levels follow IARC, EU/US regulators and EFSA/SCCS opinions.'
+                : 'Yuka-style: precautionary. Where Yuka rates an ingredient higher than the evidence does, the higher rating counts, and any Yuka red caps the score under 50.'}
+            </p>
+          </div>
+
+          <div className="card-surface tools__card">
             <ScoreRing
-              score={combined ?? analysis.score}
-              grade={gradeOf(combined ?? analysis.score)[0]}
-              label={gradeOf(combined ?? analysis.score)[1]}
+              score={shown}
+              grade={gradeOf(shown)[0]}
+              label={gradeOf(shown)[1]}
               sub={combined != null
-                ? `Combined: ${analysis.score} from the label check and ${ai!.score} from the AI nutrition check.`
-                : `${analysis.ingredients.length} ingredients read · ${analysis.flagged.length} flagged · ${analysis.unknownCount} not in the database. Label-only score (additives and sugar), nutrition not included.`}
+                ? `Combined: ${analysis.score} from the label check and ${ai!.score} from the AI check.`
+                : `${KIND_LABEL[analysis.kind]} · ${analysis.ingredients.length} ingredients read · ${analysis.flagged.length} flagged · ${analysis.unknownCount} not in the database.${analysis.kind === 'food' ? ' Label-only score (additives and sugar), nutrition not included.' : ' Worst ingredient sets the band, like Yuka.'}`}
             />
+            {analysis.negated.length > 0 && <p className="tools__hint">Ignored marketing claims: {analysis.negated.join(', ')}.</p>}
           </div>
 
           {analysis.flagged.length > 0 ? (
@@ -233,7 +275,8 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
                     <div>
                       <div className="ingr__name">{g.match?.name}{g.match?.code ? ` · ${g.match.code}` : ''} <span className="ingr__raw">{g.raw !== g.match?.name ? `“${g.raw}”` : ''}</span></div>
                       <div className="ingr__why">{g.match?.why}</div>
-                      {g.match?.evidence && <div className="ingr__ev">{RISK_LABEL[g.risk ?? 0]} · {g.match.evidence}</div>}
+                      <div className="ingr__ev">{RISK_LABEL[g.match?.risk ?? 0]}{g.match?.evidence ? ` · ${g.match.evidence}` : ''}{g.match?.cas ? ` · CAS ${g.match.cas}` : ''}</div>
+                      <YukaPill yuka={g.match?.yuka} />
                     </div>
                     <span className="ingr__score">{g.score}/100</span>
                   </li>
@@ -241,7 +284,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
               </ul>
             </div>
           ) : (
-            <p className="notice notice--green">No flagged additives found in this list.</p>
+            <p className="notice notice--green">No flagged ingredients found in this list.</p>
           )}
 
           <div className="card-surface tools__card">
@@ -253,7 +296,8 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
                     <span className={`ingr__dot risk--${g.risk ?? 'u'}`} aria-hidden="true" />
                     <div>
                       <div className="ingr__name">{g.raw}</div>
-                      <div className="ingr__why">{g.match ? `${g.match.name}: ${g.match.why}` : 'Not in the database — most likely an ordinary food ingredient.'}</div>
+                      <div className="ingr__why">{g.match ? `${g.match.name}: ${g.match.why}` : `Not in the database — most likely an ordinary ${analysis.kind === 'food' ? 'food' : 'base'} ingredient.`}</div>
+                      <YukaPill yuka={g.match?.yuka} />
                     </div>
                     <span className="ingr__score">{g.score == null ? '—' : `${g.score}/100`}</span>
                   </li>
@@ -273,8 +317,8 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
 
           {/* ------------ AI second opinion ------------ */}
           <div className="card-surface tools__card">
-            <h2 className="section-title">AI nutrition check</h2>
-            <p className="tools__muted" style={{ marginTop: 0 }}>Optional. Sends the photo once to Claude to judge the nutrition panel, the type of food and anything the label reader missed. About a cent per scan on your own key.</p>
+            <h2 className="section-title">AI check</h2>
+            <p className="tools__muted" style={{ marginTop: 0 }}>Optional. Sends the photo once to Claude to judge the {analysis.kind === 'food' ? 'nutrition panel, the type of food' : 'product type, how it is used'} and anything the label reader missed. About a cent per scan on your own key.</p>
             {!hasKey ? (
               <div style={{ marginTop: '0.75rem' }}><ApiKeyBox compact onChange={setHasKey} /></div>
             ) : (
@@ -286,7 +330,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
             {ai && (
               <div style={{ marginTop: '1rem' }}>
                 <ScoreRing score={ai.score} grade={gradeOf(ai.score)[0]} label={`${gradeOf(ai.score)[1]} · AI`} sub={`${ai.productGuess ? ai.productGuess + '. ' : ''}${ai.summary}`} />
-                {ai.nutritionNotes && <p className="gen__why"><strong>Nutrition:</strong> {ai.nutritionNotes}</p>}
+                {ai.nutritionNotes && <p className="gen__why"><strong>{analysis.kind === 'food' ? 'Nutrition' : 'Use'}:</strong> {ai.nutritionNotes}</p>}
                 {ai.concerns && ai.concerns.length > 0 && (
                   <>
                     <h3 className="tools__sub">Concerns</h3>
@@ -314,7 +358,7 @@ Scoring: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of 
             )}
           </div>
 
-          <p className="tools__hint">Scores are informational and based on public classifications (IARC, EFSA, FDA, EU rules). They are not medical advice, and a single ingredient at trace levels is rarely a reason to panic. “Possibly carcinogenic” (IARC 2B) is a statement about evidence strength, not about how dangerous something is.</p>
+          <p className="tools__hint">Scores are informational and based on public classifications (IARC, EFSA, SCCS, FDA, EU rules) with Yuka's published ratings shown separately. They are not medical advice, and a single ingredient at trace levels is rarely a reason to panic. “Possibly carcinogenic” (IARC 2B) is a statement about evidence strength, not about how dangerous something is.</p>
         </>
       )}
       {analysis && analysis.ingredients.length === 0 && text.trim() && (

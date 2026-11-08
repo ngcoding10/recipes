@@ -87,3 +87,10 @@
 .scan__legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
 .ai__list { margin: 0.4rem 0 0; padding-left: 1.1rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 0.3rem; }
 .ai__items { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+
+/* scan: mode controls + yuka pill */
+.scan__modes { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem 1rem; }
+.scan__mode { display: flex; flex-direction: column; gap: 0.35rem; min-width: 0; }
+.scan__mode .segmented__btn { font-size: 0.82rem; padding: 0 0.7rem; min-height: 36px; }
+.ingr__yuka { margin-top: 0.4rem; font-size: 0.7rem; padding: 0.2rem 0.5rem; }
+@media (max-width: 640px) { .scan__modes { grid-template-columns: 1fr; } }

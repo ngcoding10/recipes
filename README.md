@@ -17,7 +17,7 @@ It deploys to GitHub Pages for free.
 | **Library** (`/`) | All 91 recipes. Meal tabs (All / Breakfast / Lunch / Dinner / Snacks & desserts), keyword chips (type, Enter, ×), typo-tolerant search, filters for time, protein, tags, difficulty, cost and source level. Filter state lives in the URL. | No |
 | **Recipe** (`/r0001-…/`) | Servings scaler, edit-any-amount proportional scaling, session-only tick boxes, storage, nutrition, substitutions, and collapsible *Source & accuracy notes* with provenance badges. | No |
 | **Cook with what I have** (`/pantry/`) | Type the ingredients you have. The library is ranked by how many of them each recipe uses. "Make me a new recipe" asks Claude to write one from exactly those ingredients. | Only for the AI recipe |
-| **Scan** (`/scan/`) | Photograph an ingredients label. The text is read on-device (Tesseract OCR, free), each ingredient is matched against a built-in additive database, and you get a 0–100 score with the worst ingredients explained. An optional AI pass judges the nutrition panel and whole foods. | Only for the AI pass |
+| **Scan** (`/scan/`) | Photograph a food, cosmetic or household ingredients label. The text is read on-device (Tesseract OCR, free), each ingredient is matched against a built-in database of ~300 additives, cosmetic ingredients and contaminants, and you get a 0–100 score with the worst ingredients explained, plus Yuka's own rating where known. An optional AI pass judges the nutrition panel and whole foods. | Only for the AI pass |
 | **Settings** (`/settings/`) | Paste your Anthropic API key once. It is stored in your browser only. | — |
 
 ### About the API key (how the AI features are paid for)
@@ -34,14 +34,23 @@ It deploys to GitHub Pages for free.
 
 ### How the scan score works
 
-- Label text → ingredient list (split on commas/parentheses) → each ingredient
-  is matched against `src/data/additives.ts` (130 entries: E-numbers, aliases,
-  concern level 0–3, a plain-English *why*, and the public classification it
-  leans on: IARC group, EU/US bans, EFSA opinions, EU hyperactivity warning).
-- Score starts at 100. High-concern additive −30 (and caps the score at 30),
-  moderate −12 (caps at 72 / 55), limited −4, sugar first on the list −15,
-  more than six additives −2 each. Bands mirror Yuka: 75+ Excellent, 50 Good,
-  25 Poor, below that Bad.
+- Label text → ingredient list (split on commas/parentheses, "paraben-free" style
+  claims ignored) → each ingredient is matched against `src/data/additives.ts`
+  (about 300 entries: E-numbers, INCI names, aliases, CAS numbers, a concern
+  level 0–3, a plain-English *why*, and the public classification it leans on:
+  IARC group, EU/US bans, EFSA/SCCS opinions, EU hyperactivity warning).
+- The scanner works out whether the label is **food, cosmetic or household**
+  (you can override it). Food-only entries such as sugar or red meat are ignored
+  on a shampoo, and cosmetic entries such as parabens are ignored on a cereal.
+- **Evidence-based** scoring (default): start at 100; high-concern −30 (caps the
+  score at 30), moderate −12 (caps at 72 / 55), limited −4, sugar first on the list
+  −15, more than six additives −2 each. Cosmetics follow Yuka's rule that the
+  worst ingredient sets the band (high → under 25, moderate → under 50).
+- **Yuka-style** scoring: where Yuka's own published rating (69 entries carry one,
+  taken from Yuka's change logs and test reports) is stricter than the evidence,
+  the stricter one counts, and any Yuka red caps a food score under 50. Yuka's
+  rating is also shown as a separate pill on each flagged row.
+- Bands mirror Yuka: 75+ Excellent, 50 Good, 25 Poor, below that Bad.
 - To add or change an entry, edit `src/data/additives.ts`. The scoring lives in
   `src/lib/label.ts`. It is informational, not medical advice.
 
@@ -121,7 +130,7 @@ a minute or two after the green ✓.
 recipes/                 ← your recipes (one .md each)
 src/
   content.config.ts      ← recipe schema (validated at build)
-  data/additives.ts      ← additive / ingredient database for Scan
+  data/additives.ts      ← ~300-entry additive / cosmetic / contaminant database for Scan
   lib/
     filters.ts           ← search, facets, meal tabs
     label.ts             ← OCR text → ingredients → score
