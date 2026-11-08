@@ -32,5 +32,5 @@ verification: "B"
 nutrition: {"serving": "1 of 2 servings", "calories": "348", "protein": "23 g"}
 keywords: ["asian-inspired", "dinner", "flaky", "garlic powder", "garlicky", "glazed", "honey", "honey-soy glaze", "lunch", "onion powder", "paprika", "pepper", "pescatarian", "protein-focused", "salmon", "salt", "savory", "soy sauce", "sweet"]
 tags: ["budget", "low-calorie", "pescatarian", "sweet"]
+image: "/images/r0090-honey-glazed-salmon-bites.jpg"
 ---
-

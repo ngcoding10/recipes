@@ -47,5 +47,5 @@ verification: "B"
 nutrition: {"serving": "1 of 4 slices", "calories": "183", "protein": "22 g"}
 keywords: ["american", "cheesy", "chewy crust", "dinner", "fat free mozzarella", "four slices", "high protein", "high-protein", "intermediate", "italian-inspired", "lunch", "meal prep", "melted cheese", "pepperoni", "pepperoni pizza", "protein pizza", "tomato", "turkey pepperoni", "vital wheat gluten"]
 tags: ["budget", "high-protein", "hot", "low-calorie", "meal-prep"]
+image: "/images/r0033-high-protein-pepperoni-pizza.jpg"
 ---
-

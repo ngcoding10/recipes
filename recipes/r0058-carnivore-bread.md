@@ -31,5 +31,5 @@ keywords: ["blender bread", "bread-like", "breakfast", "butter", "carnivore brea
 workingNutrition: {"calories": "~160", "protein": "7 g", "carbs": "2 g", "fat": "14 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["5-ingredient", "blender", "low-calorie"]
+image: "/images/r0058-carnivore-bread.jpg"
 ---
-

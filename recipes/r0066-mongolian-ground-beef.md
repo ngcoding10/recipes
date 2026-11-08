@@ -43,5 +43,5 @@ source: "https://www.instagram.com/reel/DTJArUSkpfN/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["dinner", "gingery", "savory", "wheat"]
 tags: ["budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "kid-friendly", "low-calorie", "low-carb", "spicy", "sweet", "vegan", "vegetarian"]
+image: "/images/r0066-mongolian-ground-beef.jpg"
 ---
-

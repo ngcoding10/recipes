@@ -46,5 +46,5 @@ verification: "B"
 nutrition: {"serving": "1 sandwich"}
 keywords: ["avocado", "creamy", "crispy", "crispy rice", "date night", "dinner", "fun lunch", "fusion", "intermediate", "japanese-inspired fusion", "lunch", "pescatarian", "salmon", "savory", "spicy", "spicy salmon", "sushi rice", "tangy", "tender", "waffle iron", "waffle sandwich"]
 tags: ["hot", "pescatarian", "spicy"]
+image: "/images/r0027-crispy-rice-waffle-sandwich-with-spicy-salmon.jpg"
 ---
-

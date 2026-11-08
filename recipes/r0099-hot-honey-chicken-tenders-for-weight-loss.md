@@ -39,5 +39,5 @@ verification: "C"
 nutrition: {"serving": ""}
 keywords: ["chicken", "dinner", "honey", "hot honey", "lunch", "possible coating", "sweet heat", "unknown"]
 tags: ["budget", "hot", "low-calorie", "spicy", "sweet"]
+image: "/images/r0099-hot-honey-chicken-tenders-for-weight-loss.jpg"
 ---
-

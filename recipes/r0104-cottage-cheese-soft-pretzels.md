@@ -36,5 +36,5 @@ source: "https://www.instagram.com/reel/DYYc-qoMjpa/"
 verification: "B"
 keywords: ["american baking", "cottage cheese", "easy to intermediate", "gluten-free flour", "side", "snack"]
 tags: ["gluten-free", "hot", "low-calorie"]
+image: "/images/r0104-cottage-cheese-soft-pretzels.jpg"
 ---
-

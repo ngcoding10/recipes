@@ -46,5 +46,5 @@ verification: "B"
 nutrition: {"serving": ""}
 keywords: ["clusters", "cold", "creamy", "dessert", "earthy", "easy", "frozen dessert", "greek yogurt", "internet frozen treat", "mango", "matcha", "meal prep", "snack", "snappy shell", "summer", "summer snack", "sweet", "tangy", "vegetarian", "white chocolate"]
 tags: ["cold", "freezer-friendly", "low-calorie", "meal-prep", "sweet", "vegetarian"]
+image: "/images/r0024-mango-matcha-yogurt-clusters.jpg"
 ---
-

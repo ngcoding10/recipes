@@ -31,5 +31,5 @@ source: "https://www.instagram.com/reel/DUGBZKOjKzd/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["apricot jam", "citrus", "dense", "dessert", "egg", "flour", "french-inspired", "gluten", "icing sugar", "layered", "milk", "orange", "snack", "vanilla"]
 tags: ["budget", "cold", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "quick", "spicy", "sweet", "vegetarian"]
+image: "/images/r0072-thousand-layer-apple-cake-invisible-apple-cake.jpg"
 ---
-

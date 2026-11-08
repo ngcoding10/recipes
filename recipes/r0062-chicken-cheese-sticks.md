@@ -31,5 +31,5 @@ source: "https://www.instagram.com/reel/DVPPNTfjZC3/"
 nutrition: {"calories": "155", "protein": "23 g"}
 keywords: ["cheesy", "crisp-cheesy exterior", "garlic powder", "ground ginger", "paprika", "parmesan", "snack"]
 tags: ["budget", "cold", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "kid-friendly", "low-calorie", "low-carb", "spicy", "sweet", "vegan", "vegetarian"]
+image: "/images/r0062-chicken-cheese-sticks.jpg"
 ---
-

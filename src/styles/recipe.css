@@ -7,6 +7,10 @@
 }
 .back-link:hover { color: var(--ink); }
 
+/* --- Hero image --- */
+.recipe__hero { width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; border-radius: var(--r-lg); margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); background: var(--surface); }
+@media (max-width: 640px) { .recipe__hero { aspect-ratio: 16 / 10; border-radius: var(--r-md); } }
+
 /* --- Header --- */
 .recipe__header--solo { display: block; }
 .recipe__eyebrow { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.8rem; flex-wrap: wrap; }

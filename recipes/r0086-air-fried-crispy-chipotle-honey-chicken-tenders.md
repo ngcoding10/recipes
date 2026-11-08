@@ -34,5 +34,5 @@ keywords: ["air-fried", "american", "chicken", "chipotle", "chipotle-honey sauce
 workingNutrition: {"calories": "~460", "protein": "57 g", "carbs": "37 g", "fat": "7 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["air-fryer", "budget", "high-protein", "hot", "spicy", "sweet"]
+image: "/images/r0086-air-fried-crispy-chipotle-honey-chicken-tenders.jpg"
 ---
-

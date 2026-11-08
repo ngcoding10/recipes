@@ -33,5 +33,5 @@ keywords: ["butter chicken sauce", "buttery", "chicken in filling", "details unk
 workingNutrition: {"calories": "~470", "protein": "21 g", "carbs": "43 g", "fat": "22 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["budget", "cold", "spicy"]
+image: "/images/r0096-flatbread-with-butter-chicken.jpg"
 ---
-

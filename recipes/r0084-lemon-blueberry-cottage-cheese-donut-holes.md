@@ -38,5 +38,5 @@ keywords: ["american", "beginner", "blueberries", "blueberry", "breakfast", "cot
 workingNutrition: {"calories": "~170", "protein": "6 g", "carbs": "30 g", "fat": "2 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["air-fryer", "blender", "high-protein", "hot", "low-calorie", "sweet", "vegetarian"]
+image: "/images/r0084-lemon-blueberry-cottage-cheese-donut-holes.jpg"
 ---
-

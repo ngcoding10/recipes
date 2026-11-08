@@ -30,5 +30,5 @@ source: "https://www.instagram.com/reel/DTYkqRdjYYb/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["breakfast", "cinnamon", "contemporary home baking", "dessert", "milk", "oats", "snack"]
 tags: ["budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "sweet", "vegetarian"]
+image: "/images/r0067-healthy-easy-oat-cinnamon-cake.jpg"
 ---
-

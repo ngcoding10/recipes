@@ -35,5 +35,5 @@ source: "https://www.instagram.com/reel/DW4SkvKDSKr/"
 verification: "C"
 keywords: ["american baking", "dessert component", "easy", "once formula is verified", "powdered sugar"]
 tags: ["hot", "low-calorie", "quick", "sweet"]
+image: "/images/r0116-vanilla-cream-cheese-style-frosting-exact-varian.jpg"
 ---
-

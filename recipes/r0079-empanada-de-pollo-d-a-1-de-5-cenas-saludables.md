@@ -32,5 +32,5 @@ source: "https://www.instagram.com/reel/DTyLL3oiKAD/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["creamy", "dinner", "gluten", "ham", "latin-inspired", "milk", "possible wheat", "shredded cheese", "tomato"]
 tags: ["budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "kid-friendly", "low-carb", "sweet", "vegan", "vegetarian"]
+image: "/images/r0079-empanada-de-pollo-d-a-1-de-5-cenas-saludables.jpg"
 ---
-

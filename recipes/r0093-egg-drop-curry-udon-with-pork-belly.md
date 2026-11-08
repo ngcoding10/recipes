@@ -37,5 +37,5 @@ keywords: ["chewy noodles", "comfort food", "curry roux", "curry-dashi broth", "
 workingNutrition: {"calories": "~1380", "protein": "29 g", "carbs": "74 g", "fat": "104 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["cold", "hot", "quick", "sweet"]
+image: "/images/r0093-egg-drop-curry-udon-with-pork-belly.jpg"
 ---
-

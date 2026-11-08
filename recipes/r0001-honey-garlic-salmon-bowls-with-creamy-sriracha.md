@@ -46,5 +46,5 @@ verification: "A"
 nutrition: {"serving": "1 bowl", "calories": "594", "protein": "42 g", "carbs": "48 g", "fat": "26 g"}
 keywords: ["20-minute meal", "air fryer", "asian-inspired", "chili crisp", "creamy sriracha", "crisp-cool", "cucumber", "dinner", "easy", "garlicky", "high protein", "high-protein", "honey garlic", "lunch", "meal prep", "pescatarian", "quick dinner", "rice bowl", "salmon", "savory", "spicy", "sticky", "sweet", "tender"]
 tags: ["air-fryer", "cold", "high-protein", "hot", "meal-prep", "pescatarian", "quick", "spicy", "sweet"]
+image: "/images/r0001-honey-garlic-salmon-bowls-with-creamy-sriracha.jpg"
 ---
-

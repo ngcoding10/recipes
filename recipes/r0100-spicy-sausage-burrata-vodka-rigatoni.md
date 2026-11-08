@@ -32,5 +32,5 @@ keywords: ["burrata", "comfort food", "creamy", "creamy burrata", "dinner", "gar
 workingNutrition: {"calories": "~720", "protein": "25 g", "carbs": "61 g", "fat": "37 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["freezer-friendly", "hot", "spicy"]
+image: "/images/r0100-spicy-sausage-burrata-vodka-rigatoni.jpg"
 ---
-

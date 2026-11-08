@@ -95,6 +95,13 @@ workingNutrition: { calories: "~420", protein: "38 g", carbs: "4 g", fat: "28 g"
 ---
 ```
 
+**Pictures.** Every recipe has a 960×600 card image in `public/images/<slug>.jpg`
+(`image: "/images/<slug>.jpg"` in the frontmatter). They are AI-generated from
+the title and description with the free Pollinations API. To make one for a new
+recipe, run `node scripts/gen-images.mjs` (only recipes without an image are
+generated; `--force` redoes them all). Drop in your own photo under the same
+name any time to replace one.
+
 The full schema (every optional field, including the two-layer
 `sourceIngredients` / `workingIngredients` model) is in
 [`src/content.config.ts`](src/content.config.ts). Unknown fields are ignored, so
@@ -128,6 +135,7 @@ a minute or two after the green ✓.
 
 ```
 recipes/                 ← your recipes (one .md each)
+public/images/           ← card images, one per recipe (scripts/gen-images.mjs)
 src/
   content.config.ts      ← recipe schema (validated at build)
   data/additives.ts      ← ~300-entry additive / cosmetic / contaminant database for Scan

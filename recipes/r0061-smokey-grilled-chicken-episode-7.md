@@ -30,5 +30,5 @@ source: "https://www.instagram.com/reel/DTnb3nBCO-3/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["chile", "fresh chile", "gluten", "lunch", "possible wheat", "savory", "sweet"]
 tags: ["air-fryer", "budget", "dairy-free", "freezer-friendly", "gluten-free", "grill", "high-protein", "hot", "kid-friendly", "low-carb", "spicy", "sweet", "vegan", "vegetarian"]
+image: "/images/r0061-smokey-grilled-chicken-episode-7.jpg"
 ---
-

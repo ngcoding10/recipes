@@ -43,5 +43,5 @@ source: "https://www.instagram.com/reel/DRkq1oHjcwO/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["gluten-free claim", "low-carb-stylevegetarian", "lunch", "snack"]
 tags: ["budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "kid-friendly", "low-calorie", "low-carb", "sweet", "vegan", "vegetarian"]
+image: "/images/r0078-snack-de-pollo-alto-en-prote-na-sin-gluten.jpg"
 ---
-

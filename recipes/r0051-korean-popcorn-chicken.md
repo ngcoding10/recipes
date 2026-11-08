@@ -32,5 +32,5 @@ keywords: ["appetizer", "aromatic", "chicken breast", "chilli powder", "cornflak
 workingNutrition: {"calories": "~475", "protein": "40 g", "carbs": "12 g", "fat": "18 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["high-protein", "hot", "spicy"]
+image: "/images/r0051-korean-popcorn-chicken.jpg"
 ---
-

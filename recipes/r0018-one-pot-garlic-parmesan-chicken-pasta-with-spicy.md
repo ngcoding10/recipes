@@ -44,5 +44,5 @@ verification: "C"
 nutrition: {"serving": ""}
 keywords: ["30-minute meal", "chicken", "chicken pasta", "comfort food", "creamy pasta", "crispy chicken", "dinner", "easy-intermediate", "garlic", "garlic parmesan", "italian-american", "one pot pasta", "parmesan", "quick comfort dinner", "spicy", "spicy alfredo", "weeknight dinner"]
 tags: ["budget", "hot", "one-pot", "spicy"]
+image: "/images/r0018-one-pot-garlic-parmesan-chicken-pasta-with-spicy.jpg"
 ---
-

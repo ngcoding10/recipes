@@ -43,5 +43,5 @@ source: "https://www.instagram.com/reel/DVjRqcuDUVT/"
 verification: "C"
 keywords: ["basil", "black pepper", "calabrian chile", "cheese", "creamy", "dinner", "egg yolk", "garlic", "italian-american", "olive oil", "pasta", "peppery", "savory", "spicy", "tomato paste", "tomato-rich", "vodka", "vodka pasta", "vodka tomato sauce"]
 tags: ["hot", "spicy", "vegetarian"]
+image: "/images/r0052-maximized-vodka-pasta.jpg"
 ---
-

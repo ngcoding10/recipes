@@ -30,5 +30,5 @@ source: "https://www.instagram.com/reel/DU5_l5lgoZr/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["dinner", "honey", "korean", "savory", "sesame", "wheat"]
 tags: ["cold", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "spicy", "sweet", "vegan", "vegetarian"]
+image: "/images/r0068-beef-bulgogi.jpg"
 ---
-

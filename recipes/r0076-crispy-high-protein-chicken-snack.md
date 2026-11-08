@@ -30,5 +30,5 @@ source: "https://www.instagram.com/reel/DRoT8M3ij2n/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["low-carb-style", "lunch", "savory", "smoked paprika", "snack"]
 tags: ["5-ingredient", "blender", "budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "sweet", "vegan", "vegetarian"]
+image: "/images/r0076-crispy-high-protein-chicken-snack.jpg"
 ---
-

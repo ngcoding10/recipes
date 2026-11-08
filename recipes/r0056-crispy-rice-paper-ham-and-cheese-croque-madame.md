@@ -32,5 +32,5 @@ keywords: ["bacon", "breakfast", "brunch", "cheese", "cheesy", "crispy exterior"
 workingNutrition: {"calories": "~525", "protein": "41 g", "carbs": "16 g", "fat": "32 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["gluten-free", "hot"]
+image: "/images/r0056-crispy-rice-paper-ham-and-cheese-croque-madame.jpg"
 ---
-

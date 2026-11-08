@@ -43,5 +43,5 @@ verification: "C"
 nutrition: {"serving": ""}
 keywords: ["beefy", "comfort dinner", "comfort food", "creamy", "creamy pasta", "date night", "dinner", "garlic", "garlic parmesan", "intermediate", "italian-american", "parmesan", "rich", "steak", "steak pasta", "tender", "weeknight dinner"]
 tags: ["hot"]
+image: "/images/r0017-garlic-parmesan-steak-pasta.jpg"
 ---
-

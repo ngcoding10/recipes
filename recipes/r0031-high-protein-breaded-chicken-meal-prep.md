@@ -45,5 +45,5 @@ verification: "B"
 nutrition: {"serving": ""}
 keywords: ["batch cooking", "batch lunches", "breaded chicken", "chicken breast", "crisp-coated", "dinner", "easy", "egg whites", "garlicky", "high protein", "high-protein", "lunch", "meal prep", "partial recipe", "savory", "smoked paprika", "smoky", "tender"]
 tags: ["air-fryer", "budget", "high-protein", "hot", "low-calorie", "meal-prep"]
+image: "/images/r0031-high-protein-breaded-chicken-meal-prep.jpg"
 ---
-

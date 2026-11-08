@@ -45,5 +45,5 @@ verification: "B"
 nutrition: {"serving": "1 muffin"}
 keywords: ["american baking", "banana", "banana muffins", "breakfast", "breakfast prep", "chocolate", "chocolate chip", "easy", "easy baking", "eggs", "fluffy", "freezer friendly", "moist", "no refined sugar", "no refined sugar stated", "snack", "whole-food-style"]
 tags: ["budget", "freezer-friendly", "hot", "low-calorie", "sweet"]
+image: "/images/r0007-healthy-banana-chocolate-chip-muffins.jpg"
 ---
-

@@ -46,5 +46,5 @@ verification: "B"
 nutrition: {"serving": "1 burger"}
 keywords: ["burger night", "chickpeas", "crisp-edged", "crunchy pickle", "dinner", "food processor", "gochujang", "intermediate", "juicy", "korean-inspired", "lunch", "lunch prep", "meal prep", "pescatarian", "pickled cucumber", "salmon + chickpeas", "salmon burger", "spicy", "tangy", "umami"]
 tags: ["meal-prep", "pescatarian", "spicy"]
+image: "/images/r0010-gochujang-salmon-burgers-with-quick-pickled-cucu.jpg"
 ---
-

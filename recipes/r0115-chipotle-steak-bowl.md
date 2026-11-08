@@ -36,5 +36,5 @@ source: "https://www.instagram.com/reel/DXzU2wdxq1Y/"
 verification: "B"
 keywords: ["dinner", "intermediate", "lunch", "mexican-inspired", "ribeye steak"]
 tags: ["grill", "hot"]
+image: "/images/r0115-chipotle-steak-bowl.jpg"
 ---
-

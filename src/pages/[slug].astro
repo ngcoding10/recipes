@@ -72,6 +72,8 @@ const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) ||
         Back to the library
       </a>
 
+      {d.image && <img class="recipe__hero" src={`${base}${d.image}`} alt="" width="960" height="600" />}
+
       <header class="recipe__header--solo">
         <div class="recipe__eyebrow">
           <span class="codeword recipe__codeword">{d.id}</span>

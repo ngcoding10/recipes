@@ -34,5 +34,5 @@ keywords: ["allspice", "arayes", "aromatic", "black pepper", "chili oil", "cinna
 workingNutrition: {"calories": "~850", "protein": "40 g", "carbs": "40 g", "fat": "58 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["cold", "freezer-friendly", "high-protein", "hot", "spicy"]
+image: "/images/r0053-arayes-with-garlic-confit-yogurt-sauce.jpg"
 ---
-

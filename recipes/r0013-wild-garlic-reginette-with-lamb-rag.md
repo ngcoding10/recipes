@@ -44,5 +44,5 @@ verification: "C"
 nutrition: {"serving": ""}
 keywords: ["advanced", "dinner", "dinner party", "fresh pasta", "herbaceous", "italian", "lamb", "lamb ragu", "reginette", "rich", "ridged pasta", "savory", "silky sauce", "weekend cooking", "weekend project", "wild garlic"]
 tags: ["hot"]
+image: "/images/r0013-wild-garlic-reginette-with-lamb-rag.jpg"
 ---
-

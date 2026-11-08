@@ -36,5 +36,5 @@ keywords: ["breakfast", "cheesy", "contemporary", "crispy cheese edge", "egg", "
 workingNutrition: {"calories": "~250", "protein": "14 g", "carbs": "17 g", "fat": "15 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["5-ingredient", "budget", "hot", "low-calorie", "spicy", "sweet", "vegetarian"]
+image: "/images/r0081-crispy-cheese-hot-honey-egg-parcel.jpg"
 ---
-

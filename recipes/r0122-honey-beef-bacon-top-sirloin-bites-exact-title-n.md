@@ -36,5 +36,5 @@ source: "https://www.instagram.com/reel/DW2CsnAElmj/"
 verification: "B"
 keywords: ["american", "appetizer", "dinner", "honey", "intermediate", "top sirloin"]
 tags: ["hot", "low-calorie"]
+image: "/images/r0122-honey-beef-bacon-top-sirloin-bites-exact-title-n.jpg"
 ---
-

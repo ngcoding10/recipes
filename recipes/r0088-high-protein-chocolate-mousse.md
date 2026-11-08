@@ -33,5 +33,5 @@ keywords: ["blended dessert", "creamy", "dates", "dessert", "greek yogurt", "hig
 workingNutrition: {"calories": "~225", "protein": "20 g", "carbs": "39 g", "fat": "2 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["blender", "budget", "high-protein", "low-calorie", "sweet"]
+image: "/images/r0088-high-protein-chocolate-mousse.jpg"
 ---
-

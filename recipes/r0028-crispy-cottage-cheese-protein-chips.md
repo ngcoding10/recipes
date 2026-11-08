@@ -46,5 +46,5 @@ verification: "A"
 nutrition: {"serving": "Whole batch", "calories": "246", "protein": "36 g", "carbs": "13 g", "fat": "5 g"}
 keywords: ["2 ingredients", "baked", "cheesy", "cottage cheese", "crisp", "crispy", "crunchy", "dipper", "easy", "high protein", "high-protein", "internet high-protein", "low carb style", "protein chips", "protein snack", "savory", "seasoned", "snack", "thin", "vegetarian"]
 tags: ["5-ingredient", "budget", "high-protein", "hot", "low-calorie", "low-carb", "vegetarian"]
+image: "/images/r0028-crispy-cottage-cheese-protein-chips.jpg"
 ---
-

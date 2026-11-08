@@ -33,5 +33,5 @@ keywords: ["ai recipe test", "blender cookies", "chickpea cookies", "chickpeas",
 workingNutrition: {"calories": "~135", "protein": "5 g", "carbs": "15 g", "fat": "8 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["blender", "hot", "low-calorie", "sweet", "vegetarian"]
+image: "/images/r0048-ai-chickpea-cookies.jpg"
 ---
-

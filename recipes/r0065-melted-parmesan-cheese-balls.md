@@ -30,5 +30,5 @@ source: "https://www.instagram.com/reel/DTnZBNQjEB6/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["appetizer", "egg", "high-protein-style", "low-carb-stylevegetarian", "nutty", "snack"]
 tags: ["5-ingredient", "budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "sweet", "vegetarian"]
+image: "/images/r0065-melted-parmesan-cheese-balls.jpg"
 ---
-

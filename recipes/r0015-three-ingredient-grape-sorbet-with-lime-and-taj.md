@@ -45,5 +45,5 @@ verification: "A"
 nutrition: {"serving": "1/2 recipe", "calories": "About 140", "protein": "About 1.5 g", "carbs": "About 36 g", "fat": "Less than 1 g", "fiber": "About 2 g", "sugar": "About 31-34 g", "sodium": "Varies with Tajín"}
 keywords: ["blender", "chile-lime", "dairy free", "dairy-free", "dessert", "gluten free", "gluten-free", "grape sorbet", "icy", "lime", "mexican-inspired", "no cook", "smooth", "snack", "summer dessert", "sweet-tart", "tajin", "three ingredients", "vegan", "very easy"]
 tags: ["5-ingredient", "blender", "budget", "cold", "dairy-free", "freezer-friendly", "gluten-free", "low-calorie", "no-cook", "quick", "sweet", "vegan"]
+image: "/images/r0015-three-ingredient-grape-sorbet-with-lime-and-taj.jpg"
 ---
-

@@ -31,5 +31,5 @@ source: "https://www.instagram.com/reel/DTPgvngk3od/"
 nutrition: {"calories": "66", "fat": "2 g", "carbs": "8 g", "protein": "4 g"}
 keywords: ["check cocoa", "dessert", "milk", "snack"]
 tags: ["5-ingredient", "blender", "budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-calorie", "low-carb", "sweet", "vegetarian"]
+image: "/images/r0064-chocolate-banana-brownie-bites.jpg"
 ---
-

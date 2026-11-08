@@ -31,5 +31,5 @@ keywords: ["appetizer", "chicken", "chicken bites", "crispy", "dinner", "garlic"
 workingNutrition: {"calories": "~560", "protein": "46 g", "carbs": "12 g", "fat": "30 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["high-protein", "hot", "spicy", "sweet"]
+image: "/images/r0045-korean-popcorn-chicken.jpg"
 ---
-

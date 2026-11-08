@@ -33,5 +33,5 @@ keywords: ["american baking", "banana", "banana bread cookie", "banana cookies",
 workingNutrition: {"calories": "~295", "protein": "3 g", "carbs": "44 g", "fat": "13 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["cold", "hot", "low-calorie", "sweet", "vegetarian"]
+image: "/images/r0044-brown-butter-banana-oat-chocolate-chip-cookies.jpg"
 ---
-

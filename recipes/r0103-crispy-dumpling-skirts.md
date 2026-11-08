@@ -34,5 +34,5 @@ keywords: ["appetizer", "intermediate", "snack"]
 workingNutrition: {"calories": "~180", "protein": "6 g", "carbs": "21 g", "fat": "10 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["hot", "low-calorie", "quick"]
+image: "/images/r0103-crispy-dumpling-skirts.jpg"
 ---
-

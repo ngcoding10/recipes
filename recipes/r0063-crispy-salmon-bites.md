@@ -31,5 +31,5 @@ source: "https://www.instagram.com/reel/DTI2RhUjrQQ/"
 nutrition: {"calories": "348", "protein": "23 g"}
 keywords: ["dinner", "egg", "garlic-herb seasoning", "high-proteinvegetarian", "kewpie contains egg", "lunch", "possible soy", "savory", "smoked paprika", "snack", "spicy"]
 tags: ["air-fryer", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-calorie", "low-carb", "pescatarian", "spicy", "sweet"]
+image: "/images/r0063-crispy-salmon-bites.jpg"
 ---
-

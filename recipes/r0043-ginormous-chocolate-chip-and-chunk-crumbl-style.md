@@ -32,5 +32,5 @@ keywords: ["american baking", "applesauce", "brown sugar substitute", "chocolate
 workingNutrition: {"calories": "~205", "protein": "6 g", "carbs": "35 g", "fat": "2 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["hot", "low-calorie", "sweet"]
+image: "/images/r0043-ginormous-chocolate-chip-and-chunk-crumbl-style.jpg"
 ---
-

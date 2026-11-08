@@ -34,5 +34,5 @@ keywords: ["25 minute dinner", "black pepper", "cheesy", "creamy", "dinner", "ga
 workingNutrition: {"calories": "~800", "protein": "42 g", "carbs": "43 g", "fat": "50 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["high-protein", "hot"]
+image: "/images/r0060-garlic-parmesan-steak-pasta.jpg"
 ---
-

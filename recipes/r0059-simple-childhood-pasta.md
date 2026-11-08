@@ -31,5 +31,5 @@ keywords: ["chicken broth only", "chicken broth pasta", "chicken-broth", "childh
 workingNutrition: {"calories": "~590", "protein": "16 g", "carbs": "83 g", "fat": "20 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["hot"]
+image: "/images/r0059-simple-childhood-pasta.jpg"
 ---
-

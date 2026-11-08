@@ -46,5 +46,5 @@ verification: "A"
 nutrition: {"serving": "1 plate", "calories": "609", "protein": "45 g", "carbs": "74 g", "fat": "15 g"}
 keywords: ["asian-inspired", "bok choy", "chicken thigh", "crisp-tender", "dinner", "easy", "ginger chicken", "gingery", "high protein", "high-protein", "honey soy", "juicy", "rice", "sesame", "spicy", "sticky", "sticky chicken", "sweet", "umami", "weeknight dinner"]
 tags: ["high-protein", "hot", "spicy", "sweet"]
+image: "/images/r0008-sticky-ginger-chicken-with-chilli-bok-choy.jpg"
 ---
-

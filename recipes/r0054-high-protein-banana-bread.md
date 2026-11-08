@@ -33,5 +33,5 @@ verification: "B"
 nutrition: {"calories": "158", "fat": "4.6 g", "carbs": "23 g", "protein": "8 g"}
 keywords: ["158 calories", "8g protein", "american baking", "banana", "banana loaf", "breakfast", "chef bae", "dessert", "eggs", "high-protein quick bread", "missing dry ingredients", "nine slices", "snack", "sweet"]
 tags: ["5-ingredient", "high-protein", "hot", "low-calorie", "sweet"]
+image: "/images/r0054-high-protein-banana-bread.jpg"
 ---
-

@@ -47,5 +47,5 @@ verification: "B"
 nutrition: {"serving": "Whole recipe", "calories": "About 300", "protein": "33 g", "carbs": "5-7 g", "fat": "15 g"}
 keywords: ["airy", "baked", "breakfast", "cloud bread", "eggs", "eggs + greek yogurt", "gluten free ingredients", "grain free", "grain-free", "greek yogurt", "high protein", "intermediate", "internet low-carb", "low carb", "low-carb", "mild", "optional sweet spice", "snack", "soft", "souffled", "vegetarian"]
 tags: ["5-ingredient", "budget", "gluten-free", "high-protein", "hot", "low-calorie", "low-carb", "sweet", "vegetarian"]
+image: "/images/r0023-three-ingredient-cloud-bread.jpg"
 ---
-

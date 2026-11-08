@@ -33,5 +33,5 @@ keywords: ["buttery", "cheese", "cheesy", "flour", "garlic butter", "garlic powd
 workingNutrition: {"calories": "~530", "protein": "27 g", "carbs": "54 g", "fat": "22 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["budget", "high-protein", "hot"]
+image: "/images/r0082-high-protein-cheesy-garlic-bread.jpg"
 ---
-

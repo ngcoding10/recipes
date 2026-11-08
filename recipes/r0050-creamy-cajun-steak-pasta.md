@@ -32,5 +32,5 @@ keywords: ["black pepper", "cajun seasoning", "cajun steak pasta", "cajun-spiced
 workingNutrition: {"calories": "~1020", "protein": "48 g", "carbs": "63 g", "fat": "62 g", "basis": "per serving"}
 nutritionBasis: "CALCULATED FROM EDITORIAL WORKING RECIPE"
 tags: ["cold", "high-protein", "hot", "spicy"]
+image: "/images/r0050-creamy-cajun-steak-pasta.jpg"
 ---
-

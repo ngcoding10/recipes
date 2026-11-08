@@ -45,5 +45,5 @@ verification: "B"
 nutrition: {"serving": ""}
 keywords: ["breakfast", "buttery", "contemporary", "easy", "egg", "low-carb-style", "savory", "soft", "vegetarian"]
 tags: ["5-ingredient", "budget", "cold", "hot", "low-calorie", "low-carb", "quick", "vegetarian"]
+image: "/images/r0089-perfect-butter-scrambled-eggs.jpg"
 ---
-

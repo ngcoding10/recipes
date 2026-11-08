@@ -46,5 +46,5 @@ verification: "B"
 nutrition: {"serving": "1 of 6 donuts", "calories": "About 76", "protein": "About 7.8 g", "carbs": "About 8.5 g", "fat": "About 1.2 g"}
 keywords: ["75 calories", "american fitness recipe", "baked donuts", "breakfast", "cakey", "dessert", "easy", "fitness dessert", "high protein", "high-protein", "low-calorie treat", "meal prep", "partial ingredients", "peanut butter powder", "peanut-butter", "protein donuts", "soft", "sweet", "vegetarian"]
 tags: ["budget", "high-protein", "hot", "low-calorie", "meal-prep", "sweet", "vegetarian"]
+image: "/images/r0030-75-calorie-high-protein-donuts.jpg"
 ---
-

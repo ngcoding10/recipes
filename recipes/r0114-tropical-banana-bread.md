@@ -38,5 +38,5 @@ verification: "A"
 nutrition: {"calories": "443", "fat": "26 g", "sodium": "283 mg", "carbs": "48 g", "fiber": "1 g", "sugar": "26 g", "protein": "5 g"}
 keywords: ["all-purpose flour", "american", "breakfast", "dessert", "eggs", "hawaiian-inspired", "intermediate"]
 tags: ["hot", "sweet"]
+image: "/images/r0114-tropical-banana-bread.jpg"
 ---
-

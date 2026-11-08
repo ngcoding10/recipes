@@ -46,5 +46,5 @@ verification: "B"
 nutrition: {"serving": "1 bowl", "calories": "550", "protein": "60 g"}
 keywords: ["batch cooking", "birria", "brothy", "chicken breast", "chile-rich", "comfort food", "dinner", "fusion", "high protein", "high-protein", "instant pot", "intermediate", "meal prep", "mexican-japanese fusion", "ramen", "savory", "slurpable", "smoky", "tender"]
 tags: ["budget", "high-protein", "hot", "instant-pot", "meal-prep"]
+image: "/images/r0002-high-protein-chicken-birria-ramen.jpg"
 ---
-

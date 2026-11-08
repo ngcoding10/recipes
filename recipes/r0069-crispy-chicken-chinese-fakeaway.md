@@ -43,5 +43,5 @@ source: "https://www.instagram.com/reel/DS2EPylDMWU/"
 nutrition: {"calories": "Unavailable"}
 keywords: ["dinner", "fakeawayvegetarian", "garlic", "onions", "savory", "sesame", "sesame oil", "spring onion", "tangy", "wheat"]
 tags: ["air-fryer", "budget", "dairy-free", "freezer-friendly", "gluten-free", "high-protein", "hot", "kid-friendly", "low-carb", "sweet", "vegan", "vegetarian"]
+image: "/images/r0069-crispy-chicken-chinese-fakeaway.jpg"
 ---
-
