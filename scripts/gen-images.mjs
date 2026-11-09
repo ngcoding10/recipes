@@ -5,7 +5,8 @@
 //   node scripts/gen-images.mjs --force    # regenerate everything
 //   POLLINATIONS_TOKEN=... node scripts/gen-images.mjs   # better model, no watermark
 //
-// Images land in public/images/<slug>.jpg at 960x600 (the card tile ratio).
+// Images are generated SQUARE (the free model distorts dishes at wide ratios) and
+// land in public/images/<slug>.jpg at 800x800; the site crops them to fit.
 import { readdirSync, readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs';
 import { join, basename } from 'node:path';
 import sharp from 'sharp';
@@ -37,7 +38,7 @@ for (const f of files) {
   const desc = fm(src, 'description');
   const prompt = `${title}. ${desc ? desc + '. ' : ''}${STYLE}`;
   const seed = [...slug].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 100000, 7);
-  const params = new URLSearchParams({ width: '1024', height: '640', seed: String(seed), nologo: 'true', ...(TOKEN ? { model: 'flux' } : {}) });
+  const params = new URLSearchParams({ width: '1024', height: '1024', seed: String(seed), nologo: 'true', ...(TOKEN ? { model: 'flux' } : {}) });
   const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?${params}`;
 
   let buf = null;
@@ -52,10 +53,10 @@ for (const f of files) {
 
   // Crop the bottom strip (free tier stamps a small logo there), then fit the card ratio.
   const meta = await sharp(buf).metadata();
-  const keepH = Math.round(meta.height * (TOKEN ? 1 : 0.9));
+  const keepH = Math.round(meta.height * (TOKEN ? 1 : 0.93));
   await sharp(buf)
     .extract({ left: 0, top: 0, width: meta.width, height: keepH })
-    .resize(960, 600, { fit: 'cover', position: 'centre' })
+    .resize(800, 800, { fit: 'cover', position: 'centre' })
     .jpeg({ quality: 78, mozjpeg: true })
     .toFile(out);
 

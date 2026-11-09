@@ -72,8 +72,7 @@ const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) ||
         Back to the library
       </a>
 
-      {d.image && <img class="recipe__hero" src={`${base}${d.image}`} alt="" width="960" height="600" />}
-
+      <div class="recipe__top">
       <header class="recipe__header--solo">
         <div class="recipe__eyebrow">
           <span class="codeword recipe__codeword">{d.id}</span>
@@ -109,6 +108,8 @@ const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) ||
           </p>
         )}
       </header>
+      {d.image && <img class="recipe__hero" src={`${base}${d.image}`} alt="" width="800" height="800" />}
+      </div>
 
       {metaRows.length > 0 && (
         <div class="metatags">

@@ -8,8 +8,12 @@
 .back-link:hover { color: var(--ink); }
 
 /* --- Hero image --- */
-.recipe__hero { width: 100%; height: auto; aspect-ratio: 16 / 7; object-fit: cover; border-radius: var(--r-lg); margin-bottom: 1.25rem; box-shadow: var(--shadow-sm); background: var(--surface); }
-@media (max-width: 640px) { .recipe__hero { aspect-ratio: 16 / 10; border-radius: var(--r-md); } }
+.recipe__top { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: clamp(1.25rem, 3vw, 2.5rem); align-items: start; }
+.recipe__hero { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--r-lg); box-shadow: var(--shadow-sm); background: var(--surface); position: sticky; top: calc(var(--nav-h) + 1rem); }
+@media (max-width: 860px) {
+  .recipe__top { grid-template-columns: 1fr; }
+  .recipe__hero { order: -1; aspect-ratio: 4 / 3; position: static; border-radius: var(--r-md); max-height: 360px; }
+}
 
 /* --- Header --- */
 .recipe__header--solo { display: block; }

@@ -109,6 +109,22 @@ declare new ones there first.
 
 ---
 
+## 📲 Import recipes from Instagram
+
+1. Collect the links. Fastest for a big backlog: Instagram → Settings →
+   Accounts Center → Your information and permissions → Download your
+   information → choose **Saved** → JSON. The export contains
+   `saved_posts.json` with every saved post's URL. For a handful, Share →
+   Copy link on each reel works too.
+2. Put the URLs one per line in a text file and run
+   `python3 scripts/ig-extract.py links.txt --out /somewhere/packets`
+   (needs `pip install yt-dlp faster-whisper` and ffmpeg). For each link it
+   saves the caption, a speech-to-text transcript of the audio, and a few
+   video frames for on-screen text, as one JSON packet.
+3. Those packets are what the recipe files get written from: caption first
+   (creator-stated), transcript second, frames when the recipe is only shown
+   on screen. Anything still missing is estimated and labelled as such.
+
 ## 👀 Preview locally
 
 ```bash
