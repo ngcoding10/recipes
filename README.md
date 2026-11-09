@@ -97,10 +97,12 @@ workingNutrition: { calories: "~420", protein: "38 g", carbs: "4 g", fat: "28 g"
 
 **Pictures.** Every recipe has a 960×600 card image in `public/images/<slug>.jpg`
 (`image: "/images/<slug>.jpg"` in the frontmatter). They are AI-generated from
-the title and description with the free Pollinations API. To make one for a new
-recipe, run `node scripts/gen-images.mjs` (only recipes without an image are
-generated; `--force` redoes them all). Drop in your own photo under the same
-name any time to replace one.
+the title and description with Pollinations' Flux model. To make one for a new
+recipe, run `POLLINATIONS_TOKEN=<key> node scripts/gen-images.mjs` with a free
+key from enter.pollinations.ai (only recipes without an image are generated;
+`--force` redoes them all, `--only=slug1,slug2` picks specific ones). Without a
+key it falls back to the weaker anonymous model. Drop in your own photo under
+the same name any time to replace one.
 
 The full schema (every optional field, including the two-layer
 `sourceIngredients` / `workingIngredients` model) is in

@@ -3,7 +3,10 @@
 //
 //   node scripts/gen-images.mjs            # only recipes without an image
 //   node scripts/gen-images.mjs --force    # regenerate everything
-//   POLLINATIONS_TOKEN=... node scripts/gen-images.mjs   # better model, no watermark
+//   node scripts/gen-images.mjs --only r0045-korean-popcorn-chicken,r0090-...   # specific slugs
+//   POLLINATIONS_TOKEN=... node scripts/gen-images.mjs   # Flux model via gen.pollinations.ai, no logo
+//   (key from https://enter.pollinations.ai/keys; in a Claude cloud session the proxy injects it,
+//    so any placeholder value such as POLLINATIONS_TOKEN=proxy-injected works)
 //
 // Images are generated SQUARE (the free model distorts dishes at wide ratios) and
 // land in public/images/<slug>.jpg at 800x800; the site crops them to fit.
@@ -15,6 +18,7 @@ const ROOT = new URL('..', import.meta.url).pathname;
 const RECIPES = join(ROOT, 'recipes');
 const OUT = join(ROOT, 'public', 'images');
 const FORCE = process.argv.includes('--force');
+const ONLY = (process.argv.find((a) => a.startsWith('--only=')) || '').slice(7).split(',').filter(Boolean);
 const TOKEN = process.env.POLLINATIONS_TOKEN || '';
 const STYLE = 'Appetizing professional food photography, 45-degree angle, soft natural daylight, served on simple ceramic tableware on a light neutral linen surface, sharp focus, realistic, no text, no watermark, no people, no hands';
 
@@ -32,17 +36,23 @@ for (const f of files) {
   const path = join(RECIPES, f);
   let src = readFileSync(path, 'utf8');
   const out = join(OUT, `${slug}.jpg`);
-  if (!FORCE && existsSync(out) && /^image:/m.test(src)) { skipped++; continue; }
+  if (ONLY.length && !ONLY.includes(slug)) { skipped++; continue; }
+  if (!FORCE && !ONLY.length && existsSync(out) && /^image:/m.test(src)) { skipped++; continue; }
 
   const title = fm(src, 'title');
   const desc = fm(src, 'description');
-  const prompt = `${title}. ${desc ? desc + '. ' : ''}${STYLE}`;
   const seed = [...slug].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 100000, 7);
   const params = new URLSearchParams({ width: '1024', height: '1024', seed: String(seed), nologo: 'true', ...(TOKEN ? { model: 'flux' } : {}) });
-  const url = `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?${params}`;
+  // With a key: the current API (Flux). Without: the legacy anonymous endpoint (weaker model, logo strip).
+  const urlFor = (prompt) => TOKEN
+    ? `https://gen.pollinations.ai/image/${encodeURIComponent(prompt)}?${params}`
+    : `https://image.pollinations.ai/prompt/${encodeURIComponent(prompt)}?${params}`;
 
   let buf = null;
   for (let attempt = 1; attempt <= 6 && !buf; attempt++) {
+    // Long descriptions occasionally trip the API's prompt filter (403); fall back to the title alone.
+    const prompt = attempt <= 2 ? `${title}. ${desc ? desc + '. ' : ''}${STYLE}` : `${title}. ${STYLE}`;
+    const url = urlFor(prompt);
     try {
       const res = await fetch(url, { headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : {}, signal: AbortSignal.timeout(180000) });
       if (res.ok && (res.headers.get('content-type') || '').startsWith('image/')) buf = Buffer.from(await res.arrayBuffer());
