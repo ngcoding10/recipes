@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { analyzeLabel, type LabelAnalysis, type ProductKind, type ScoringMode } from '../lib/label';
+import { analyzeLabel, buildDataset, type Dataset, type LabelAnalysis, type ProductKind, type ScoringMode } from '../lib/label';
 import { RISK_LABEL, YUKA_LABEL } from '../data/additives';
 import { askClaude, extractJson, fileToImageBlock, getKey, KEY_EVENT, type ContentBlock } from '../lib/ai';
 import ApiKeyBox from './ApiKeyBox';
@@ -65,7 +65,9 @@ function YukaPill({ yuka }: { yuka?: 'red' | 'orange' | 'yellow' | 'green' }) {
   return <span className={`pill ${cls} ingr__yuka`}>{YUKA_LABEL[yuka]}</span>;
 }
 
-export default function Scan() {
+interface Props { base: string }
+
+export default function Scan({ base }: Props) {
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState('');
   const [stage, setStage] = useState<Stage>('idle');
@@ -81,6 +83,8 @@ export default function Scan() {
   const [drag, setDrag] = useState(false);
   const [kind, setKind] = useState<KindChoice>('auto');
   const [mode, setMode] = useState<ScoringMode>('evidence');
+  const [dataset, setDataset] = useState<Dataset | null>(null);
+  const [dsState, setDsState] = useState<'idle' | 'loading' | 'ready' | 'failed'>('idle');
   const inputRef = useRef<HTMLInputElement>(null);
   const cameraRef = useRef<HTMLInputElement>(null);
 
@@ -94,7 +98,17 @@ export default function Scan() {
   useEffect(() => { try { localStorage.setItem('pantry.scanMode', mode); } catch { /* ignore */ } }, [mode]);
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
 
-  const analysis: LabelAnalysis | null = useMemo(() => (text.trim() ? analyzeLabel(text, { kind, mode }) : null), [text, kind, mode]);
+  // The extended 27k-ingredient list (~320 KB gzipped) loads once, the first time there is text to analyse.
+  useEffect(() => {
+    if (!text.trim() || dsState !== 'idle') return;
+    setDsState('loading');
+    fetch(`${base}/data/ingredients.json`)
+      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
+      .then((json) => { setDataset(buildDataset(json)); setDsState('ready'); })
+      .catch(() => setDsState('failed'));
+  }, [text, dsState, base]);
+
+  const analysis: LabelAnalysis | null = useMemo(() => (text.trim() ? analyzeLabel(text, { kind, mode, dataset }) : null), [text, kind, mode, dataset]);
 
   const reset = () => {
     setFile(null); setPreview(''); setStage('idle'); setProgress(0); setStatus(''); setText(''); setAi(null); setAiError(''); setShowAll(false); setKind('auto');
@@ -260,8 +274,10 @@ Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% d
               label={gradeOf(shown)[1]}
               sub={combined != null
                 ? `Combined: ${analysis.score} from the label check and ${ai!.score} from the AI check.`
-                : `${KIND_LABEL[analysis.kind]} · ${analysis.ingredients.length} ingredients read · ${analysis.flagged.length} flagged · ${analysis.unknownCount} not in the database.${analysis.kind === 'food' ? ' Label-only score (additives and sugar), nutrition not included.' : ' Worst ingredient sets the band, like Yuka.'}`}
+                : `${KIND_LABEL[analysis.kind]} · ${analysis.ingredients.length} ingredients read · ${analysis.flagged.length} flagged · ${analysis.unknownCount} not in either list.${analysis.kind === 'food' ? ' Label-only score (additives and sugar), nutrition not included.' : ' Worst ingredient sets the band, like Yuka.'}`}
             />
+            {analysis.kind === 'food' && dsState === 'loading' && <p className="tools__hint"><span className="spinner spinner--dark" style={{ display: 'inline-block', verticalAlign: 'middle', marginRight: '0.4rem' }} />Loading the extended ingredient list (27,000 entries)…</p>}
+            {analysis.kind === 'food' && dsState === 'failed' && <p className="tools__hint">The extended ingredient list could not be loaded; showing the curated database only.</p>}
             {analysis.negated.length > 0 && <p className="tools__hint">Ignored marketing claims: {analysis.negated.join(', ')}.</p>}
           </div>
 
@@ -273,10 +289,20 @@ Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% d
                   <li key={i} className={`ingr__row ingr__row--${g.risk}`}>
                     <span className={`ingr__dot risk--${g.risk}`} aria-hidden="true" />
                     <div>
-                      <div className="ingr__name">{g.match?.name}{g.match?.code ? ` · ${g.match.code}` : ''} <span className="ingr__raw">{g.raw !== g.match?.name ? `“${g.raw}”` : ''}</span></div>
-                      <div className="ingr__why">{g.match?.why}</div>
-                      <div className="ingr__ev">{RISK_LABEL[g.match?.risk ?? 0]}{g.match?.evidence ? ` · ${g.match.evidence}` : ''}{g.match?.cas ? ` · CAS ${g.match.cas}` : ''}</div>
-                      <YukaPill yuka={g.match?.yuka} />
+                      {g.match ? (
+                        <>
+                          <div className="ingr__name">{g.match.name}{g.match.code ? ` · ${g.match.code}` : ''} <span className="ingr__raw">{g.raw !== g.match.name ? `“${g.raw}”` : ''}</span></div>
+                          <div className="ingr__why">{g.match.why}</div>
+                          <div className="ingr__ev">{RISK_LABEL[g.match.risk]}{g.match.evidence ? ` · ${g.match.evidence}` : ''}{g.match.cas ? ` · CAS ${g.match.cas}` : ''}</div>
+                          <YukaPill yuka={g.match.yuka} />
+                        </>
+                      ) : g.ds ? (
+                        <>
+                          <div className="ingr__name">{g.ds.name}{g.ds.e ? ` · ${g.ds.e}` : ''} <span className="ingr__raw">{g.raw.toLowerCase() !== g.ds.name.toLowerCase() ? `“${g.raw}”` : ''}</span></div>
+                          <div className="ingr__why">{g.ds.note}</div>
+                          <div className="ingr__ev">{g.ds.tier} · {g.ds.cat} · extended list</div>
+                        </>
+                      ) : null}
                     </div>
                     <span className="ingr__score">{g.score}/100</span>
                   </li>
@@ -296,7 +322,7 @@ Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% d
                     <span className={`ingr__dot risk--${g.risk ?? 'u'}`} aria-hidden="true" />
                     <div>
                       <div className="ingr__name">{g.raw}</div>
-                      <div className="ingr__why">{g.match ? `${g.match.name}: ${g.match.why}` : `Not in the database — most likely an ordinary ${analysis.kind === 'food' ? 'food' : 'base'} ingredient.`}</div>
+                      <div className="ingr__why">{g.match ? `${g.match.name}: ${g.match.why}` : g.ds ? `${g.ds.name}: ${g.ds.note}${g.ds.specific ? '' : ' (category default, not counted in the score)'}` : `Not in either list — most likely an ordinary ${analysis.kind === 'food' ? 'food' : 'base'} ingredient.`}</div>
                       <YukaPill yuka={g.match?.yuka} />
                     </div>
                     <span className="ingr__score">{g.score == null ? '—' : `${g.score}/100`}</span>

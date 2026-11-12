@@ -3,9 +3,27 @@ import { ADDITIVES, BY_CODE, type Additive, type Domain, type Yuka } from '../da
 export type ProductKind = 'food' | 'cosmetic' | 'household';
 export type ScoringMode = 'evidence' | 'yuka';
 
+/** One row of the extended dataset (public/data/ingredients.json, built from data/flagged_ingredients_rated.csv). */
+export interface DatasetRow {
+  name: string;
+  score: number;        // 0..100 as rated in the dataset
+  tier: string;         // 'suspected carcinogen' | 'high concern' | 'moderate concern' | 'limited concern' | 'low concern'
+  cat: string;
+  note: string;
+  specific: boolean;    // false = category default rating, informational only
+  e: string;
+  spell: string[];
+}
+export interface Dataset {
+  rows: DatasetRow[];
+  byKey: Map<string, DatasetRow>;
+  byFirstWord: Map<string, Array<[string, DatasetRow]>>;
+}
+
 export interface GradedIngredient {
   raw: string;                 // text as it appeared on the label
-  match?: Additive;            // database hit, if any
+  match?: Additive;            // curated database hit, if any
+  ds?: DatasetRow;             // extended-dataset hit, if any (used when no curated hit)
   risk: 0 | 1 | 2 | 3 | null;  // effective risk under the chosen mode; null = not in database
   score: number | null;        // per-ingredient /100
   position: number;            // 0 = first on the list
@@ -23,6 +41,7 @@ export interface LabelAnalysis {
   notes: string[];               // explanations of the score
   unknownCount: number;
   negated: string[];             // "paraben-free" style claims we ignored
+  datasetUsed: boolean;
 }
 
 const RISK_SCORE: Record<number, number> = { 0: 100, 1: 75, 2: 45, 3: 15 };
@@ -151,6 +170,65 @@ function lev(a: string, b: string, max: number): number {
   return prev[b.length];
 }
 
+// ---------------------------------------------------------------------------
+// Extended dataset (27k rated label ingredients), lazy-loaded by the page
+// ---------------------------------------------------------------------------
+export function normKey(s: string): string {
+  return s.toLowerCase().replace(/[^a-z0-9&/\-\s]/g, ' ').replace(/\s+/g, ' ').trim().replace(/^-+|-+$/g, '');
+}
+
+export function buildDataset(json: any): Dataset {
+  const rows: DatasetRow[] = (json.rows as any[]).map((r) => ({
+    name: r[0], score: r[1], tier: json.tiers[r[2]], cat: json.cats[r[3]], note: json.notes[r[4]], specific: r[5] === 1, e: r[6] || '', spell: r[7] || [],
+  }));
+  const byKey = new Map<string, DatasetRow>();
+  const byFirstWord = new Map<string, Array<[string, DatasetRow]>>();
+  const add = (k: string, row: DatasetRow) => {
+    if (!k) return;
+    if (!byKey.has(k)) byKey.set(k, row);
+    const fw = k.split(' ')[0];
+    const arr = byFirstWord.get(fw) ?? [];
+    arr.push([k, row]);
+    byFirstWord.set(fw, arr);
+  };
+  for (const row of rows) { add(normKey(row.name), row); for (const sp of row.spell) add(sp, row); if (row.e) add(row.e.toLowerCase(), row); }
+  return { rows, byKey, byFirstWord };
+}
+
+/** Look one label segment up in the extended dataset: exact, then contained phrase, then fuzzy. */
+export function lookupDataset(raw: string, ds: Dataset): DatasetRow | undefined {
+  const n = normKey(raw);
+  if (!n) return undefined;
+  const exact = ds.byKey.get(n);
+  if (exact) return exact;
+  // Longest dataset key contained in the segment as whole words ("organic cane sugar" → "cane sugar").
+  const words = n.split(' ');
+  let best: { row: DatasetRow; len: number } | undefined;
+  for (let i = 0; i < words.length; i++) {
+    const cands = ds.byFirstWord.get(words[i]);
+    if (!cands) continue;
+    for (const [k, row] of cands) {
+      if (k.length < 4 || k.length > n.length) continue;
+      if ((n === k || n.startsWith(k + ' ') || n.endsWith(' ' + k) || n.includes(' ' + k + ' ')) && (!best || k.length > best.len)) best = { row, len: k.length };
+    }
+  }
+  if (best) return best.row;
+  // Fuzzy: one typo on words of 7+ letters, candidates sharing the first two letters.
+  if (n.length >= 7 && !/\d/.test(n)) {
+    const pre = n.slice(0, 2);
+    for (const [k, row] of ds.byKey) {
+      if (!k.startsWith(pre) || Math.abs(k.length - n.length) > 2) continue;
+      if (lev(n, k, n.length >= 12 ? 2 : 1) <= (n.length >= 12 ? 2 : 1)) return row;
+    }
+  }
+  return undefined;
+}
+
+/** Dataset score → our 0–3 risk scale. */
+export function datasetRisk(row: DatasetRow): 0 | 1 | 2 | 3 {
+  return row.score < 25 ? 3 : row.score < 50 ? 2 : row.score < 75 ? 1 : 0;
+}
+
 /** Match one ingredient string against the database, honouring the product type. */
 export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additive | undefined {
   const s = raw.toLowerCase();
@@ -206,6 +284,7 @@ export function effectiveRisk(a: Additive, mode: ScoringMode): 0 | 1 | 2 | 3 {
 export interface AnalyzeOptions {
   kind?: ProductKind | 'auto';
   mode?: ScoringMode;
+  dataset?: Dataset | null;    // extended list; applied to food labels only
 }
 
 /** Full deterministic analysis of a label text. */
@@ -218,10 +297,20 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
   const { parts, negated } = splitIngredients(body);
   const grade1 = (a: Additive | undefined): 0 | 1 | 2 | 3 | null => (a ? effectiveRisk(a, mode) : null);
 
+  const ds = kind === 'food' && opts.dataset ? opts.dataset : null;
   const ingredients: GradedIngredient[] = parts.map((raw, position) => {
     const match = matchIngredient(raw, kind);
-    const risk = grade1(match);
-    return { raw, match, risk, score: risk == null ? null : RISK_SCORE[risk], position };
+    if (match) {
+      const risk = grade1(match);
+      return { raw, match, risk, score: risk == null ? null : RISK_SCORE[risk], position };
+    }
+    const row = ds ? lookupDataset(raw, ds) : undefined;
+    if (row) {
+      // Category-default ratings are informational: shown, but they do not move the product score.
+      const risk = row.specific ? datasetRisk(row) : 0;
+      return { raw, ds: row, risk, score: row.score, position };
+    }
+    return { raw, risk: null, score: null, position };
   });
 
   // Product-level sweep over the WHOLE text (name on the front, "uncured", etc.) — food only.
@@ -244,9 +333,17 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
   // Deduplicate by database entry so three phosphates count once (but note it).
   const seen = new Map<Additive, GradedIngredient[]>();
   for (const g of all) if (g.match) seen.set(g.match, [...(seen.get(g.match) ?? []), g]);
+  const seenDs = new Map<DatasetRow, GradedIngredient[]>();
+  for (const g of all) if (!g.match && g.ds && g.ds.specific) seenDs.set(g.ds, [...(seenDs.get(g.ds) ?? []), g]);
 
   let high = 0, moderate = 0, low = 0;
   const levelWord = ['', 'limited', 'moderate', 'high'];
+  for (const [row] of seenDs) {
+    const r = datasetRisk(row);
+    const pen = [0, 4, 12, 30][r];
+    if (r === 3) high++; else if (r === 2) moderate++; else if (r === 1) low++;
+    if (r > 0) { score -= pen; notes.push(`${row.name}: ${levelWord[r]} concern, extended list (−${pen})`); }
+  }
   for (const [a, hits] of seen) {
     const r = grade1(a)!;
     const pen = kind === 'cosmetic' ? [0, 6, 15, 30][r] : [0, 4, 12, 30][r];
@@ -261,14 +358,15 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
 
   if (kind === 'food') {
     // Sugar position
-    const sugarIdx = ingredients.findIndex((g) => g.match && SUGARS.has(g.match));
+    const sugarIdx = ingredients.findIndex((g) => (g.match && SUGARS.has(g.match)) || (g.ds && g.ds.cat === 'added sugar / syrup'));
     if (sugarIdx === 0) { score -= 15; notes.push('Sugar is the first ingredient (−15)'); }
     else if (sugarIdx > 0 && sugarIdx < 3) { score -= 8; notes.push('Sugar is in the top three ingredients (−8)'); }
-    const sugarKinds = ingredients.filter((g) => g.match && SUGARS.has(g.match)).length;
+    const sugarKinds = ingredients.filter((g) => (g.match && SUGARS.has(g.match)) || (g.ds && g.ds.cat === 'added sugar / syrup')).length;
     if (sugarKinds >= 3) { score -= 6; notes.push(`${sugarKinds} different sugars listed (−6)`); }
 
     // Ultra-processing proxy: many additives at all
-    const additiveCount = [...seen.keys()].filter((a) => !['ingredient', 'product type', 'protein', 'fat', 'added sugar', 'base ingredient', 'enzyme', 'packaging gas'].includes(a.cat)).length;
+    const additiveCount = [...seen.keys()].filter((a) => !['ingredient', 'product type', 'protein', 'fat', 'added sugar', 'base ingredient', 'enzyme', 'packaging gas'].includes(a.cat)).length
+      + [...seenDs.keys()].filter((r) => !['added sugar / syrup', 'oil / fat', 'protein ingredient / dairy derivative', 'processed meat', 'extract / concentrate', 'refined / treated grain or cocoa', 'starch / carbohydrate filler', 'vitamin / mineral fortificant'].includes(r.cat)).length;
     if (additiveCount > 6) { const pen = Math.min(12, (additiveCount - 6) * 2); score -= pen; notes.push(`${additiveCount} additives in total (−${pen})`); }
   }
 
@@ -288,10 +386,10 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
   score = ingredients.length === 0 ? 0 : Math.max(5, Math.min(100, Math.round(score)));
 
   const [, grade, gradeLabel] = GRADES.find(([min]) => score >= min)!;
-  const flagged = all.filter((g) => (g.risk ?? 0) >= 1).sort((a, b) => (b.risk ?? 0) - (a.risk ?? 0) || a.position - b.position);
+  const flagged = all.filter((g) => (g.risk ?? 0) >= 1).sort((a, b) => (b.risk ?? 0) - (a.risk ?? 0) || (a.score ?? 100) - (b.score ?? 100) || a.position - b.position);
   const uniq: GradedIngredient[] = [];
-  const seenA = new Set<Additive>();
-  for (const g of flagged) { if (g.match && seenA.has(g.match)) continue; if (g.match) seenA.add(g.match); uniq.push(g); }
+  const seenA = new Set<Additive | DatasetRow>();
+  for (const g of flagged) { const key = g.match ?? g.ds; if (key && seenA.has(key)) continue; if (key) seenA.add(key); uniq.push(g); }
 
   return {
     kind,
@@ -305,5 +403,6 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
     notes,
     unknownCount: ingredients.filter((g) => g.risk == null).length,
     negated,
+    datasetUsed: !!ds,
   };
 }

@@ -51,8 +51,17 @@ It deploys to GitHub Pages for free.
   the stricter one counts, and any Yuka red caps a food score under 50. Yuka's
   rating is also shown as a separate pill on each flagged row.
 - Bands mirror Yuka: 75+ Excellent, 50 Good, 25 Poor, below that Bad.
-- To add or change an entry, edit `src/data/additives.ts`. The scoring lives in
-  `src/lib/label.ts`. It is informational, not medical advice.
+- **Extended list.** Behind the curated database sits a 27,288-row rated
+  ingredient list (`data/flagged_ingredients_rated.csv`: name, 0–100 score,
+  concern tier, category, evidence note, E-number, real label spellings and
+  common misspellings). `scripts/build-ingredients.py` compacts it into
+  `public/data/ingredients.json` (~320 KB gzipped), which the scan page loads
+  once on first use. Curated entries win; the list fills everything else.
+  Rows rated only by category default are shown for information but do not
+  move the score.
+- To add or change an entry, edit `src/data/additives.ts` (curated) or the CSV
+  and rerun the build script. The scoring lives in `src/lib/label.ts`. It is
+  informational, not medical advice.
 
 ---
 
@@ -156,7 +165,8 @@ recipes/                 ← your recipes (one .md each)
 public/images/           ← card images, one per recipe (scripts/gen-images.mjs)
 src/
   content.config.ts      ← recipe schema (validated at build)
-  data/additives.ts      ← ~300-entry additive / cosmetic / contaminant database for Scan
+  data/additives.ts      ← ~300-entry curated additive / cosmetic / contaminant database for Scan
+data/flagged_ingredients_rated.csv ← 27k-row rated ingredient list (source for public/data/ingredients.json)
   lib/
     filters.ts           ← search, facets, meal tabs
     label.ts             ← OCR text → ingredients → score
