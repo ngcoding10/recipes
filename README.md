@@ -34,34 +34,41 @@ It deploys to GitHub Pages for free.
 
 ### How the scan score works
 
-- Label text → ingredient list (split on commas/parentheses, "paraben-free" style
-  claims ignored) → each ingredient is matched against `src/data/additives.ts`
-  (about 300 entries: E-numbers, INCI names, aliases, CAS numbers, a concern
-  level 0–3, a plain-English *why*, and the public classification it leans on:
-  IARC group, EU/US bans, EFSA/SCCS opinions, EU hyperactivity warning).
-- The scanner works out whether the label is **food, cosmetic or household**
-  (you can override it). Food-only entries such as sugar or red meat are ignored
-  on a shampoo, and cosmetic entries such as parabens are ignored on a cereal.
-- **Evidence-based** scoring (default): start at 100; high-concern −30 (caps the
-  score at 30), moderate −12 (caps at 72 / 55), limited −4, sugar first on the list
-  −15, more than six additives −2 each. Cosmetics follow Yuka's rule that the
-  worst ingredient sets the band (high → under 25, moderate → under 50).
-- **Yuka-style** scoring: where Yuka's own published rating (69 entries carry one,
-  taken from Yuka's change logs and test reports) is stricter than the evidence,
-  the stricter one counts, and any Yuka red caps a food score under 50. Yuka's
-  rating is also shown as a separate pill on each flagged row.
-- Bands mirror Yuka: 75+ Excellent, 50 Good, 25 Poor, below that Bad.
-- **Extended list.** Behind the curated database sits a 27,288-row rated
-  ingredient list (`data/flagged_ingredients_rated.csv`: name, 0–100 score,
-  concern tier, category, evidence note, E-number, real label spellings and
-  common misspellings). `scripts/build-ingredients.py` compacts it into
-  `public/data/ingredients.json` (~320 KB gzipped), which the scan page loads
-  once on first use. Curated entries win; the list fills everything else.
-  Rows rated only by category default are shown for information but do not
-  move the score.
-- To add or change an entry, edit `src/data/additives.ts` (curated) or the CSV
-  and rerun the build script. The scoring lives in `src/lib/label.ts`. It is
-  informational, not medical advice.
+**Every ingredient gets a score from 0 to 100.**
+
+- **0 = any cancer link at all.** This is a deliberately strict rule. Two strengths, both score 0:
+  - *Classified carcinogen*: IARC Group 1, 2A or 2B, the US NTP list, an EU carcinogen
+    classification, or a ban made on cancer grounds (nitrites, processed and red meat, aspartame,
+    BHA, titanium dioxide, Red 3, potassium bromate, caramel IV, alcohol, talc…).
+  - *Cancer link (weaker evidence)*: a carcinogenic contaminant or breakdown product (palm oil →
+    glycidyl esters, benzoates → benzene, ethoxylated ingredients → 1,4-dioxane, Red 40 / Yellow 5 /
+    Yellow 6 → benzidine traces), tumour findings in animal studies (TBHQ, BHT, saccharin, Blue 1,
+    CMC, polysorbate 80), or a cancer association in a human cohort study (mono- and
+    diglycerides, acesulfame K, carrageenan in NutriNet-Santé).
+  - General diet effects (sugar, fat, salt, calories) are not treated as cancer links.
+  - A 0 means a link exists somewhere in the evidence, not that the amount on a label causes cancer.
+- **1–100 = everything else**, judged on the remaining evidence: hormone activity, gut effects,
+  allergy, heart and metabolic links, regulatory restrictions, how well studied it is.
+  Bands: 1–24 high concern, 25–49 moderate, 50–74 limited, 75–100 low.
+
+**Two sources, both re-rated under that rule.**
+
+- `src/data/additives.ts`: ~300 curated entries (food, cosmetic, household) with the evidence
+  cited. Their scores live in `scripts/build-scores.py`, which writes `src/data/scores.ts` and
+  fails if any entry is unscored. Each 0 carries its reason.
+- `data/flagged_ingredients_rated.csv`: 27,288 label ingredients with real spellings and
+  misspellings. `scripts/build-ingredients.py` re-rates every row (by evidence group, plus name
+  keywords that catch cancer-linked substances inside combined names) and writes
+  `public/data/ingredients.json` (~330 KB gzipped), loaded on first scan. Curated entries win;
+  the list fills the rest. Rows with only a category-default rating are shown but not scored.
+
+**Product score.** Starts at 100. Each distinct ingredient subtracts: classified carcinogen −40,
+cancer link −25, high −30, moderate −12, limited −4 (cosmetics −15 / −6). Sugar first on the list
+−15, more than six additives −2 each. Then the worst ingredient sets a ceiling: classified
+carcinogen → 20, cancer link → 45, high concern → 30, two moderates → 55, one → 72. Product bands
+mirror Yuka: 75+ Excellent, 50 Good, 25 Poor, below that Bad. The scanner detects food, cosmetic
+or household labels and only matches the right entries. **Yuka-style** mode additionally caps an
+ingredient at Yuka's own published tier (red 15, orange 45, yellow 70).
 
 ---
 

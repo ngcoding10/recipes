@@ -95,3 +95,13 @@
 .scan__mode .segmented__btn { flex: 1 1 auto; font-size: 0.8rem; padding: 0 0.6rem; min-height: 34px; }
 .ingr__yuka { margin-top: 0.4rem; font-size: 0.7rem; padding: 0.2rem 0.5rem; }
 @media (max-width: 640px) { .scan__modes { grid-template-columns: 1fr; } }
+
+/* scan: cancer-link rows */
+.ingr__row--c { background: #1f1215; color: #fff; }
+.ingr__row--c .ingr__why { color: #f3d9dc; }
+.ingr__row--c .ingr__ev, .ingr__row--c .ingr__raw { color: #c9a3a8; }
+.ingr__row--c .ingr__score { color: #ff8a8a; }
+.risk--c { background: #7f1d1d; box-shadow: 0 0 0 2px #fecaca; }
+.ingr__carc { margin: 0.3rem 0 0.2rem; font-size: 0.68rem; padding: 0.2rem 0.5rem; letter-spacing: 0.04em; text-transform: uppercase; }
+.ingr__carc--classified { background: #ef4444; color: #fff; }
+.ingr__carc--linked { background: #fca5a5; color: #450a0a; }

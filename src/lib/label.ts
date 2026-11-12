@@ -1,4 +1,4 @@
-import { ADDITIVES, BY_CODE, type Additive, type Domain, type Yuka } from '../data/additives';
+import { ADDITIVES, BY_CODE, type Additive, type Carc, type Domain, type Yuka } from '../data/additives';
 
 export type ProductKind = 'food' | 'cosmetic' | 'household';
 export type ScoringMode = 'evidence' | 'yuka';
@@ -13,6 +13,7 @@ export interface DatasetRow {
   specific: boolean;    // false = category default rating, informational only
   e: string;
   spell: string[];
+  carc?: Carc;          // present when score is 0
 }
 export interface Dataset {
   rows: DatasetRow[];
@@ -24,8 +25,9 @@ export interface GradedIngredient {
   raw: string;                 // text as it appeared on the label
   match?: Additive;            // curated database hit, if any
   ds?: DatasetRow;             // extended-dataset hit, if any (used when no curated hit)
-  risk: 0 | 1 | 2 | 3 | null;  // effective risk under the chosen mode; null = not in database
-  score: number | null;        // per-ingredient /100
+  risk: 0 | 1 | 2 | 3 | null;  // band of the score: <25 high, <50 moderate, <75 limited, else low; null = unknown
+  score: number | null;        // per-ingredient /100 (0 = cancer link)
+  carc?: Carc;                 // why it scored 0
   position: number;            // 0 = first on the list
 }
 
@@ -44,8 +46,9 @@ export interface LabelAnalysis {
   datasetUsed: boolean;
 }
 
-const RISK_SCORE: Record<number, number> = { 0: 100, 1: 75, 2: 45, 3: 15 };
-const YUKA_RISK: Record<Yuka, 0 | 1 | 2 | 3> = { green: 0, yellow: 1, orange: 2, red: 3 };
+// In Yuka-style mode an ingredient's score is capped by Yuka's own tier.
+const YUKA_CAP: Record<Yuka, number> = { green: 100, yellow: 70, orange: 45, red: 15 };
+export function bandOf(score: number): 0 | 1 | 2 | 3 { return score < 25 ? 3 : score < 50 ? 2 : score < 75 ? 1 : 0; }
 
 const SUGAR = ADDITIVES.find((a) => a.name === 'Sugar')!;
 const HFCS = ADDITIVES.find((a) => a.name === 'High-fructose corn syrup')!;
@@ -124,7 +127,12 @@ const NEGATION = /(^|\W)(no|without|free\s+(of|from)|does\s+not\s+contain|contai
 
 /** Split the ingredient text into individual ingredient strings, flattening parentheses. */
 export function splitIngredients(text: string): { parts: string[]; negated: string[] } {
-  const t = text.replace(/\band\/or\b/gi, ',').replace(/\b(and|&)\b/gi, ',');
+  const t = text
+    // keep multi-word names that contain "and" together before splitting on it
+    .replace(/mono-?\s*(?:and|&)\s*di-?glycerides/gi, 'mono-diglycerides')
+    .replace(/natural\s*(?:and|&)\s*artificial\s+(flavou?r(?:ing)?s?)/gi, 'artificial $1')
+    .replace(/artificial\s*(?:and|&)\s*natural\s+(flavou?r(?:ing)?s?)/gi, 'artificial $1')
+    .replace(/\band\/or\b/gi, ',').replace(/\b(and|&)\b/gi, ',');
   const raw = t
     .split(/[,;.:()\[\]{}\n•·*]+/)
     .map((p) => p.replace(/^[\s\-–—%\d.]+|[\s\-–—]+$/g, '').trim())
@@ -180,6 +188,7 @@ export function normKey(s: string): string {
 export function buildDataset(json: any): Dataset {
   const rows: DatasetRow[] = (json.rows as any[]).map((r) => ({
     name: r[0], score: r[1], tier: json.tiers[r[2]], cat: json.cats[r[3]], note: json.notes[r[4]], specific: r[5] === 1, e: r[6] || '', spell: r[7] || [],
+    carc: r[8] ? { level: r[8] === 1 ? 'classified' : 'linked', why: json.notes[r[4]] } : undefined,
   }));
   const byKey = new Map<string, DatasetRow>();
   const byFirstWord = new Map<string, Array<[string, DatasetRow]>>();
@@ -224,10 +233,6 @@ export function lookupDataset(raw: string, ds: Dataset): DatasetRow | undefined 
   return undefined;
 }
 
-/** Dataset score → our 0–3 risk scale. */
-export function datasetRisk(row: DatasetRow): 0 | 1 | 2 | 3 {
-  return row.score < 25 ? 3 : row.score < 50 ? 2 : row.score < 75 ? 1 : 0;
-}
 
 /** Match one ingredient string against the database, honouring the product type. */
 export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additive | undefined {
@@ -275,10 +280,9 @@ const GRADES: Array<[number, LabelAnalysis['grade'], string]> = [
   [75, 'excellent', 'Excellent'], [50, 'good', 'Good'], [25, 'poor', 'Poor'], [0, 'bad', 'Bad'],
 ];
 
-/** Effective risk of an entry under the chosen scoring mode. */
-export function effectiveRisk(a: Additive, mode: ScoringMode): 0 | 1 | 2 | 3 {
-  if (mode === 'yuka' && a.yuka) return Math.max(a.risk, YUKA_RISK[a.yuka]) as 0 | 1 | 2 | 3;
-  return a.risk;
+/** Score of a curated entry under the chosen scoring mode. */
+export function effectiveScore(a: Additive, mode: ScoringMode): number {
+  return mode === 'yuka' && a.yuka ? Math.min(a.score, YUKA_CAP[a.yuka]) : a.score;
 }
 
 export interface AnalyzeOptions {
@@ -295,21 +299,18 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
 
   const body = extractIngredientText(text);
   const { parts, negated } = splitIngredients(body);
-  const grade1 = (a: Additive | undefined): 0 | 1 | 2 | 3 | null => (a ? effectiveRisk(a, mode) : null);
+  const fromEntry = (raw: string, match: Additive, position: number): GradedIngredient => {
+    const score = effectiveScore(match, mode);
+    return { raw, match, risk: bandOf(score), score, carc: match.carc, position };
+  };
 
   const ds = kind === 'food' && opts.dataset ? opts.dataset : null;
   const ingredients: GradedIngredient[] = parts.map((raw, position) => {
     const match = matchIngredient(raw, kind);
-    if (match) {
-      const risk = grade1(match);
-      return { raw, match, risk, score: risk == null ? null : RISK_SCORE[risk], position };
-    }
+    if (match) return fromEntry(raw, match, position);
     const row = ds ? lookupDataset(raw, ds) : undefined;
-    if (row) {
-      // Category-default ratings are informational: shown, but they do not move the product score.
-      const risk = row.specific ? datasetRisk(row) : 0;
-      return { raw, ds: row, risk, score: row.score, position };
-    }
+    // Category-default ratings are informational: shown, but they do not move the product score.
+    if (row) return { raw, ds: row, risk: row.specific ? bandOf(row.score) : 0, score: row.score, carc: row.carc, position };
     return { raw, risk: null, score: null, position };
   });
 
@@ -319,10 +320,7 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
   if (kind === 'food') {
     for (const a of ADDITIVES.filter((x) => x.cat === 'product type' || x.name.startsWith('Celery'))) {
       if (ingredients.some((i) => i.match === a)) continue;
-      if (a.aliases.some((al) => hasWord(whole, al))) {
-        const r = grade1(a)!;
-        extra.push({ raw: a.name, match: a, risk: r, score: RISK_SCORE[r], position: 999 });
-      }
+      if (a.aliases.some((al) => hasWord(whole, al))) extra.push(fromEntry(a.name, a, 999));
     }
   }
 
@@ -330,49 +328,45 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
   const notes: string[] = [];
   let score = 100;
 
-  // Deduplicate by database entry so three phosphates count once (but note it).
-  const seen = new Map<Additive, GradedIngredient[]>();
-  for (const g of all) if (g.match) seen.set(g.match, [...(seen.get(g.match) ?? []), g]);
-  const seenDs = new Map<DatasetRow, GradedIngredient[]>();
-  for (const g of all) if (!g.match && g.ds && g.ds.specific) seenDs.set(g.ds, [...(seenDs.get(g.ds) ?? []), g]);
-
-  let high = 0, moderate = 0, low = 0;
-  const levelWord = ['', 'limited', 'moderate', 'high'];
-  for (const [row] of seenDs) {
-    const r = datasetRisk(row);
-    const pen = [0, 4, 12, 30][r];
-    if (r === 3) high++; else if (r === 2) moderate++; else if (r === 1) low++;
-    if (r > 0) { score -= pen; notes.push(`${row.name}: ${levelWord[r]} concern, extended list (−${pen})`); }
+  // One penalty per distinct database entry, so three phosphates count once.
+  const seen = new Map<Additive | DatasetRow, GradedIngredient>();
+  for (const g of all) {
+    const key = g.match ?? (g.ds && g.ds.specific ? g.ds : undefined);
+    if (key && !seen.has(key)) seen.set(key, g);
   }
-  for (const [a, hits] of seen) {
-    const r = grade1(a)!;
-    const pen = kind === 'cosmetic' ? [0, 6, 15, 30][r] : [0, 4, 12, 30][r];
-    if (r === 3) high++; else if (r === 2) moderate++; else if (r === 1) low++;
-    if (r > 0) {
-      score -= pen;
-      const viaYuka = mode === 'yuka' && a.yuka && YUKA_RISK[a.yuka] > a.risk ? ' (Yuka rating)' : '';
-      notes.push(`${a.name}: ${levelWord[r]} concern${viaYuka} (−${pen})`);
-    }
-    if (hits.length > 1 && r >= 2) score -= 3;
+
+  let classified = 0, linked = 0, high = 0, moderate = 0;
+  const cosmetic = kind === 'cosmetic';
+  for (const [key, g] of seen) {
+    const name = key.name;
+    const viaYuka = g.match && mode === 'yuka' && g.match.yuka && YUKA_CAP[g.match.yuka] < g.match.score ? ' (Yuka rating)' : '';
+    if (g.carc?.level === 'classified') { classified++; score -= 40; notes.push(`${name}: classified carcinogen, scores 0 (−40)`); }
+    else if (g.carc) { linked++; score -= 25; notes.push(`${name}: cancer link, scores 0 (−25)`); }
+    else if (g.risk === 3) { high++; score -= 30; notes.push(`${name}: ${g.score}/100, high concern${viaYuka} (−30)`); }
+    else if (g.risk === 2) { moderate++; const pen = cosmetic ? 15 : 12; score -= pen; notes.push(`${name}: ${g.score}/100, moderate concern${viaYuka} (−${pen})`); }
+    else if (g.risk === 1) { const pen = cosmetic ? 6 : 4; score -= pen; notes.push(`${name}: ${g.score}/100, limited concern${viaYuka} (−${pen})`); }
   }
 
   if (kind === 'food') {
-    // Sugar position
-    const sugarIdx = ingredients.findIndex((g) => (g.match && SUGARS.has(g.match)) || (g.ds && g.ds.cat === 'added sugar / syrup'));
+    const isSugar = (g: GradedIngredient) => (g.match && SUGARS.has(g.match)) || (g.ds && g.ds.cat === 'added sugar / syrup');
+    const sugarIdx = ingredients.findIndex(isSugar);
     if (sugarIdx === 0) { score -= 15; notes.push('Sugar is the first ingredient (−15)'); }
     else if (sugarIdx > 0 && sugarIdx < 3) { score -= 8; notes.push('Sugar is in the top three ingredients (−8)'); }
-    const sugarKinds = ingredients.filter((g) => (g.match && SUGARS.has(g.match)) || (g.ds && g.ds.cat === 'added sugar / syrup')).length;
+    const sugarKinds = ingredients.filter(isSugar).length;
     if (sugarKinds >= 3) { score -= 6; notes.push(`${sugarKinds} different sugars listed (−6)`); }
 
     // Ultra-processing proxy: many additives at all
-    const additiveCount = [...seen.keys()].filter((a) => !['ingredient', 'product type', 'protein', 'fat', 'added sugar', 'base ingredient', 'enzyme', 'packaging gas'].includes(a.cat)).length
-      + [...seenDs.keys()].filter((r) => !['added sugar / syrup', 'oil / fat', 'protein ingredient / dairy derivative', 'processed meat', 'extract / concentrate', 'refined / treated grain or cocoa', 'starch / carbohydrate filler', 'vitamin / mineral fortificant'].includes(r.cat)).length;
+    const NOT_ADDITIVE = ['ingredient', 'product type', 'protein', 'fat', 'added sugar', 'base ingredient', 'enzyme', 'packaging gas',
+      'added sugar / syrup', 'oil / fat', 'protein ingredient / dairy derivative', 'processed meat', 'extract / concentrate',
+      'refined / treated grain or cocoa', 'starch / carbohydrate filler', 'vitamin / mineral fortificant'];
+    const additiveCount = [...seen.keys()].filter((k) => !NOT_ADDITIVE.includes(k.cat)).length;
     if (additiveCount > 6) { const pen = Math.min(12, (additiveCount - 6) * 2); score -= pen; notes.push(`${additiveCount} additives in total (−${pen})`); }
   }
 
-  // Caps. Food follows Yuka's bands (a high-concern additive can never be "good");
-  // cosmetics follow Yuka's rule that the worst ingredient sets the band.
-  if (kind === 'cosmetic') {
+  // Caps: the worst ingredient sets the ceiling.
+  if (classified > 0) { score = Math.min(score, 20); notes.push('Contains a classified carcinogen: product capped at 20'); }
+  else if (linked > 0) { score = Math.min(score, 45); notes.push('Contains a cancer-linked ingredient: product capped at 45'); }
+  else if (cosmetic) {
     if (high > 0) score = Math.min(score, 24);
     else if (moderate > 0) score = Math.min(score, 49);
   } else {
@@ -380,13 +374,12 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
     else if (moderate >= 2) score = Math.min(score, 55);
     else if (moderate === 1) score = Math.min(score, 72);
   }
-  if (mode === 'yuka' && kind !== 'cosmetic' && [...seen.keys()].some((a) => a.yuka === 'red')) score = Math.min(score, 49);
 
   // Floor at 5 so a terrible-but-readable label is distinguishable from "nothing read".
   score = ingredients.length === 0 ? 0 : Math.max(5, Math.min(100, Math.round(score)));
 
   const [, grade, gradeLabel] = GRADES.find(([min]) => score >= min)!;
-  const flagged = all.filter((g) => (g.risk ?? 0) >= 1).sort((a, b) => (b.risk ?? 0) - (a.risk ?? 0) || (a.score ?? 100) - (b.score ?? 100) || a.position - b.position);
+  const flagged = all.filter((g) => (g.risk ?? 0) >= 1).sort((a, b) => (a.score ?? 100) - (b.score ?? 100) || (a.carc?.level === 'classified' ? 0 : 1) - (b.carc?.level === 'classified' ? 0 : 1) || a.position - b.position);
   const uniq: GradedIngredient[] = [];
   const seenA = new Set<Additive | DatasetRow>();
   for (const g of flagged) { const key = g.match ?? g.ds; if (key && seenA.has(key)) continue; if (key) seenA.add(key); uniq.push(g); }
