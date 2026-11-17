@@ -8,6 +8,15 @@ rebuilding.** It deploys to GitHub Pages for free.
 - **Live site:** https://nicorgutierrez08-eng.github.io/recipes/ *(after you turn on Pages — see below)*
 - **Built with:** [Astro](https://astro.build) + a small React island for the instant, client-side filtering.
 
+The site also holds an **ingredient database**:
+
+- **Ingredients** (`/ingredients/`): 552 food ingredients and additives, each scored 0 to 100 with the evidence and regulatory status behind the score.
+- **Products** (`/products/`): 416,454 US products searchable by brand, product or barcode, each with its full ingredient list and a score.
+- **Check a label** (`/check/`): paste any ingredient list and score it.
+- **Recipes**: every recipe gets an ingredient check, computed at build time with the same rules.
+
+How the scores are made, and how to change one, is in [`data-pipeline/README.md`](data-pipeline/README.md).
+
 ---
 
 ## 🧭 Table of contents
@@ -156,11 +165,18 @@ the repo's **Actions** tab). Your live site updates in a minute or two at:
 recipes/                  ← YOUR RECIPES LIVE HERE (one .md file each)
 public/
   images/                 ← recipe photos + site icons
+data-pipeline/            ← the Python that built the ingredient database (not run by the site)
+public/
+  data/                   ← product index, brand-grouped product files, barcode index
 src/
+  data/                   ← ingredient database + scoring rules (exported by the pipeline)
   content.config.ts       ← the recipe schema (validated at build time)
   pages/
     index.astro           ← the library / home page
-    [slug].astro          ← the single-recipe page
+    [slug].astro          ← the single-recipe page (now with an ingredient check)
+    ingredients/          ← ingredient database list + one page per ingredient
+    products/             ← product search
+    check.astro           ← paste-a-label checker
   components/             ← React islands (filtering, ingredient scaler, stars)
   lib/                    ← types + helpers (filtering, fraction formatting)
   styles/                ← the design system (palette, type, layout)

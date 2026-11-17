@@ -3,13 +3,16 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import RecipeLibrary from '../components/RecipeLibrary.tsx';
 import type { RecipeData } from '../lib/types';
+import { scorer } from '../lib/scorer';
 import '../styles/library.css';
+import '../styles/data.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const entries = await getCollection('recipes');
 
 const recipes: RecipeData[] = entries.map((entry) => {
   const d = entry.data;
+  const check = scorer.scoreItems(d.ingredients.map((i) => i.item));
   return {
     slug: entry.id,
     title: d.title,
@@ -33,6 +36,8 @@ const recipes: RecipeData[] = entries.map((entry) => {
     dateAdded: d.dateAdded ? d.dateAdded.toISOString() : undefined,
     tags: d.tags,
     image: d.image ? `${base}${d.image}` : undefined,
+    ingredientScore: check.score,
+    flagged: check.flagged.map((h) => h.name),
   };
 });
 ---

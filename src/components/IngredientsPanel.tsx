@@ -1,10 +1,13 @@
 import { useMemo, useState } from 'react';
 import type { Ingredient } from '../lib/types';
 import { formatAmount } from '../lib/format';
+import { band } from '../lib/scoring';
 
 interface Props {
   ingredients: Ingredient[];
   baseServings: number;
+  /** per-ingredient flag from the ingredient check (lowest flagged score), or null */
+  flags?: Array<{ score: number; name: string } | null>;
 }
 
 /**
@@ -12,7 +15,7 @@ interface Props {
  * Checkbox state is intentionally in-memory only (React state) — it resets on
  * reload and is never written to localStorage, per the brief.
  */
-export default function IngredientsPanel({ ingredients, baseServings }: Props) {
+export default function IngredientsPanel({ ingredients, baseServings, flags = [] }: Props) {
   const [servings, setServings] = useState(baseServings);
   const [checked, setChecked] = useState<Set<number>>(() => new Set());
 
@@ -92,6 +95,14 @@ export default function IngredientsPanel({ ingredients, baseServings }: Props) {
                   {ing.item}
                   {ing.note && <span className="ing-row__note"> · {ing.note}</span>}
                 </span>
+                {flags[i] && (
+                  <span
+                    className={`ing-flag band-dot band-dot--${band(flags[i]!.score)}`}
+                    title={`${flags[i]!.name}: ${flags[i]!.score}/100`}
+                    aria-label={`Flagged: ${flags[i]!.name}, score ${flags[i]!.score}`}
+                    role="img"
+                  />
+                )}
               </label>
             </li>
           );

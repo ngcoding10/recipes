@@ -1,0 +1,27 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProductSearch from '../../components/ProductSearch.tsx';
+import stats from '../../data/stats.json';
+import '../../styles/library.css';
+import '../../styles/data.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Products — The Pantry" description="Look up the ingredient score of US packaged foods by brand, product or barcode.">
+  <section class="data-hero container">
+    <p class="hero__eyebrow">Products</p>
+    <h1 class="data-hero__title">Look up <em>any</em> label.</h1>
+    <p class="data-hero__lede">
+      {stats.products.toLocaleString()} US products from {stats.brands.toLocaleString()} brands, each with its full ingredient
+      list and an ingredient score. Search a brand, then narrow to the product.
+    </p>
+    <p class="disclaimer">
+      Most labels come from USDA FoodData Central and date from 2017 to 2025, so a product reformulated since may show its old
+      recipe. Each product shows its label date.
+    </p>
+  </section>
+  <div class="container">
+    <ProductSearch client:load base={base} />
+  </div>
+</Base>

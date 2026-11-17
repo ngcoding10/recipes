@@ -31,7 +31,7 @@
 /* ---------------- Controls ---------------- */
 .library__controls {
   position: sticky;
-  top: 62px;
+  top: var(--header-h);
   z-index: 30;
   background: color-mix(in srgb, var(--paper) 88%, transparent);
   backdrop-filter: blur(6px);
@@ -66,6 +66,7 @@
   min-height: 44px;
 }
 .search__input::placeholder { color: var(--ink-faint); }
+.search__input::-webkit-search-cancel-button { -webkit-appearance: none; appearance: none; }
 .search__input:focus-visible {
   border-color: var(--focus);
   outline-offset: 1px;
@@ -298,6 +299,8 @@
 }
 .card__unrated { color: var(--ink-faint); font-size: 0.8rem; font-style: italic; }
 .card__spice { font-size: 0.85rem; letter-spacing: 0.04em; }
+.card__check { margin-left: auto; display: inline-flex; }
+.card__check + .card__spice { margin-left: 0.5rem; }
 
 /* stars */
 .stars { display: inline-flex; gap: 1px; }
@@ -329,7 +332,6 @@
 .btn-primary:hover { background: var(--paprika-deep); }
 
 @media (max-width: 560px) {
-  .library__controls { top: 58px; }
   .controls-row { width: 100%; justify-content: space-between; }
   .sort { flex: 1; justify-content: flex-end; }
 }

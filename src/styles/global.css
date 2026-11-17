@@ -42,6 +42,10 @@
   /* --- Layout --- */
   --maxw: 1200px;
   --gutter: clamp(1rem, 4vw, 2.5rem);
+  --header-h: 62px;
+}
+@media (max-width: 640px) {
+  :root { --header-h: 100px; }
 }
 
 *,
