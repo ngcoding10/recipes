@@ -3,7 +3,11 @@ import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import IngredientsPanel from '../components/IngredientsPanel.tsx';
 import { labelize } from '../lib/format';
+import { checkIngredient, type IngredientFlag } from '../lib/scanner-server';
+import { INGREDIENTS, riskClass } from '../lib/ingredient-db';
 import '../styles/recipe.css';
+import '../styles/tools.css';
+import '../styles/data.css';
 
 export async function getStaticPaths() {
   const entries = await getCollection('recipes');
@@ -20,6 +24,19 @@ const isIncomplete = prov === 'Incomplete';
 
 const steps = (d.workingInstructions?.length ? d.workingInstructions : d.sourceInstructions) ?? [];
 const displayIngredients = d.ingredients ?? [];
+
+// Ingredient check: every ingredient line through the same database as the Scan page.
+const scannerToPage = new Map<string, string>();
+for (const x of INGREDIENTS) if (x.scanner && !scannerToPage.has(x.scanner.name)) scannerToPage.set(x.scanner.name, x.id);
+const checks = new Map<string, IngredientFlag & { items: string[] }>();
+for (const ing of displayIngredients) {
+  const f = checkIngredient(ing.item);
+  if (!f || f.score >= 75) continue;
+  const cur = checks.get(f.name);
+  if (cur) { if (!cur.items.includes(ing.item)) cur.items.push(ing.item); }
+  else checks.set(f.name, { ...f, items: [ing.item] });
+}
+const flaggedIngredients = [...checks.values()].sort((a, b) => a.score - b.score);
 const usingWorking = !!d.workingInstructions?.length || !!d.workingIngredients?.length;
 
 // nutrition to display up top
@@ -166,6 +183,34 @@ const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) ||
               <h3 class="subs__title">Substitutions</h3>
               <ul class="subs__list">{d.substitutions.map((s) => <li>{s}</li>)}</ul>
             </div>
+          )}
+
+          {displayIngredients.length > 0 && (
+            <section class="card-surface tools__card rcheck" aria-labelledby="rcheck-title">
+              <h2 class="section-title" id="rcheck-title">Ingredient check</h2>
+              {flaggedIngredients.length ? (
+                <ul class="ingr">
+                  {flaggedIngredients.map((f) => {
+                    const r = riskClass(f.score, f.carc);
+                    const page = scannerToPage.get(f.name);
+                    return (
+                      <li class={`ingr__row ingr__row--${r}`}>
+                        <span class={`ingr__dot risk--${r}`} aria-hidden="true" />
+                        <div>
+                          <div class="ingr__name">{page ? <a href={`${base}/ingredients/${page}/`} style="color:inherit">{f.name}</a> : f.name} <span class="ingr__raw">{f.items.map((i) => `“${i}”`).join(', ')}</span></div>
+                          {f.carc && <span class={`pill ingr__carc ingr__carc--${f.carc}`}>{f.carc === 'classified' ? 'Classified carcinogen' : 'Cancer link (weaker evidence)'}</span>}
+                          <div class="ingr__why">{f.why}</div>
+                        </div>
+                        <span class="ingr__score">{f.score}/100</span>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p class="notice notice--green">Nothing in this recipe is flagged by the ingredient database.</p>
+              )}
+              <p class="rcheck__foot">Same database as the Scan page. Whole foods are not scored, and a 0 means a cancer link exists in the evidence, not that this dish is dangerous.</p>
+            </section>
           )}
 
           {hasSourceNotes && (
