@@ -132,7 +132,7 @@
 }
 .recipe__aside {
   position: sticky;
-  top: 78px;
+  top: calc(var(--header-h) + 16px);
 }
 
 .section-title {
@@ -231,7 +231,8 @@
   border-width: 0 2.5px 2.5px 0;
   transform: rotate(45deg) translate(-1px, -1px);
 }
-.ing-row__label { cursor: pointer; line-height: 1.4; }
+.ing-row__label { cursor: pointer; line-height: 1.4; flex: 1; }
+.ing-flag { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-left: 0.45rem; vertical-align: 0.05em; }
 .ing-row__amount { font-weight: 650; color: var(--ink); margin-right: 0.4rem; }
 .ing-row__item { color: var(--ink); }
 .ing-row__note { color: var(--ink-faint); font-style: italic; }

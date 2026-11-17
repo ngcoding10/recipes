@@ -51,6 +51,10 @@ export interface RecipeData {
   dateAdded?: string; // ISO string
   tags?: string[];
   image?: string;
+  /** 0-100 ingredient score from the database rules; 100 when nothing is flagged. */
+  ingredientScore: number;
+  /** names of flagged ingredients, lowest score first */
+  flagged: string[];
 }
 
 /** Which key each URL query param maps to, for filter state (de)serialization. */

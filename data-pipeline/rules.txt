@@ -1,0 +1,170 @@
+# name | class | score | regex | note   (order = priority; a match consumes its text)
+# ---------- tier A: carcinogen classification or removal on cancer grounds -> 0 ----------
+Red 3 (erythrosine) | color | 0 | \bRED 3\b|ERYTHROSINE|\bE ?127\b | FDA revoked authorization Jan 2025 under the Delaney Clause (thyroid tumors in male rats); food use ends Jan 15 2027; California ban from 2027. Not classified by IARC
+Citrus Red 2 | color | 0 | CITRUS RED | IARC Group 2B; Prop 65 cancer list; allowed only on orange skins; FDA proposed revoking it July 2026 (not final as of late Oct 2026)
+Orange B | color | 10 | \bORANGE B\b | FDA revoked its listing (sausage casings) effective Sept 8 2026; unused for decades; not authorized in EU; no carcinogen classification
+Potassium bromate | flour treatment | 0 | (?<!UN)BROMATED?\b(?! VEGETABLE)|POTASSIUM BROMATE|CALCIUM BROMATE | IARC Group 2B; Prop 65 cancer list; not authorized in EU; California ban from 2027
+BHA (butylated hydroxyanisole) | antioxidant | 0 | \bBHA\b|BUTYLATED HYDROXY ?ANISOLE|\bE ?320\b | IARC Group 2B; NTP reasonably anticipated human carcinogen; Prop 65 cancer list; FDA formal reassessment opened Feb 2026
+Aspartame | high-intensity sweetener | 0 | ASPARTAME|\bE ?951\b|NUTRASWEET | IARC Group 2B (2023, limited evidence); JECFA left the acceptable daily intake unchanged; not on Prop 65 or NTP lists
+Titanium dioxide | color | 0 | TITANIUM DIOXIDE|^TITANIUM$|\bE ?171\b|\bTIO2\b | IARC Group 2B (based on inhalation); EFSA 2021 could not rule out genotoxicity; not authorized in EU food since 2022; under FDA review
+Sodium/potassium nitrite | preservative | 0 | \bNITRITES?\b | Ingested nitrite under conditions causing endogenous nitrosation: IARC Group 2A; cohort link to prostate cancer (2026)
+Sodium/potassium nitrate | preservative | 0 | (?<!MONO)(?<!MONO )\bNITRATES?\b | Ingested nitrate under conditions causing endogenous nitrosation: IARC Group 2A
+Talc | anti-caking agent | 0 | \bTALC\b | Talc: IARC Group 2A (2024)
+Carbon black / vegetable carbon | color | 0 | CARBON BLACK|VEGETABLE CARBON|ACTIVATED CHARCOAL|\bCHARCOAL\b | Carbon black: IARC Group 2B (inhalation). Vegetable carbon is not an FDA-approved food color
+Caramel color class III/IV | color | 0 | CARAMEL COLOU?R.{0,12}(CLASS )?(IV|III|4|3)\b|\bE ?150 ?[CD]\b|AMMONIA CARAMEL|SULFITE AMMONIA CARAMEL | Class III and IV caramel contain 4-methylimidazole (IARC Group 2B; Prop 65 cancer list)
+Delaney-delisted flavor substances | flavor | 0 | BENZOPHENONE|ETHYL ACRYLATE|METHYL ?EUGENOL|\bMYRCENE|PULEGONE|\bPYRIDINE\b|\bSTYRENE\b|SAFROLE|SASSAFRAS|ESTRAGOLE|ISOEUGENOL | Synthetic flavor substances FDA delisted in 2018 under the Delaney Clause, or IARC/Prop 65 listed (methyleugenol 2A, safrole 2B, isoeugenol 2B, estragole Prop 65)
+Acetaldehyde | flavor | 0 | ACETALDEHYDE | IARC Group 2B
+Ginkgo biloba extract | botanical | 0 | GINKGO | IARC Group 2B
+Kava | botanical | 0 | \bKAVA\b | IARC Group 2B; liver toxicity reports
+Goldenseal | botanical | 0 | GOLDENSEAL | Goldenseal root powder: IARC Group 2B; Prop 65 cancer list
+Aloe vera whole leaf extract | botanical | 0 | WHOLE LEAF ALOE|ALOE VERA WHOLE | Non-decolorized whole leaf extract: IARC Group 2B; Prop 65 cancer list
+Aloe vera (form not stated) | botanical | 40 | \bALOE\b | Label does not say whether decolorized; only the non-decolorized whole leaf extract is IARC 2B
+Comfrey / pyrrolizidine alkaloid herbs | botanical | 0 | COMFREY|COLTSFOOT|BORAGE (LEAF|EXTRACT)|BRACKEN | Pyrrolizidine alkaloid herbs: IARC Group 2B constituents; Prop 65 cancer list; FDA advised removing comfrey supplements
+Areca / betel nut | botanical | 0 | ARECA|BETEL | IARC Group 1
+Alcohol (ethanol) | solvent / carrier | 0 | ^(ETHYL |GRAIN |CANE |ORGANIC |PURE |SD |DENATURED )?ALCOHOL$|\bETHANOL\b|^(GRAIN|CANE|ETHYL|NEUTRAL) (ALCOHOL|SPIRITS?)$|\bALCOHOL \d|\b(WINE|BEER|RUM|BOURBON|WHISKEY|WHISKY|VODKA|BRANDY|TEQUILA|SHERRY|LIQUEUR|SAKE|MIRIN|MARSALA|COGNAC|KIRSCH|AMARETTO LIQ)\b(?! VINEGAR)(?! FLAV)(?! GRAPES)(?! SEASONING)(?! SOLIDS)(?! EXTRACTIVES) | Alcoholic beverages and their ethanol: IARC Group 1. In food it is usually a trace carrier or cooked in; dose matters, zeroed under the carcinogen rule
+Processed meat | processed meat | 0 | \bBACON\b(?! FLAV)|\bHAM\b(?! FLAV)|PEPPERONI|SALAMI|SAUSAGE|HOT DOGS?|FRANKFURTER|\bFRANKS?\b|JERKY|PROSCIUTTO|CHORIZO|BOLOGNA|PASTRAMI|CORNED BEEF|MORTADELLA|PANCETTA|\bCURED (PORK|BEEF|MEAT|TURKEY)|\bSMOKED (PORK|BEEF|TURKEY|MEAT)|\bSPAM\b|CAPICOL|SOPPRESSATA|KIELBASA|BRATWURST|ANDOUILLE|LUNCHEON MEAT | Processed meat: IARC Group 1 (colorectal cancer)
+Salted fish (Chinese style) | processed food | 0 | SALTED FISH | Chinese-style salted fish: IARC Group 1
+# ---------- tier B: banned / revoked / not authorized on safety grounds -> 5-15 ----------
+Partially hydrogenated oil | fat / oil | 5 | PARTI?AL+Y? HYDROGENATED|PART\.? HYDROGENATED|PARTLY HYDROGENATED|HYDROGENATED AND/OR PARTIALLY | Artificial trans fat; FDA removed from the food supply (GRAS revoked 2015, regulations cleaned up 2023)
+Brominated vegetable oil | emulsifier | 5 | BROMINATED|\bBVO\b | FDA revoked authorization July 2024; California ban from 2027; not authorized in EU
+Azodicarbonamide | flour treatment | 5 | AZODICARBONAMIDE|^ADA$ | Breaks down to semicarbazide and urethane when baked; not authorized in EU; under FDA review
+Propylparaben | preservative | 10 | PARABEN | Effects on sperm production in juvenile rats (EFSA 2004 could set no ADI); California ban from 2027; not authorized in EU food; under FDA review
+Cyclamate | high-intensity sweetener | 10 | CYCLAMATE | Banned in US food since 1970 (IARC Group 3)
+Kratom | botanical | 5 | KRATOM|MITRAGYN | FDA: not lawful in food or supplements; dependence and toxicity reports
+Tianeptine / phenibut / DMAA-type stimulants | stimulant / active | 5 | TIANEPTINE|PHENIBUT|\bDMAA\b|\bDMHA\b|METHYLHEXAN|DIMETHYLAMYL|OCTODRINE|HIGENAMINE|VINPOCETINE|PICAMILON | FDA: unlawful or unsafe as a dietary ingredient
+Coumarin / tonka bean | flavor | 10 | COUMARIN|TONKA | FDA prohibits coumarin as an added substance (liver toxicity); IARC Group 3
+Ephedra / SARMs / cesium chloride | stimulant / active | 5 | EPHEDR|\bMA HUANG|\bSARMS?\b|OSTARINE|CESIUM|\bBMPEA\b | FDA: banned or unlawful dietary supplement ingredient
+Red yeast rice | botanical | 30 | RED YEAST RICE|MONACOLIN | Contains a statin (monacolin K); EFSA 2018 could not identify a safe intake; EU caps it under 3 mg per day with warnings
+Smoke flavoring | flavor | 15 | SMOKE FLAV|LIQUID SMOKE|NATURAL SMOKE|^SMOKE$|(HICKORY|MESQUITE|APPLEWOOD|WOOD) SMOKE|SMOKE (CONCENTRATE|EXTRACT|POWDER) | EU did not renew the eight smoke flavouring primary products in 2024 because genotoxicity was confirmed or could not be ruled out; most uses ended July 2026. No IARC classification, so not zeroed
+Cured-with vegetable nitrate source | preservative | 10 | CULTURED CELERY|CELERY (JUICE )?POWDER|CELERY JUICE|CELERY EXTRACT|SWISS CHARD POWDER|CULTURED SWISS CHARD | Vegetable nitrate source used for curing; same nitrosation chemistry as added nitrite when used that way (may be plain seasoning in snacks)
+Caramel color (class not stated) | color | 10 | CARA?MEL COLOU?R|CARAMEL \(COLOU?R|COLOU?R \(?CARAMEL|^CARAMEL COLOU?RING|\bE ?150 | Class not stated on label; classes III and IV contain 4-methylimidazole (IARC 2B), class I does not
+Olestra | fat replacer | 15 | OLESTRA|OLEAN\b | GI effects; lowers absorption of fat-soluble vitamins; not authorized in EU or Canada
+Yohimbe | stimulant / active | 15 | YOHIMB | Stimulant; cardiovascular adverse events
+Synephrine / bitter orange | stimulant / active | 20 | SYNEPHRINE|BITTER ORANGE|CITRUS AURANTIUM | Stimulant; cardiovascular concern, especially with caffeine
+CBD / hemp extract | botanical | 20 | \bCBD\b|CANNABIDIOL|HEMP EXTRACT|CANNABI|\bTHC\b|DELTA ?[89] | FDA: not lawful as a food ingredient; liver effects at higher dose
+# ---------- tier C: regulator concern, warning label, or human evidence -> 20-40 ----------
+TBHQ | antioxidant | 20 | \bTBHQ\b|TERTIARY BUTYL|BUTYLHYDROQUINONE|\bE ?319\b | Immune effects in animal studies; tumor findings at high dose in some rodent studies
+BHT (butylated hydroxytoluene) | antioxidant | 25 | \bBHT\b|BUTYLATED HYDROXY ?TOLUENE|\bE ?321\b | IARC Group 3; mixed animal data; under FDA review
+Propyl gallate | antioxidant | 25 | GALLATE | Possible endocrine activity; limited data
+Red 40 (Allura red) | color | 25 | \bRED 40\b|ALLURA|\bE ?129\b | Synthetic azo dye; EU hyperactivity warning label; OEHHA 2021 found neurobehavioral effects in some children; FDA phase-out is voluntary, not a ban, and the target slipped from end of 2026 to end of 2027; school bans in several states
+Yellow 5 (tartrazine) | color | 25 | \bYELLOW 5\b|TARTRAZINE|\bE ?102\b | Synthetic azo dye; EU hyperactivity warning label; hypersensitivity reactions; FDA voluntary phase-out
+Yellow 6 (sunset yellow) | color | 25 | \bYELLOW 6\b|SUNSET YELLOW|\bE ?110\b | Synthetic azo dye; EU hyperactivity warning label; FDA voluntary phase-out
+Blue 2 (indigotine) | color | 30 | \bBLUE 2\b|INDIGOTINE|INDIGO CARMINE|\bE ?132\b | Synthetic dye; little dye-specific evidence; FDA voluntary phase-out
+Green 3 (fast green) | color | 25 | \bGREEN 3\b|FAST GREEN | Synthetic dye; not authorized in EU; FDA voluntary phase-out
+Blue 1 (brilliant blue) | color | 30 | \bBLUE 1\b|BRILLIANT BLUE|\bE ?133\b | Synthetic dye; little dye-specific evidence; FDA voluntary phase-out
+Other synthetic dyes | color | 25 | \bRED 2\b|AMARANTH DYE|\bRED 4\b|PONCEAU|CARMOISINE|AZORUBINE|QUINOLINE YELLOW|\bYELLOW 10\b|PATENT BLUE|\bGREEN S\b|BRILLIANT BLACK|\b(RED|YELLOW|BLUE|GREEN|ORANGE|VIOLET) \d+\b | Synthetic dye; several are not permitted in US food
+Artificial color (unspecified) | color | 30 | ARTIFICIAL COLOU?R|COLOU?RS? ADDED|ADDED COLOU?R|CERTIFIED COLOU?R|\bDYES?\b|\bLAKES?\b|SYNTHETIC COLOU?R|U\.?S\.? CERTIFIED | Unspecified synthetic color
+Mineral oil / paraffin | coating / glaze | 25 | MINERAL OIL|PETROLATUM|PARAFFIN|PETROLEUM WAX|MICROCRYSTALLINE WAX | Mineral oil hydrocarbons; EFSA concern about the aromatic fraction (MOAH)
+Sucralose | high-intensity sweetener | 30 | SUCRALOSE|SPLENDA|\bE ?955\b | EFSA Feb 2026 kept the ADI but would not confirm safety for baking uses (chlorinated compounds may form at high heat); WHO 2023 guideline advises against non-sugar sweeteners for weight control; sucralose-6-acetate genotoxic in vitro (2023, not confirmed in people); gut and glucose effects in small trials
+Acesulfame potassium | high-intensity sweetener | 30 | ACESULFAME|\bACE ?K\b|\bE ?950\b | WHO 2023 non-sugar sweetener guideline; cohort associations with cancer and cardiovascular risk are observational
+Saccharin | high-intensity sweetener | 30 | SACCHARIN | IARC Group 3 (no longer listed as a carcinogen by NTP or Prop 65); WHO 2023 guideline; glucose tolerance effects in some studies
+Neotame | high-intensity sweetener | 40 | NEOTAME | Aspartame-derived sweetener; limited independent data
+Advantame | high-intensity sweetener | 45 | ADVANTAME | Limited independent data
+Sulfites | preservative | 30 | SULFITE|BISULFITE|METABISULFITE|SULFUR DIOXIDE|SULPHUR DIOXIDE|^SO2$|SULFITING|SULPHITE | Triggers reactions in sulfite-sensitive people; EFSA 2022 flagged high intakes; cohort cancer association (2026)
+Polysorbates | emulsifier | 30 | POLYSORBATE|\bTWEEN ?\d | Gut barrier and microbiome disruption in animal studies; human data limited
+Carboxymethylcellulose (cellulose gum) | thickener / gum | 35 | CARBOXYMETHYL ?CELLULOSE( GUM)?|CARBOXYMETHYL|CEL+UL+OSE GUM|\bCMC\b | Lowered gut microbiome diversity in a small human feeding trial at a dose far above normal intake; animal data on inflammation
+Carrageenan | thickener / gum | 35 | CARR?AG+H?E+NA?N|CARRAGEEN|IRISH MOSS|EUCHEUMA | Food grade is IARC Group 3; gut inflammation in animal and cell studies; cohort association with breast cancer; degraded form (poligeenan) is IARC 2B
+Benzoates | preservative | 35 | BENZOATE|BENZOIC | Can form benzene with ascorbic acid in drinks; part of the Southampton hyperactivity mixtures
+Phosphoric acid | acid | 35 | PHOSPHORIC ACID|^PHOSPHORIC$ | Cola-type phosphate load; associations with lower bone density and kidney outcomes
+Aluminum compounds | leavening / other | 35 | ALUMIN|\bALUM\b | Aluminum intake; EFSA tolerable weekly intake can be exceeded by high consumers
+High fructose corn syrup | added sugar | 35 | HIGH FRUCTOSE|\bHFCS\b|GLUCOSE.FRUCTOSE SYRUP|FRUCTOSE.GLUCOSE SYRUP|ISOGLUCOSE | Added sugar; high intake linked to metabolic and liver outcomes
+Hydrogenated oil (fully) | fat / oil | 35 | HYDROGENATED(?! STARCH)(?! GLUCOSE)(?! MALTOSE)|HYDROGENTED | Fully hydrogenated fat: saturated; may carry trace trans fat
+Diacetyl | flavor | 40 | DIACETYL(?! TARTARIC)(?!ATED) | Lung hazard when inhaled by workers; ingestion data limited
+Shortening / margarine | fat / oil | 40 | SHORTENING|MARGARINE|OLEOMARGARINE | Processed fat blend, often palm or hydrogenated oils
+Gum base | gum base | 40 | GUM ?BASE | Undisclosed mix of synthetic polymers, softeners and antioxidants (may include BHT)
+Quinine | flavor | 40 | QUININE | Limited to tonic levels by FDA; hypersensitivity reactions
+Erythritol | sugar alcohol | 45 | ERYTHRITOL | EFSA 2023 set a first ADI that children's average intake exceeds; Blood levels linked to cardiovascular events and platelet reactivity in small studies (2023); no outcome trial; causality unproven
+Xylitol | sugar alcohol | 50 | XYLITOL | Blood levels linked to cardiovascular events (2024, observational); GI effects
+Sorbitol | sugar alcohol | 55 | SORBITOL | Sugar alcohol; laxative effect at higher intakes
+Maltitol | sugar alcohol | 55 | MALTITOL|LYCASIN | Sugar alcohol; laxative effect at higher intakes
+Mannitol | sugar alcohol | 55 | MANNITOL | Sugar alcohol; laxative effect at higher intakes
+Isomalt | sugar alcohol | 55 | ISOMALT\b | Sugar alcohol; laxative effect at higher intakes
+Other sugar alcohols | sugar alcohol | 55 | LACTITOL|HYDROGENATED (STARCH|GLUCOSE|MALTOSE)|POLYGLYCITOL|\bPOLYOLS?\b|SUGAR ALCOHOL | Sugar alcohol; laxative effect at higher intakes
+Sodium phosphates | phosphate additive | 45 | (DI|TRI|MONO|TETRA|HEXA)?SODIUM (ACID )?(HEXAMETA|TRIPOLY|PYRO|POLY|META)?PHOSPHATE|SODIUM ACID PYROPHOSPHATE|\bSAPP\b|\bSTPP\b | Phosphate additive; EFSA 2019 group intake limit; concern for kidney and cardiovascular health at high total intake
+Calcium phosphates | phosphate additive | 55 | (MONO|DI|TRI)?CALCIUM (ACID )?(PYRO)?PHOSPHATE | Phosphate additive; counts toward the EFSA group intake limit; also a calcium source
+Potassium phosphates | phosphate additive | 45 | (MONO|DI|TRI|TETRA)?POTASSIUM (PYRO|TRIPOLY|POLY|META)?PHOSPHATE | Phosphate additive; EFSA 2019 group intake limit
+Other phosphates | phosphate additive | 45 | PHOSPHATE(?! ?IDE)|PYROPHOSPHATE|POLYPHOSPHATE | Phosphate additive; EFSA 2019 group intake limit
+Palm oil | fat / oil | 45 | \bPALM\b|PALMOLEIN|PALM ?KERNEL | High saturated fat; refining contaminants (glycidyl esters, 3-MCPD) flagged by EFSA
+Corn syrup | added sugar | 45 | CORN SYRUP SOLIDS?|\bCORN SYRUP|\bCOM SYRUP|REFINER'?S?Y? SYRUP|GLUCOSE SYRUP|GLUCOSE SOLIDS | Added sugar
+Other syrups | added sugar | 45 | (RICE|TAPIOCA|WHEAT|OAT|BARLEY|MALT|SORGHUM|CANE|GOLDEN|REFINERS?'?|INVERT|SUGAR|CASSAVA|SIMPLE|POTATO|PANCAKE|TABLE) SYRUP|^SYRUP$|\bAGAVE\b|CRYSTALLINE FRUCTOSE|^FRUCTOSE$|\bFRUCTOSE\b(?! ?OLIGO) | Added sugar
+Hydrolyzed vegetable protein | flavor enhancer | 45 | HYDROLY[ZS]ED (VEGETABLE|SOY|CORN|WHEAT|PLANT|YEAST|PEA|RICE|GLUTEN|PROTEIN)|\bHVP\b | Acid-hydrolyzed proteins can contain 3-MCPD; source of free glutamate
+Melatonin | stimulant / active | 45 | MELATONIN | Hormone; dosing in foods is unstandardized
+Bleached flour / bleaching agents | flour treatment | 45 | (?<!UN)BLEACHED|BENZOYL PEROXIDE|CHLORINE DIOXIDE|\bCHLORINATED | Chemically bleached flour or bleaching agent; chlorine and peroxide flour treatments are not permitted in the EU
+Sugar | added sugar | 50 | \bSUGARS?\b(?! ALCOHOL)(?! FREE)|SUCROSE(?! ACETATE)|EVAPORATED CANE|CANE JUICE|\bTURBINADO|DEMERARA|MUSCOVADO|PANELA|SUCANAT|\bFONDANT|\bICING\b|FROSTING|SPRINKLES?|MARSHMALLOWS?|NONPAREILS?|\bCANDY\b|\bCANDIED|CANDIES|\bSWEETENED\b|\bCARAMEL\b(?! COLOU?R)|\bTOFFEE|BUTTERSCOTCH|\bFUDGE|PRALINE | Added sugar; dose dependent
+Dextrose / glucose | added sugar | 50 | DEXTROSE|^GLUCOSE$|\bGLUCOSE\b(?! SYRUP)(?! OXIDASE)|\bMALTOSE\b|INVERT | Added sugar
+Maltodextrin | starch / filler | 50 | MALTODEXTRIN|MALTODEX|MALTRIN|\bDEXTRIN | High glycemic refined carbohydrate; possible gut microbiome effects
+Mono- and diglycerides | emulsifier | 50 | MONO ?(AND|&|,)? ?DI ?GLYCERIDES?|MONOGLYCERIDES?|DIGLYCERIDES?|\bE ?471\b|GLYCERYL MONO|GLYCEROL MONO | May carry trace trans fat; cohort association with cancer and cardiovascular risk (NutriNet-Sante, observational)
+MSG / glutamates | flavor enhancer | 50 | \bMSG\b|GLUTAMATE|GLUTAMIC ACID | Regulators consider it safe; EFSA 2017 set a group intake limit; sensitivity reports are not well replicated
+Artificial flavor | flavor | 50 | (NATURAL (AND|&|,|OR|AND/OR) )?ARTIFICIAL(LY)? .{0,40}FLAVOU?R\w*|ARTIFICIAL FLAVOU?R\w*|FLAVOU?R\w* .{0,20}ARTIFICIAL|IMITATION .{0,30}FLAV\w*|\bVANILLIN\b|ETHYL ?VANILLIN|ETHYL MALTOL|\bMALTOL\b | Undisclosed synthetic flavor substances
+Green tea extract | botanical | 50 | GREEN TEA (LEAF )?EXTRACT|\bEGCG\b | Liver injury case reports at supplement doses
+Ashwagandha | botanical | 50 | ASHWAGANDHA|WITHANIA | Liver injury case reports; thyroid and hormone effects
+Guarana | stimulant / active | 50 | GUARANA | Caffeine source
+Licorice / glycyrrhizin | flavor | 50 | GLYCYRRHIZ|LICORICE (ROOT )?EXTRACT|LIQUORICE|^LICORICE | Glycyrrhizin raises blood pressure at high intake; EU warning label above set levels
+EPG (modified plant fat) | fat replacer | 50 | \bEPG\b|PROPOXYLATED|MODIFIED PLANT FAT | Novel fat replacer; GRAS notified, little long-term human data
+Carmine / cochineal | color | 50 | CARMINE|COCHINEAL|CARMINIC | Allergic reactions including anaphylaxis in sensitized people
+Propylene glycol | solvent / carrier | 50 | PROPYLENE GLYCOL(?! ALGINATE)(?! MONO)(?! ESTER) | Synthetic solvent; within regulatory limits; EU limits use more tightly
+Synthetic emulsifiers (DATEM, sorbitan, SSL, PG esters) | emulsifier | 50 | SORBITAN|\bDATEM\b|DIACETYL TARTARIC|ESTER GUM|GLYCEROL ESTER|GLYCER(YL|OL) LACTO|LACTO ESTERS|\bSSL\b|AMMONIUM PHOSPHATIDE|\bSAIB\b|SUCROSE ACETATE|STEAROYL|PROPYLENE GLYCOL (MONO|ESTER)|\bPGMS\b|ETHOXYLATED|ACETYLATED MONO|LACTYLATE|SUCROSE (ESTERS?|STEARATE)|POLYGLYCERATE | Synthetic emulsifier; within regulatory limits, limited long-term data
+Polyethylene glycol / synthetic polymers | coating / glaze | 50 | POLYETHYLENE GLYCOL|\bPEG\b|\bMICA\b|PEARLESCENT|GLITTER|POLYVINYL|POVIDONE|\bPVP\b|POLYISOBUTYLENE|BUTYL RUBBER | Synthetic polymer or pigment carrier (pearlescent pigments are often titanium dioxide coated)
+Interesterified fat | fat / oil | 50 | INTERESTERIFIED | Restructured fat; limited long-term data
+Garcinia / huperzine | botanical | 30 | GARCINIA|HUPERZIN | Supplement active with liver or neurological adverse event reports
+Ethoxyquin | preservative | 20 | ETHOXYQUIN | Antioxidant used on spices; EU suspended it in feed over genotoxic impurity concerns
+Carbon monoxide (color fixative) | processing aid | 30 | CARBON MONOXIDE|TASTELESS SMOKE | Keeps meat and fish looking fresh regardless of age; not permitted for this use in the EU
+Calcium peroxide | flour treatment | 45 | PEROXIDE | Flour bleaching and oxidizing agent; not permitted as a flour treatment in the EU
+Iodates (potassium / calcium iodate) | flour treatment | 60 | IODATE | Dough conditioner; adds iodine, which can push intake high in heavy bread eaters
+Compound coating (confectionery / chocolatey) | fat / oil | 45 | (CONFECTIONE?A?RY?|CHOCOLATEY|CHOCOLATY|YOGURT|YOGHURT|WHITE|COMPOUND|CANDY|PEANUT BUTTER|CARAMEL|FUDGE) (FLAVORED )?COATING|^COATING$|NON ?DAIRY CREAMER|WHIPPED TOPPING|WHIPPING AID|^CREAMER$|^TOPPING$ | Compound coating or creamer base, typically sugar plus palm or hydrogenated fat
+Color (type not stated) | color | 40 | ^(FOOD |RED |YELLOW |BLUE |GREEN |ORANGE |BROWN |BLACK |PINK |PURPLE )?COLOU?R(S|ING|INGS|ANTS?)?$|^IF COLOU?RED$ | Label does not say whether the color is synthetic or natural
+# ---------- tier D: limited / dose dependent -> 51-75 ----------
+Neohesperidin DC / quillaia / minor additives | other additive | 70 | NEOHESPERIDIN|QUILLA[IJ]A|DIOCTYL SODIUM|SULFOSUCCINATE|\bNMN\b|NICOTINAMIDE MONONUCLEOTIDE|STEARYL FUMARATE | Minor additive with limited independent data; no specific hazard identified
+Stearates (calcium / magnesium stearate, stearic acid) | processing aid | 75 | STEARATE|STEARIC | Flow agent or lubricant; low concern
+L-cysteine | flour treatment | 70 | CYSTEINE | Dough conditioner, often from feathers or fermentation; low concern
+Ferrocyanide anti-caking agents | anti-caking agent | 65 | PRUSSIATE|FERROCYANIDE | Anti-caking agent in salt; stable complex, low absorption
+Triacetin / benzyl alcohol carriers | solvent / carrier | 65 | TRIACETIN|BENZYL ALCOHOL|TRIETHYL CITRATE|GLYCERYL ABIETATE | Flavor carrier or solvent; low concern at food levels
+Ammonium salts | mineral salt | 75 | AMMONIUM | Leavening or yeast nutrient; low concern
+Starter distillate | flavor | 60 | STARTER DISTILLATE | Butter flavor distillate containing diacetyl
+Propellants | processing aid | 75 | PROPELLANT|NITROUS OXIDE|ISOBUTANE|\bPROPANE\b | Aerosol propellant; little reaches the food
+Caffeine | stimulant / active | 55 | CAFFEINE | Dose-dependent stimulant; not advised for children
+Citrus and vegetable juice concentrates | acid / color | 88 | (LEMON|LIME|CABBAGE|CARROT|BEET|RADISH|LETTUCE|PUMPKIN|TOMATO|CELERY|SPINACH|ONION|GARLIC|VEGETABLE|SWEET POTATO|BLACK CARROT|HIBISCUS|TURMERIC|SPIRULINA|GINGER|CUCUMBER|KALE) JUICES? CONCENTRATES? | Used for acidity or color; low concern
+Honey / molasses / maple / juice concentrate sugars | added sugar | 55 | \bHONEY\b|MOLASSES|\bMAPLE|JUICE CONCENTRATE|PUREE CONCENTRATE|CONCENTRATED .{0,25}JUICE|DATE (SYRUP|SUGAR|PASTE)|COCONUT (PALM )?(SUGAR|NECTAR)|TREACLE | Added sugar from a less refined source
+Silicones (dimethylpolysiloxane) | processing aid | 55 | DIMETHYLPOLYSILOXANE|SILOXANE|SILICONE|SIMETHICONE|DIMETHICONE | Synthetic anti-foaming agent
+EDTA | preservative | 55 | \bEDTA\b|EDETATE | Chelating preservative; low absorption
+PGPR | emulsifier | 55 | \bPGPR\b|POLYGLYCEROL|RICINOLEATE | Synthetic emulsifier; EFSA 2017 raised the ADI
+Lard / tallow | fat / oil | 55 | \bLARD\b|TALLOW|BEEF FAT|PORK FAT|\bSUET | Animal fat high in saturated fat
+Refined seed and vegetable oils | fat / oil | 60 | (SOYBEAN|SOYA?|CANOLA|CORN|COTTONSEED|VEGETABLE|RAPESEED|SAFFLOWER|SUNFLOWER|GRAPESEED|RICE BRAN|PEANUT|SESAME|EXPELLER PRESSED \w+) (AND/OR |OR |AND |, ?)*(\w+ ){0,3}OILS?\b|^(SOYBEAN|CANOLA|COTTONSEED|SUNFLOWER|SAFFLOWER|CORN)$|VEGETABLE (OIL|FAT)|\bOIL BLEND|BLEND OF .{0,30}OILS? | Refined oil; concern is nutritional and about processing, not toxicity. Human trials favor these over saturated fat
+Coconut oil | fat / oil | 60 | COCONUT (OIL|FAT)|\bMCT\b|MEDIUM CHAIN | High saturated fat
+Enriched / refined flour | refined grain | 65 | ENRICHED|DEGERM|\bWHITE FLOUR|^FLOUR$|^WHEAT FLOUR$|WHITE RICE FLOUR | Refined grain
+Natural flavor | flavor | 65 | NATURAL .{0,40}FLAVOU?R\w*|^FLAVOU?R(S|ING|INGS)?$|\bWONF\b|\bFLAVOU?R(S|ING|INGS)?\b | Undisclosed composition; may include solvents and carriers
+Modified starch | starch / filler | 65 | MODIFIED .{0,20}STARCH|MODIFIED FOOD STARCH|^MODIFIED$|STARCH.{0,3}MODIFIED | Chemically or physically modified starch; considered low risk
+Silicon dioxide | anti-caking agent | 65 | SILICON DIOXIDE|\bSILICA\b|SILICATE | Anti-caking agent; EFSA noted uncertainty about the nano-sized fraction
+Cellulose (powdered / microcrystalline) | fiber additive | 65 | CELLULOSE GEL|MICROCRYSTALLINE|\bMCC\b|POWDERED CELLULOSE|^CELLULOSE$|METHYL ?CELLULOSE|\bCELLULOSE\b|\bHPMC\b|HYPROMELLOSE | Cellulose derivative; low absorption
+Energy-drink actives (taurine, carnitine, ginseng) | stimulant / active | 65 | TAURINE|CARNITINE|GINSENG|GLUCURONOLACTONE|INOSITOL|BETA ALANINE|CITRULLINE|\bARGININE|THEANINE|THEOBROMINE|YERBA MATE|KOLA NUT|COLA NUT | Energy-drink or pre-workout active; data mostly on combinations with caffeine
+Yeast extract | flavor enhancer | 68 | YEAST EXTRACT|AUTOLY[ZS]ED|TORULA | Natural source of free glutamate
+Disodium inosinate / guanylate | flavor enhancer | 60 | INOSINATE|GUANYLATE|RIBONUCLEOTIDE | Flavor enhancers used with glutamate; purine source (relevant in gout)
+Shellac / confectioner's glaze | coating / glaze | 70 | SHELLAC|CONFECTIONER'?S'? GLAZE|RESINOUS GLAZE|PHARMACEUTICAL GLAZE|LAC RESIN|\bGLAZE\b | Insect-derived glaze; low concern
+Annatto | color | 70 | ANN?ATT?O|\bBIXIN|NORBIXIN | Natural color; occasional allergic reactions
+Sorbates | preservative | 65 | SORBATE|SORBIC | Low toxicity at food levels; cohort association with overall cancer (2026, observational)
+Propionates | preservative | 65 | PROPIONATE|PROPIONIC | Low toxicity; small human study suggested metabolic effects
+Natamycin / nisin | preservative | 72 | NATAMYCIN|\bNISIN|PIMARICIN | Antimicrobial preservative; low toxicity
+Allulose and rare sugars | sugar substitute | 70 | ALLULOSE|PSICOSE|TAGATOSE|ISOMALTULOSE|TREHALOSE | Low-calorie or rare sugar; GI effects at high intake
+Isolated fibers (polydextrose, soluble corn fiber, IMO) | fiber additive | 70 | POLYDEXTROSE|SOLUBLE (CORN|TAPIOCA|VEGETABLE|WHEAT) FIBER|ISOMALTO|RESISTANT (MALTO)?DEXTRIN|\bIMO\b|CORN FIBER|TAPIOCA FIBER|FIBERSOL | Isolated fiber; GI effects at high intake; some count less as fiber than labeled
+Soy protein isolate / textured protein | protein isolate | 72 | SOY PROTEIN ISOLATE|ISOLATED SOY|SOY PROTEIN CONCENTRATE|TEXTURED|\bTVP\b|SOY PROTEIN | Highly processed protein, often hexane extracted; human data do not show harm
+High oleic oils | fat / oil | 72 | HIGH OLEIC | Refined oil with a more stable fat profile
+Xanthan / gellan / konjac gums | thickener / gum | 75 | XANTHAN( GUM)?|GELLAN( GUM)?|KONJAC( GUM| FLOUR| ROOT)?|GLUCOMANNAN | Fermentation or plant gum; low concern
+Stevia (steviol glycosides) | high-intensity sweetener | 75 | STEVIA|STEVIOL|REBAUDIOSIDE|\bREB ?[A-Z]\b|STEVIOSIDE|REBIANA | Plant-derived sweetener with a JECFA ADI; covered by the WHO 2023 non-sugar sweetener guideline
+Alkalized (Dutch process) cocoa | processed cocoa | 75 | PROCESSED WITH ALKALI|ALKALI[ZS]ED|DUTCH(ED)? PROCESS|\(ALKALI\)|WITH ALKALI | Alkali processing lowers cocoa flavanols; not a safety concern
+Potassium / calcium chloride salts and lactates | mineral salt | 80 | POTASSIUM CHLORIDE|CALCIUM CHLORIDE|MAGNESIUM CHLORIDE|(SODIUM|POTASSIUM|CALCIUM|MAGNESIUM) LACTATE|(SODIUM|POTASSIUM|CALCIUM) (DI)?ACETATES? | Mineral salt or mild preservative; low concern
+# ---------- tier E: low concern -> 76-85 (still catalogued) ----------
+Monk fruit / thaumatin | high-intensity sweetener | 80 | MONK ?FRUIT|LUO HAN|LO HAN|THAUMATIN|MOGROSIDE | Plant-derived sweetener; limited data, no specific hazard identified
+Glycerin | humectant | 80 | GLYCERINE?\b|GLYCEROL$ | Humectant; low concern
+Cocoa butter | fat / oil | 80 | COCOA BUTTER|COCOABUTTER | Saturated fat; low concern
+Gums and gelling agents (guar, acacia, pectin, gelatin, agar) | thickener / gum | 85 | PECTIN|\bAGAR\b|\bGUAR|ACACIA|GUM ARABIC|ARABIC GUM|LOCUST BEAN|CAROB BEAN|\bTARA\b|ALGINATE|ALGIN\b|GELATINE?\b|TRAGACANTH|KARAYA|\bGUM\b | Low concern
+Inulin / chicory root / other fibers | fiber additive | 82 | INULIN|CHICORY|PSYLLIUM|OAT FIBER|BETA GLUCAN|FRUCTO ?OLIGO|OLIGOFRUCTOSE|\bFOS\b|ACACIA FIBER|PEA FIBER|\bFIBER\b | Fiber; gas and bloating at high intake
+Waxes (carnauba, beeswax) | coating / glaze | 82 | CARNAUBA|BEESWAX|BEES WAX|CANDELILLA|\bWAX\b | Low concern
+Whey / milk / pea protein isolates and concentrates | protein isolate | 85 | (WHEY|MILK|PEA|RICE|EGG|CASEIN|MICELLAR|FABA|HEMP|POTATO|PUMPKIN) PROTEIN|CASEINATE|\bCOLLAGEN|\bPROTEIN (ISOLATE|CONCENTRATE|BLEND|CRISPS?) | Concentrated protein; low concern
+# ---------- recognized, no specific concern -> 86-100 (kept out of the flagged file) ----------
+Lecithin | emulsifier | 90 | LECITHIN|LEC[HI]*T[HI]*N | Low concern
+Olive / avocado oil | fat / oil | 92 | OLIVE OIL|AVOCADO OIL | Low concern
+Food acids and antioxidant vitamins | acid / antioxidant | 90 | CITRIC|MALIC|LACTIC ACID|TARTARIC|ACETIC|FUMARIC|ASCORBIC|ASCORBATE|TOCOPHEROL|ROSEMARY EXTRACT|ERYTHORB|ERYTHROB|ASCORBYL|SUCCINIC|ADIPIC|GLUCONO | Low concern
+Mineral salts and leavening | mineral salt | 90 | BAKING SODA|BICARBONATE|CARBONATE|CREAM OF TARTAR|CITRATE|SULFATE|HYDROXIDE|\bOXIDE\b|GLUCONATE|BAKING POWDER|TARTRATE | Low concern
+Plant-derived colors | color | 88 | CAROTENE|TURMERIC|CURCUMIN|PAPRIKA|TUMERIC|\bBEET|SPIRULINA|ANTHOCYAN|LYCOPENE|CHLOROPHYLL|(VEGETABLE|FRUIT) JUICE.{0,12}COLOU?R|COLOU?R.{0,25}(VEGETABLE|FRUIT) JUICE|PEA FLOWER|PURPLE (CARROT|SWEET POTATO|CABBAGE)|RED CABBAGE|RADISH|SAFFLOWER EXTRACT|\bLUTEIN|APOCAROTENAL|CANTHAXANTHIN|GARDENIA|JAGUA|HUITO | Plant-derived color; low concern
+Enzymes and cultures | processing aid | 92 | ENZYMES?\b|CULTURES?\b|RENNET|PROBIOTIC|BACILLUS|LACTOBACILLUS|BIFIDO|ACIDOPHILUS|THERMOPHILUS|BULGARICUS|\bCASEI\b|LACTASE|AMYLASE|PROTEASE|LIPASE|INVERTASE | Low concern
+Vitamins and mineral fortificants | fortificant | 90 | VITAMIN|NIACIN|RIBOFLAVIN|THIAMINE?\b|MONONITRATE|FOLIC|FOLATE|PYRIDOX|COBALAMIN|BIOTIN|PANTOTHEN|REDUCED IRON|FERROUS|FERRIC|ZINC|CALCIFEROL|PALMITATE|\bIRON\b|IODIDE|SELENITE|SELENATE|MOLYBDATE|CHROMIUM|PHYTONADIONE|MENAQUINONE|CHOLINE | Vitamin or mineral fortificant; low concern at food levels

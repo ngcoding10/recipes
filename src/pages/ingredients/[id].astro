@@ -1,0 +1,149 @@
+---
+import Base from '../../layouts/Base.astro';
+import ScoreBadge from '../../components/ScoreBadge.tsx';
+import { INGREDIENTS, type IngredientEntry } from '../../lib/ingredients';
+import { band, BAND_LABEL } from '../../lib/scoring';
+import '../../styles/data.css';
+
+export async function getStaticPaths() {
+  return INGREDIENTS.map((d) => ({ params: { id: d.id }, props: { d } }));
+}
+const { d } = Astro.props as { d: IngredientEntry };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const b = band(d.score);
+const cap = (s: string) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+const iarc = d.iarc_group && !['none', 'no'].includes(d.iarc_group.toLowerCase()) ? `Group ${d.iarc_group.replace(/^group\s*/i, '')}` : d.iarc_group ? 'Not classified' : '';
+const reg: Array<[string, string]> = [
+  ['IARC', iarc],
+  ['Prop 65', d.prop65 ? cap(d.prop65 === 'no' ? 'not listed' : d.prop65) : ''],
+  ['NTP', d.ntp_roc ? cap(d.ntp_roc === 'no' ? 'not listed' : d.ntp_roc) : ''],
+  ['FDA', d.fda_status],
+  ['US states', d.us_state_actions],
+  ['EU', d.eu_status],
+  ['EFSA', d.efsa_note],
+];
+const hasReg = reg.some(([, v]) => v);
+const siblings = INGREDIENTS.filter((x) => x.group === d.group && x.id !== d.id && d.group !== 'Other recognized additives')
+  .sort((a, b2) => b2.products - a.products)
+  .slice(0, 12);
+// Label spellings: keep the readable ones, drop fragments with symbols, amounts or merged ingredients.
+const otherNames = INGREDIENTS.filter((x) => x.id !== d.id)
+  .map((x) => x.name.toLowerCase().replace(/\s*\(.*?\)\s*/g, ' ').trim())
+  .filter((n) => n.length >= 5 && !d.name.toLowerCase().includes(n));
+const seenAlias = new Set<string>([d.name.toLowerCase()]);
+const aliases = d.aliases.filter((a) => {
+  const k = a.toLowerCase().trim();
+  if (seenAlias.has(k) || !/^[a-z][a-z0-9 ,'().\-/]*$/i.test(a) || /contains|\d+ ?(mg|g)\b|%/i.test(a) || a.split(' ').length > 5 || otherNames.some((n) => k.includes(n))) return false;
+  seenAlias.add(k);
+  return true;
+});
+const host = (u: string) => {
+  try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; }
+};
+---
+
+<Base title={`${d.name} — ingredient score ${d.score}/100 — The Pantry`} description={`${d.name}: ${d.evidence_note}`}>
+  <article class="detail container">
+    <a class="back-link" href={`${base}/ingredients/`}>
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+      All ingredients
+    </a>
+
+    <header class="detail__head">
+      <ScoreBadge score={d.score} size="lg" />
+      <div>
+        <h1 class="detail__title">{d.name}</h1>
+        <p class="detail__sub">{BAND_LABEL[b]} · {d.class}{d.group !== d.name && d.group !== 'Other recognized additives' ? ` · group: ${d.group}` : ''}</p>
+      </div>
+    </header>
+
+    <p class="detail__note">{d.evidence_note}</p>
+
+    <div class="detail__grid">
+      <div>
+        <section class="panel-card">
+          <h2>Regulatory status</h2>
+          {hasReg ? (
+            <dl class="reg">
+              {reg.map(([k, v]) => (
+                <div class="reg__row">
+                  <dt>{k}</dt>
+                  {v ? <dd>{v}</dd> : <dd class="reg__empty">Not researched</dd>}
+                </div>
+              ))}
+            </dl>
+          ) : (
+            <p class="reg__empty" style="margin:0">
+              {d.rating_basis.startsWith('additive class') ? 'Scored by the default for its additive type; not individually researched.' : 'No regulatory action found for this ingredient. The score rests on the evidence note above.'}
+            </p>
+          )}
+          <p style="margin:1rem 0 0">
+            {d.checked ? (
+              <span class="checked-flag checked-flag--yes">Checked against a primary source, Nov 2026</span>
+            ) : (
+              <span class="checked-flag checked-flag--no">Not checked against a primary source</span>
+            )}
+          </p>
+          {d.regulatory_fields_scope.startsWith('group') && (
+            <p class="disclaimer">These fields describe the whole "{d.group}" group. Check the specific substance before relying on them.</p>
+          )}
+        </section>
+
+        {d.sources.length > 0 && (
+          <section class="panel-card">
+            <h2>Sources</h2>
+            <ol class="source-list">
+              {d.sources.map((u) => <li><a href={u} rel="noopener noreferrer">{host(u)}</a></li>)}
+            </ol>
+          </section>
+        )}
+      </div>
+
+      <div>
+        <section class="panel-card">
+          <h2>On labels</h2>
+          <dl class="reg">
+            <div class="reg__row"><dt>Products</dt><dd>{d.products.toLocaleString()}</dd></div>
+            <div class="reg__row"><dt>Spellings</dt><dd>{d.label_variants.toLocaleString()} ways it is written</dd></div>
+            {d.e_numbers.length > 0 && <div class="reg__row"><dt>E-number</dt><dd>{d.e_numbers.join(', ')}</dd></div>}
+          </dl>
+          {d.top_brands.length > 0 && (
+            <>
+              <p class="prod__section-title">Brands that use it most</p>
+              <div class="pill-list">
+                {d.top_brands.map(([name, key]) => <a class="pill-soft" href={`${base}/products/?brand=${encodeURIComponent(key)}`}>{name}</a>)}
+              </div>
+            </>
+          )}
+          {aliases.length > 0 && (
+            <>
+              <p class="prod__section-title">Seen on labels as</p>
+              <div class="pill-list">
+                {aliases.slice(0, 14).map((a) => <span class="pill-soft">{a}</span>)}
+              </div>
+            </>
+          )}
+        </section>
+
+        {siblings.length > 0 && (
+          <section class="panel-card">
+            <h2>Related</h2>
+            <ul class="flag-list">
+              {siblings.map((s) => (
+                <li><a href={`${base}/ingredients/${s.id}/`}><ScoreBadge score={s.score} size="xs" /><span class="flag-list__name">{s.name}</span></a></li>
+              ))}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .back-link {
+    display: inline-flex; align-items: center; gap: 0.4rem; color: var(--ink-soft);
+    text-decoration: none; font-weight: 550; font-size: 0.92rem; padding: 0.4rem 0.2rem; margin-bottom: 0.75rem;
+  }
+  .back-link:hover { color: var(--paprika-deep); }
+</style>

@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+import LabelChecker from '../components/LabelChecker.tsx';
+import '../styles/library.css';
+import '../styles/data.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Check a label — The Pantry" description="Paste any ingredient list and get an ingredient score.">
+  <section class="data-hero container">
+    <p class="hero__eyebrow">Check a label</p>
+    <h1 class="data-hero__title">Paste it, <em>score it</em>.</h1>
+    <p class="data-hero__lede">
+      For anything not in the product database. Paste the ingredient list from a package or website and every ingredient is
+      matched against the database.
+    </p>
+  </section>
+  <div class="container">
+    <LabelChecker client:load base={base} />
+  </div>
+</Base>

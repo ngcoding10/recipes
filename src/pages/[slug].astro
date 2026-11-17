@@ -4,7 +4,11 @@ import Base from '../layouts/Base.astro';
 import IngredientsPanel from '../components/IngredientsPanel.tsx';
 import RatingStars from '../components/RatingStars.tsx';
 import { formatDuration, formatDate, labelize } from '../lib/format';
+import ScoreBadge from '../components/ScoreBadge.tsx';
+import { scorer } from '../lib/scorer';
+import { band, BAND_LABEL } from '../lib/scoring';
 import '../styles/recipe.css';
+import '../styles/data.css';
 
 export async function getStaticPaths() {
   const entries = await getCollection('recipes');
@@ -30,7 +34,7 @@ function inlineMd(s: string): string {
   return out;
 }
 
-const blocks = entry.body
+const blocks = (entry.body ?? '')
   .split(/\n\s*\n/)
   .map((b) => b.trim())
   .filter(Boolean);
@@ -61,6 +65,15 @@ if (d.equipment?.length) tagGroups.push({ label: 'Equipment', values: d.equipmen
 if (d.tags?.length) tagGroups.push({ label: 'Tags', values: d.tags, kind: 'tag' });
 
 const spiceLabels = ['No heat', 'Mild', 'Medium', 'Hot'];
+
+// --- Ingredient check: score each ingredient line with the database rules ---
+const check = scorer.scoreItems(d.ingredients.map((i) => i.item));
+const flagScores = d.ingredients.map((i) => {
+  const t = scorer.classifyToken(i.item);
+  const f = t.hits.filter((h) => h.score <= 85).sort((a, b) => a.score - b.score)[0];
+  return f ? { score: f.score, name: f.name } : null;
+});
+const hasAlcohol = check.flagged.some((h) => /wine|beer|spirits|alcohol/i.test(h.name));
 ---
 
 <Base title={`${d.title} — The Pantry`} description={`${d.title} (${d.codeword})`}>
@@ -132,7 +145,8 @@ const spiceLabels = ['No heat', 'Mild', 'Medium', 'Hot'];
 
       <div class="recipe__cols">
         <aside class="recipe__aside">
-          <IngredientsPanel client:load ingredients={d.ingredients} baseServings={d.servings} />
+          <IngredientsPanel client:load ingredients={d.ingredients} baseServings={d.servings} flags={flagScores} />
+
         </aside>
 
         <section class="method">
@@ -150,6 +164,31 @@ const spiceLabels = ['No heat', 'Mild', 'Medium', 'Hot'];
               ))}
             </div>
           )}
+          <section class="panel-card recipe-check" aria-labelledby="check-title">
+            <div class="recipe-check__head">
+              <ScoreBadge score={check.score} size="md" />
+              <div>
+                <h2 id="check-title">Ingredient check</h2>
+                <p>{check.flagged.length ? `${BAND_LABEL[band(check.score)]} · ${check.flagged.length} flagged` : 'Nothing flagged'}</p>
+              </div>
+            </div>
+            {check.flagged.length > 0 && (
+              <ul class="flag-list">
+                {check.flagged.map((h) => (
+                  <li>
+                    <a href={`${base}/ingredients/${h.id}/`}>
+                      <ScoreBadge score={h.score} size="xs" />
+                      <span class="flag-list__name">{h.name}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <p class="recipe-check__foot">
+              Same rules as packaged foods. {hasAlcohol ? 'Wine and other alcohol score 0 under the carcinogen rule even when most of it cooks off. ' : ''}
+              <a href={`${base}/ingredients/#how`}>How scores work</a>
+            </p>
+          </section>
         </section>
       </div>
     </div>

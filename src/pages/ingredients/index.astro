@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import IngredientLibrary, { type IngredientRow } from '../../components/IngredientLibrary.tsx';
+import { INGREDIENTS } from '../../lib/ingredients';
+import stats from '../../data/stats.json';
+import '../../styles/library.css';
+import '../../styles/data.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const items: IngredientRow[] = INGREDIENTS.map((d) => ({
+  id: d.id,
+  name: d.name,
+  score: d.score,
+  cls: d.class,
+  group: d.group,
+  note: d.evidence_note,
+  products: d.products,
+  aliases: [...d.e_numbers, ...d.aliases.slice(0, 10)],
+}));
+const zero = INGREDIENTS.filter((d) => d.score === 0).length;
+---
+
+<Base title="Ingredients — The Pantry" description="A scored database of questionable food ingredients and additives.">
+  <section class="data-hero container">
+    <p class="hero__eyebrow">Ingredient database</p>
+    <h1 class="data-hero__title">What's actually <em>in</em> the label.</h1>
+    <p class="data-hero__lede">
+      Every additive and questionable ingredient found on {stats.products.toLocaleString()} US food labels, each scored
+      0 to 100 from carcinogen listings, regulator actions and study evidence. Lower is worse.
+    </p>
+    <div class="data-hero__stats">
+      <div class="stat"><strong>{stats.flagged}</strong><span>flagged ingredients</span></div>
+      <div class="stat"><strong>{zero}</strong><span>score 0</span></div>
+      <div class="stat"><strong>{stats.products.toLocaleString()}</strong><span>products</span></div>
+      <div class="stat"><strong>{stats.brands.toLocaleString()}</strong><span>brands</span></div>
+    </div>
+    <p class="disclaimer">
+      A score rates the evidence on an ingredient, not the amount in a given food. A 0 means a classification exists
+      (for example IARC Group 2B), not that one serving is dangerous. <a href="#how">How scores work</a>.
+    </p>
+  </section>
+
+  <div class="container">
+    <IngredientLibrary client:load items={items} base={base} />
+
+    <section id="how" class="panel-card" style="margin-top:3rem">
+      <h2>How scores work</h2>
+      <dl class="reg">
+        <div class="reg__row"><dt>0</dt><dd>Classified as a carcinogen (IARC Group 1, 2A or 2B, the NTP list, or California's Prop 65 cancer list), or removed by a regulator on cancer grounds. Red 3 is in this group because the FDA revoked it over cancer in rats.</dd></div>
+        <div class="reg__row"><dt>1 to 25</dt><dd>Banned, revoked or not authorised by a major regulator for other safety reasons, or carries an official warning backed by animal evidence.</dd></div>
+        <div class="reg__row"><dt>26 to 50</dt><dd>A regulator has flagged a concern, intake can exceed the accepted limit, or human studies show a signal.</dd></div>
+        <div class="reg__row"><dt>51 to 85</dt><dd>Dose dependent, nutritional (added sugar, refined oils) or limited data.</dd></div>
+        <div class="reg__row"><dt>86 to 100</dt><dd>Recognised, with no specific concern (citric acid, vitamins, lecithin). Plain foods are not scored.</dd></div>
+        <div class="reg__row"><dt>Products</dt><dd>A product takes its lowest ingredient score, minus 3 for each extra ingredient at 50 or under (at most 15). Any 0 ingredient makes the product 0. Nutrition facts are not used.</dd></div>
+        <div class="reg__row"><dt>Checked</dt><dd>Each ingredient page says whether its regulatory status was confirmed against a primary source (IARC, OEHHA, FDA, EFSA) in November 2026. Treat the others as unverified.</dd></div>
+      </dl>
+    </section>
+  </div>
+</Base>

@@ -1,6 +1,7 @@
 import type { RecipeData } from '../lib/types';
 import { formatDuration, labelize } from '../lib/format';
 import RatingStars from './RatingStars';
+import ScoreBadge from './ScoreBadge';
 
 interface Props {
   recipe: RecipeData;
@@ -50,6 +51,9 @@ export default function RecipeCard({ recipe, href }: Props) {
           ) : (
             <span className="card__unrated">Unrated</span>
           )}
+          <span className="card__check" title={r.flagged.length ? `Flagged: ${r.flagged.join(', ')}` : 'No flagged ingredients'}>
+            <ScoreBadge score={r.ingredientScore} size="xs" />
+          </span>
           {typeof r.spiceLevel === 'number' && r.spiceLevel > 0 && (
             <span className="card__spice" aria-label={`Spice level ${r.spiceLevel} of 3`} title={`Spice ${r.spiceLevel}/3`}>
               {SPICE_DOTS(r.spiceLevel)}
