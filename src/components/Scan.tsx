@@ -98,6 +98,8 @@ export default function Scan({ base }: Props) {
     const sync = () => setHasKey(!!getKey());
     window.addEventListener(KEY_EVENT, sync);
     try { const m = localStorage.getItem('pantry.scanMode'); if (m === 'yuka' || m === 'evidence') setMode(m); } catch { /* ignore */ }
+    // Arriving from the Products page with a label to check.
+    try { const t = sessionStorage.getItem('pantry.scanText'); if (t) { sessionStorage.removeItem('pantry.scanText'); setPasteMode(true); setText(t); } } catch { /* ignore */ }
     return () => window.removeEventListener(KEY_EVENT, sync);
   }, []);
   useEffect(() => { try { localStorage.setItem('pantry.scanMode', mode); } catch { /* ignore */ } }, [mode]);

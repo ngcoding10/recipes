@@ -10,6 +10,15 @@ It deploys to GitHub Pages for free.
 
 ---
 
+
+## Products and ingredient database
+
+- **Products** (`/products/`): 416,454 US packaged foods. Search by brand, brand plus product, or barcode. Each product shows its full ingredient list and the same score the Scan page would give it, with a button to open it in Scan.
+- **Ingredients** (`/ingredients/`): 552 food additives and questionable ingredients. Each has its scanner score plus regulatory status, sources, how many products use it, and which brands use it most.
+- **Recipes**: every recipe page has an ingredient check, using the same database as Scan.
+
+How the data was built is in [`data-pipeline/README.md`](data-pipeline/README.md).
+
 ## What's on the site
 
 | Page | What it does | Needs an API key? |

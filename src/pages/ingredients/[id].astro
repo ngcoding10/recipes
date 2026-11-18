@@ -1,0 +1,134 @@
+---
+import Base from '../../layouts/Base.astro';
+import { INGREDIENTS, riskClass, RISK_NAME, type IngredientEntry } from '../../lib/ingredient-db';
+import '../../styles/tools.css';
+import '../../styles/data.css';
+
+export async function getStaticPaths() {
+  return INGREDIENTS.map((d) => ({ params: { id: d.id }, props: { d } }));
+}
+const { d } = Astro.props as { d: IngredientEntry };
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const s = d.scanner;
+const r = s ? riskClass(s.score, s.carc) : null;
+const cap = (x: string) => (x ? x[0].toUpperCase() + x.slice(1) : x);
+const iarc = d.iarc_group && !['none', 'no'].includes(d.iarc_group.toLowerCase()) ? `Group ${d.iarc_group}` : d.iarc_group ? 'Not classified' : '';
+const reg: Array<[string, string]> = [
+  ['IARC', iarc],
+  ['Prop 65', d.prop65 ? (d.prop65 === 'no' ? 'Not listed' : cap(d.prop65)) : ''],
+  ['NTP', d.ntp_roc ? (d.ntp_roc === 'no' ? 'Not listed' : cap(d.ntp_roc)) : ''],
+  ['FDA', d.fda_status],
+  ['US states', d.us_state_actions],
+  ['EU', d.eu_status],
+  ['EFSA', d.efsa_note],
+];
+const hasReg = reg.some(([, v]) => v);
+const otherNames = INGREDIENTS.filter((x) => x.id !== d.id)
+  .map((x) => x.name.toLowerCase().replace(/\s*\(.*?\)\s*/g, ' ').trim())
+  .filter((n) => n.length >= 5 && !d.name.toLowerCase().includes(n));
+const seen = new Set<string>([d.name.toLowerCase()]);
+const aliases = d.aliases.filter((a) => {
+  const k = a.toLowerCase().trim();
+  if (seen.has(k) || !/^[a-z][a-z0-9 ,'().\-/]*$/i.test(a) || /contains|\d+ ?(mg|g)\b|%/i.test(a) || a.split(' ').length > 5 || otherNames.some((n) => k.includes(n))) return false;
+  seen.add(k);
+  return true;
+});
+const related = INGREDIENTS.filter((x) => x.group === d.group && x.id !== d.id && d.group !== 'Other recognized additives').sort((a, b) => b.products - a.products).slice(0, 10);
+const host = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+---
+
+<Base title={`${d.name} — ingredient database — The Pantry`} description={`${d.name}: ${s?.carcWhy || s?.why || d.evidence_note}`}>
+  <article class="container container--narrow tools" style="padding-top:1.25rem">
+    <a class="btn-link" href={`${base}/ingredients/`}>← All ingredients</a>
+
+    <header class="idetail__head">
+      <span class={`sc sc--lg sc--${r ?? 'none'}`}>{s ? s.score : '–'}</span>
+      <div>
+        <h1 class="page-head__title">{d.name}</h1>
+        <p class="idetail__sub">{r ? RISK_NAME[r] : 'Not scored by the scanner'} · {d.class}</p>
+      </div>
+    </header>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">How the scanner scores it</h2>
+      {s ? (
+        <ul class="ingr">
+          <li class={`ingr__row ingr__row--${r}`}>
+            <span class={`ingr__dot risk--${r}`} aria-hidden="true" />
+            <div>
+              <div class="ingr__name">{s.name}</div>
+              {s.carc && <span class={`pill ingr__carc ingr__carc--${s.carc}`}>{s.carc === 'classified' ? 'Classified carcinogen' : 'Cancer link (weaker evidence)'}</span>}
+              {s.carcWhy && <div class="ingr__why"><strong>Why 0:</strong> {s.carcWhy}</div>}
+              <div class="ingr__why">{s.why}</div>
+              {s.evidence && <div class="ingr__ev">{s.evidence}</div>}
+            </div>
+            <span class="ingr__score">{s.score}/100</span>
+          </li>
+        </ul>
+      ) : (
+        <p class="notice notice--info">The label scanner has no entry for this ingredient, so it does not change a product's score. The research below still applies.</p>
+      )}
+    </div>
+
+    <div class="idetail__grid">
+      <div>
+        <section class="card-surface tools__card">
+          <h2 class="section-title">Regulatory status</h2>
+          <p class="tools__muted" style="margin:0 0 0.75rem">{d.evidence_note}</p>
+          {hasReg ? (
+            <dl class="reg">
+              {reg.map(([k, v]) => (
+                <div class="reg__row"><dt>{k}</dt>{v ? <dd>{v}</dd> : <dd class="reg__empty">Not researched</dd>}</div>
+              ))}
+            </dl>
+          ) : (
+            <p class="reg__empty tools__muted">No regulatory action found for this ingredient.</p>
+          )}
+          <p style="margin-top:0.85rem">
+            {d.checked ? <span class="pill pill--green">Checked against a primary source, Nov 2026</span> : <span class="pill pill--amber">Not checked against a primary source</span>}
+          </p>
+          {d.regulatory_fields_scope.startsWith('group') && <p class="tools__hint">These fields describe the whole "{d.group}" group. Check the specific substance before relying on them.</p>}
+        </section>
+        {d.sources.length > 0 && (
+          <section class="card-surface tools__card">
+            <h2 class="section-title">Sources</h2>
+            <ol class="sources">{d.sources.map((u) => <li><a href={u} rel="noopener noreferrer">{host(u)}</a></li>)}</ol>
+          </section>
+        )}
+      </div>
+      <div>
+        <section class="card-surface tools__card">
+          <h2 class="section-title">On labels</h2>
+          <dl class="reg">
+            <div class="reg__row"><dt>Products</dt><dd>{d.products.toLocaleString()}</dd></div>
+            <div class="reg__row"><dt>Spellings</dt><dd>{d.label_variants.toLocaleString()} ways it is written</dd></div>
+            {d.e_numbers.length > 0 && <div class="reg__row"><dt>E-number</dt><dd>{d.e_numbers.join(', ')}</dd></div>}
+          </dl>
+          {d.top_brands.length > 0 && (
+            <>
+              <p class="prod__h">Brands that use it most</p>
+              <div class="chips">{d.top_brands.map(([n, k]) => <a class="pill pill--green" href={`${base}/products/?brand=${encodeURIComponent(k)}`}>{n}</a>)}</div>
+            </>
+          )}
+          {aliases.length > 0 && (
+            <>
+              <p class="prod__h">Seen on labels as</p>
+              <div class="chips">{aliases.slice(0, 14).map((a) => <span class="pill" style="background:var(--surface);color:var(--ink-soft)">{a}</span>)}</div>
+            </>
+          )}
+        </section>
+        {related.length > 0 && (
+          <section class="card-surface tools__card">
+            <h2 class="section-title">Related</h2>
+            <ul class="db-list">
+              {related.map((x) => {
+                const rr = x.scanner ? riskClass(x.scanner.score, x.scanner.carc) : 'none';
+                return <li><a class="db-item" style="grid-template-columns:auto 1fr" href={`${base}/ingredients/${x.id}/`}><span class={`sc sc--xs sc--${rr}`}>{x.scanner ? x.scanner.score : '–'}</span><span class="db-item__name">{x.name}</span></a></li>;
+              })}
+            </ul>
+          </section>
+        )}
+      </div>
+    </div>
+  </article>
+</Base>

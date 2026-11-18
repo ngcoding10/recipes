@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Products from '../components/Products.tsx';
+import stats from '../data/product-stats.json';
+import '../styles/tools.css';
+import '../styles/data.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Products — The Pantry" description="Look up the score of US packaged foods by brand, product or barcode.">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">Products</p>
+    <h1 class="page-head__title">Look up <em>any</em> product.</h1>
+    <p class="page-head__lede">
+      {stats.products.toLocaleString()} US products from {stats.brands.toLocaleString()} brands, each with its full ingredient list,
+      scored by the same check as the Scan page.
+    </p>
+    <div class="db-links">
+      <a href={`${base}/ingredients/`}>Browse the ingredient database</a>
+      <a href={`${base}/scan/`}>Not here? Scan the label</a>
+    </div>
+  </section>
+  <div class="container container--narrow tools">
+    <Products client:load base={base} />
+    <p class="tools__hint">
+      Most labels come from USDA FoodData Central and date from 2017 to 2025, so a product reformulated since may show its old recipe.
+      Each product shows its label date. Scores are informational, not medical advice.
+    </p>
+  </div>
+</Base>

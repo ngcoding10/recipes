@@ -1,0 +1,74 @@
+Refined seed and vegetable oils :: Vegetable oil blend (and/or)=AND/OR|\bOR\b|BLEND ;; Soybean oil=SOY ;; Canola oil=CANOLA ;; Corn oil=\bCORN ;; Cottonseed oil=COTTONSEED ;; Sunflower oil=SUNFLOWER ;; Safflower oil=SAFFLOWER ;; Peanut oil=PEANUT ;; Sesame oil=SESAME ;; Grapeseed oil=GRAPESEED ;; Rice bran oil=RICE BRAN ;; Rapeseed oil=RAPESEED ;; Vegetable oil (unspecified)=VEGETABLE
+Palm oil :: Palm kernel oil=KERNEL ;; Fractionated palm oil=FRACTIONATED ;; Palm oil=PALM
+Hydrogenated oil (fully) :: Hydrogenated palm kernel oil=KERNEL ;; Hydrogenated palm oil=PALM ;; Hydrogenated soybean oil=SOY ;; Hydrogenated cottonseed oil=COTTONSEED ;; Hydrogenated coconut oil=COCONUT ;; Hydrogenated vegetable oil=VEGETABLE
+Partially hydrogenated oil :: Partially hydrogenated soybean oil=SOY ;; Partially hydrogenated cottonseed oil=COTTONSEED ;; Partially hydrogenated palm kernel oil=KERNEL ;; Partially hydrogenated palm oil=PALM ;; Partially hydrogenated coconut oil=COCONUT ;; Partially hydrogenated vegetable oil=VEGETABLE
+Sugar :: Brown sugar=BROWN SUGAR ;; Invert sugar=INVERT ;; Powdered sugar=POWDERED|CONFECTIONER|ICING SUGAR ;; Cane sugar=CANE SUGAR|EVAPORATED CANE|CANE JUICE ;; Raw / turbinado sugar=TURBINADO|DEMERARA|MUSCOVADO|PANELA|SUCANAT|RAW SUGAR ;; Beet sugar=BEET SUGAR ;; Caramel=CARAMEL ;; Icing / frosting / fondant=ICING|FROSTING|FONDANT ;; Sprinkles / candy pieces=SPRINKLE|NONPAREIL|CANDY|CANDIE ;; Marshmallow=MARSHMALLOW ;; Toffee / butterscotch / fudge=TOFFEE|BUTTERSCOTCH|FUDGE|PRALINE ;; Sucrose=SUCROSE ;; Sugar=SUGAR
+Dextrose / glucose :: Dextrose=DEXTROSE ;; Maltose=MALTOSE ;; Glucose=GLUCOSE
+Corn syrup :: Corn syrup solids=SOLIDS ;; Glucose syrup=GLUCOSE ;; Refiner's syrup=REFINER ;; Corn syrup=CORN|COM
+Other syrups :: Brown rice syrup=RICE ;; Tapioca syrup=TAPIOCA|CASSAVA ;; Agave=AGAVE ;; Fructose=FRUCTOSE ;; Malt syrup=MALT|BARLEY ;; Invert syrup=INVERT ;; Cane syrup=CANE ;; Golden syrup=GOLDEN ;; Sorghum syrup=SORGHUM ;; Oat syrup=\bOAT ;; Wheat syrup=WHEAT
+Honey / molasses / maple / juice concentrate sugars :: Honey=HONEY ;; Molasses=MOLASSES|TREACLE ;; Maple syrup / sugar=MAPLE ;; Date sugar / syrup=\bDATE ;; Coconut sugar=COCONUT ;; Apple juice concentrate=APPLE ;; Grape juice concentrate=GRAPE ;; Pear juice concentrate=PEAR ;; Orange juice concentrate=ORANGE ;; Pineapple juice concentrate=PINEAPPLE ;; Cherry juice concentrate=CHERRY ;; Other fruit juice concentrate=CONCENTRATE
+Gums and gelling agents (guar, acacia, pectin, gelatin, agar) :: Guar gum=GUAR ;; Gum arabic (acacia)=ARABIC|ACACIA ;; Locust bean gum=LOCUST|CAROB ;; Pectin=PECTIN ;; Gelatin=GELATIN ;; Agar=AGAR ;; Propylene glycol alginate=PROPYLENE ;; Alginates=ALGIN ;; Tara gum=TARA ;; Tragacanth=TRAGACANTH ;; Karaya gum=KARAYA ;; Gum (unspecified)=GUM
+Xanthan / gellan / konjac gums :: Xanthan gum=XANTHAN ;; Gellan gum=GELLAN ;; Konjac / glucomannan=KONJAC|GLUCOMANNAN
+Sodium phosphates :: Sodium acid pyrophosphate=ACID PYRO|SAPP ;; Sodium hexametaphosphate=HEXAMETA ;; Sodium tripolyphosphate=TRIPOLY|STPP ;; Tetrasodium pyrophosphate=TETRASODIUM|PYROPHOSPHATE ;; Trisodium phosphate=TRISODIUM ;; Disodium phosphate=DISODIUM ;; Monosodium phosphate=MONOSODIUM ;; Sodium polyphosphate=POLYPHOSPHATE ;; Sodium phosphate=PHOSPHATE
+Calcium phosphates :: Monocalcium phosphate=MONOCALCIUM ;; Dicalcium phosphate=DICALCIUM ;; Tricalcium phosphate=TRICALCIUM ;; Calcium phosphate=CALCIUM
+Potassium phosphates :: Dipotassium phosphate=DIPOTASSIUM ;; Tripotassium phosphate=TRIPOTASSIUM ;; Tetrapotassium pyrophosphate=TETRAPOTASSIUM|PYRO ;; Monopotassium phosphate=MONOPOTASSIUM ;; Potassium phosphate=POTASSIUM
+Other phosphates :: Magnesium phosphate=MAGNESIUM ;; Ammonium phosphate=AMMONIUM ;; Ferric phosphate / pyrophosphate=FERRIC|IRON ;; Distarch phosphate=STARCH ;; Phosphate (unspecified)=PHOSPHATE
+Sulfites :: Sodium metabisulfite=SODIUM METABISUL ;; Potassium metabisulfite=POTASSIUM METABISUL ;; Sodium bisulfite=BISUL ;; Sulfur dioxide=DIOXIDE|SO2 ;; Sodium sulfite=SODIUM SUL ;; Sulfites (unspecified)=SUL
+Benzoates :: Sodium benzoate=SODIUM ;; Potassium benzoate=POTASSIUM ;; Calcium benzoate=CALCIUM ;; Benzoic acid=BENZOIC ;; Benzoate (unspecified)=BENZOATE
+Sorbates :: Potassium sorbate=POTASSIUM ;; Calcium sorbate=CALCIUM ;; Sodium sorbate=SODIUM ;; Sorbic acid=SORBIC
+Propionates :: Calcium propionate=CALCIUM ;; Sodium propionate=SODIUM ;; Propionic acid=PROPIONIC
+Polysorbates :: Polysorbate 80=80 ;; Polysorbate 60=60 ;; Polysorbate 65=65 ;; Polysorbate 20=20 ;; Polysorbate (unspecified)=POLYSORBATE|TWEEN
+Synthetic emulsifiers (DATEM, sorbitan, SSL, PG esters) :: DATEM=DATEM|DIACETYL TARTARIC ;; Sodium stearoyl lactylate (SSL)=SODIUM STEAROYL|\bSSL\b ;; Calcium stearoyl lactylate (CSL)=CALCIUM STEAROYL ;; Sorbitan monostearate=SORBITAN MONOSTEARATE ;; Sorbitan tristearate=TRISTEARATE ;; Sorbitan esters (other)=SORBITAN ;; Propylene glycol esters of fatty acids=PROPYLENE GLYCOL|PGMS ;; Sucrose esters of fatty acids=SUCROSE (ESTER|STEARATE) ;; Sucrose acetate isobutyrate (SAIB)=SAIB|SUCROSE ACETATE ;; Ester gum (glycerol ester of rosin)=ESTER GUM|GLYCEROL ESTER|ABIETATE ;; Acetylated monoglycerides=ACETYLATED ;; Ethoxylated mono- and diglycerides=ETHOXYLATED ;; Lactic acid esters of mono- and diglycerides=LACTO|LACTYL ;; Ammonium phosphatides=PHOSPHATIDE
+Aluminum compounds :: Sodium aluminum phosphate=ALUMIN\w+ PHOSPHATE ;; Sodium aluminum sulfate=ALUMIN\w+ SUL ;; Sodium aluminosilicate=SILICATE|ALUMINOSILICATE ;; Alum=\bALUM\b ;; Aluminum (other)=ALUMIN
+Energy-drink actives (taurine, carnitine, ginseng) :: Taurine=TAURINE ;; L-carnitine=CARNITINE ;; Ginseng=GINSENG ;; Glucuronolactone=GLUCURONO ;; Inositol=INOSITOL ;; Beta-alanine=BETA ALANINE ;; L-citrulline=CITRULLINE ;; L-arginine=ARGININE ;; L-theanine=THEANINE ;; Theobromine=THEOBROMINE ;; Yerba mate=MATE ;; Kola nut=KOLA|COLA
+Processed meat :: Bacon=BACON ;; Ham=\bHAM\b ;; Pepperoni=PEPPERONI ;; Salami=SALAMI|SOPPRESSATA ;; Sausage=SAUSAGE|KIELBASA|BRATWURST|ANDOUILLE|CHORIZO ;; Hot dog / frankfurter=HOT DOG|FRANK ;; Jerky=JERKY ;; Prosciutto / pancetta / capicola=PROSCIUTTO|PANCETTA|CAPICOL ;; Bologna / mortadella=BOLOGNA|MORTADELLA ;; Pastrami / corned beef=PASTRAMI|CORNED ;; Cured or smoked meat (other)=CURED|SMOKED|SPAM|LUNCHEON
+Alcohol (ethanol) :: Wine=WINE|SHERRY|MARSALA|MIRIN|SAKE ;; Beer=BEER ;; Spirits / liqueur=RUM|BOURBON|WHISK|VODKA|BRANDY|TEQUILA|LIQUEUR|COGNAC|KIRSCH ;; Alcohol (ethanol)=ALCOHOL|ETHANOL|SPIRIT
+Whey / milk / pea protein isolates and concentrates :: Whey protein isolate=WHEY PROTEIN ISOLATE ;; Whey protein concentrate=WHEY PROTEIN ;; Milk protein isolate=MILK PROTEIN ISOLATE ;; Milk protein concentrate=MILK PROTEIN ;; Caseinates / casein=CASEIN ;; Pea protein=\bPEA ;; Rice protein=RICE ;; Egg white protein=EGG ;; Collagen=COLLAGEN ;; Protein isolate / blend (other)=PROTEIN
+Soy protein isolate / textured protein :: Soy protein isolate=ISOLATE|ISOLATED ;; Soy protein concentrate=CONCENTRATE ;; Textured vegetable protein=TEXTURED|TVP ;; Soy protein=SOY
+Inulin / chicory root / other fibers :: Inulin=INULIN ;; Chicory root fiber=CHICORY ;; Psyllium=PSYLLIUM ;; Oat fiber=\bOAT ;; Fructooligosaccharides=FRUCTO|OLIGOFRUCTOSE|\bFOS\b ;; Pea fiber=\bPEA ;; Beta glucan=GLUCAN ;; Fiber (other)=FIBER
+Isolated fibers (polydextrose, soluble corn fiber, IMO) :: Polydextrose=POLYDEXTROSE ;; Soluble corn fiber=CORN ;; Soluble tapioca fiber=TAPIOCA ;; Isomalto-oligosaccharides (IMO)=ISOMALTO|\bIMO\b ;; Resistant dextrin=RESISTANT|FIBERSOL ;; Soluble fiber (other)=FIBER
+Plant-derived colors :: Beta carotene=CAROTENE ;; Turmeric / curcumin=TURMERIC|TUMERIC|CURCUMIN ;; Paprika / paprika extract=PAPRIKA ;; Beet color=BEET ;; Spirulina extract=SPIRULINA ;; Anthocyanins=ANTHOCYAN ;; Lycopene=LYCOPENE ;; Chlorophyll=CHLOROPHYLL ;; Apocarotenal / canthaxanthin=APOCAROTENAL|CANTHAXANTHIN ;; Lutein=LUTEIN ;; Gardenia / jagua blue=GARDENIA|JAGUA|HUITO ;; Vegetable or fruit juice color=JUICE|CABBAGE|CARROT|RADISH|SWEET POTATO|PEA FLOWER|SAFFLOWER
+Food acids and antioxidant vitamins :: Citric acid=CITRIC ;; Malic acid=MALIC ;; Lactic acid=LACTIC ;; Tartaric acid=TARTARIC ;; Acetic acid=ACETIC ;; Fumaric acid=FUMARIC ;; Sodium ascorbate=ASCORBATE ;; Ascorbic acid=ASCORBIC ;; Ascorbyl palmitate=ASCORBYL ;; Tocopherols=TOCOPHEROL ;; Rosemary extract=ROSEMARY ;; Sodium erythorbate=ERYTHORB|ERYTHROB ;; Adipic / succinic acid=ADIPIC|SUCCINIC ;; Glucono delta-lactone=GLUCONO
+Mineral salts and leavening :: Baking soda (sodium bicarbonate)=BAKING SODA|SODIUM BICARBONATE ;; Baking powder=BAKING POWDER ;; Sodium citrate=SODIUM CITRATE ;; Potassium citrate=POTASSIUM CITRATE ;; Calcium citrate=CALCIUM CITRATE ;; Calcium carbonate=CALCIUM CARBONATE ;; Calcium sulfate=CALCIUM SUL ;; Magnesium oxide / carbonate=MAGNESIUM ;; Calcium hydroxide=CALCIUM HYDROXIDE ;; Sodium hydroxide=SODIUM HYDROXIDE ;; Cream of tartar=TARTAR|TARTRATE ;; Gluconates=GLUCONATE ;; Other citrates=CITRATE ;; Other carbonates=CARBONATE ;; Other sulfates=SULFATE ;; Other hydroxides / oxides=OXIDE
+Potassium / calcium chloride salts and lactates :: Potassium chloride=POTASSIUM CHLORIDE ;; Calcium chloride=CALCIUM CHLORIDE ;; Magnesium chloride=MAGNESIUM CHLORIDE ;; Sodium lactate=SODIUM LACTATE ;; Potassium lactate=POTASSIUM LACTATE ;; Calcium lactate=CALCIUM LACTATE ;; Sodium diacetate=DIACETATE ;; Acetates=ACETATE
+Vitamins and mineral fortificants :: Niacin / niacinamide=NIACIN ;; Riboflavin (B2)=RIBOFLAVIN ;; Thiamine (B1)=THIAMIN|MONONITRATE ;; Folic acid / folate=FOLIC|FOLATE ;; Vitamin B6 (pyridoxine)=PYRIDOX|VITAMIN B ?6 ;; Vitamin B12=COBALAMIN|VITAMIN B ?12 ;; Biotin=BIOTIN ;; Pantothenic acid=PANTOTHEN ;; Vitamin A=VITAMIN A|PALMITATE ;; Vitamin D=VITAMIN D|CALCIFEROL ;; Vitamin E=VITAMIN E ;; Vitamin K=VITAMIN K|PHYTONADIONE|MENAQUINONE ;; Vitamin C=VITAMIN C ;; Iron (reduced iron, ferrous salts)=IRON|FERROUS|FERRIC ;; Zinc=ZINC ;; Iodine=IODIDE ;; Selenium=SELEN ;; Chromium / molybdenum=CHROMIUM|MOLYBD ;; Choline=CHOLINE ;; Vitamin (other)=VITAMIN
+Enzymes and cultures :: Cultures / probiotics=CULTURE|PROBIOTIC|BACILLUS|LACTOBACILLUS|BIFIDO|ACIDOPHILUS|THERMOPHILUS|BULGARICUS|CASEI ;; Rennet=RENNET ;; Enzymes=ENZYME|ASE\b
+Modified starch :: Modified corn starch=CORN ;; Modified tapioca starch=TAPIOCA ;; Modified potato starch=POTATO ;; Modified wheat starch=WHEAT ;; Modified food starch=STARCH|MODIFIED
+Enriched / refined flour :: Enriched bleached flour=BLEACHED ;; Enriched wheat flour=ENRICHED .*FLOUR|ENRICHED ;; Degerminated corn meal=DEGERM ;; White rice flour=RICE ;; Wheat flour (refined)=FLOUR
+Natural flavor :: Natural flavor=NATURAL ;; Flavor (unspecified)=FLAV
+Artificial flavor :: Natural and artificial flavor=NATURAL ;; Vanillin=^VANILLIN|\bVANILLIN\b(?!.*FLAV) ;; Ethyl vanillin=ETHYL ?VANILLIN ;; Ethyl maltol / maltol=MALTOL ;; Artificial flavor=FLAV
+Cellulose (powdered / microcrystalline) :: Microcrystalline cellulose (cellulose gel)=GEL|MICROCRYSTALLINE|MCC ;; Methylcellulose / HPMC=METHYL|HPMC|HYPROMELLOSE ;; Powdered cellulose=CELLULOSE
+MSG / glutamates :: Monosodium glutamate (MSG)=MONOSODIUM|\bMSG\b ;; Monopotassium / other glutamates=GLUTAM
+Disodium inosinate / guanylate :: Disodium inosinate=INOSINATE ;; Disodium guanylate=GUANYLATE ;; Ribonucleotides=RIBONUCLEOTIDE
+Yeast extract :: Autolyzed yeast extract=AUTOLY ;; Torula yeast=TORULA ;; Yeast extract=YEAST
+Stevia (steviol glycosides) :: Rebaudioside A / M=REB ;; Stevia leaf extract=STEVI
+Monk fruit / thaumatin :: Monk fruit extract=MONK|LUO|LO HAN|MOGROSIDE ;; Thaumatin=THAUMATIN
+Waxes (carnauba, beeswax) :: Carnauba wax=CARNAUBA ;; Beeswax=BEES ;; Candelilla wax=CANDELILLA ;; Wax (other)=WAX
+Mineral oil / paraffin :: Mineral oil=MINERAL OIL ;; Paraffin wax=PARAFFIN ;; Petrolatum / petroleum wax=PETROL|MICROCRYSTALLINE
+Stearates (calcium / magnesium stearate, stearic acid) :: Magnesium stearate=MAGNESIUM ;; Calcium stearate=CALCIUM ;; Stearic acid=STEARIC ;; Stearates (other)=STEARATE
+Silicon dioxide :: Silicon dioxide=SILICON|SILICA ;; Calcium silicate=CALCIUM ;; Magnesium silicate=MAGNESIUM ;; Silicates (other)=SILICATE
+Coconut oil :: MCT oil=MCT|MEDIUM CHAIN ;; Coconut oil=COCONUT
+Lard / tallow :: Lard=LARD|PORK ;; Beef tallow=TALLOW|BEEF|SUET
+Shortening / margarine :: Margarine=MARGARINE ;; Shortening=SHORTENING
+Compound coating (confectionery / chocolatey) :: Non-dairy creamer=CREAMER ;; Whipped topping=WHIPP|TOPPING ;; Yogurt coating=YOG ;; Chocolatey / confectionery coating=COATING
+Sodium/potassium nitrite :: Sodium nitrite=SODIUM ;; Potassium nitrite=POTASSIUM ;; Nitrite (unspecified)=NITRITE
+Sodium/potassium nitrate :: Sodium nitrate=SODIUM ;; Potassium nitrate=POTASSIUM ;; Nitrate (unspecified)=NITRATE
+Cured-with vegetable nitrate source :: Cultured celery powder / juice=CULTURED ;; Celery powder / juice / extract=CELERY ;; Swiss chard powder=CHARD
+Artificial color (unspecified) :: Color lake (unspecified dye)=LAKE ;; Artificial color (unspecified)=COLOU?R|DYE|CERTIFIED
+Other sugar alcohols :: Lactitol=LACTITOL ;; Hydrogenated starch hydrolysate=HYDROGENATED|POLYGLYCITOL ;; Sugar alcohol (unspecified)=POLYOL|SUGAR ALCOHOL
+Allulose and rare sugars :: Allulose=ALLULOSE|PSICOSE ;; Tagatose=TAGATOSE ;; Isomaltulose=ISOMALTULOSE ;; Trehalose=TREHALOSE
+Synephrine / bitter orange :: Synephrine / bitter orange=.
+Garcinia / huperzine :: Garcinia cambogia=GARCINIA ;; Huperzine A=HUPERZ
+Maltodextrin :: Maltodextrin=MALTO|MALTRIN ;; Dextrin=DEXTRIN
+Mono- and diglycerides :: Mono- and diglycerides=.
+Lecithin :: Soy lecithin=SOY ;; Sunflower lecithin=SUNFLOWER ;; Lecithin (other)=.
+Olive / avocado oil :: Olive oil=OLIVE ;; Avocado oil=AVOCADO
+Glycerin :: Glycerin=.
+Ammonium salts :: Ammonium bicarbonate=BICARBONATE|CARBONATE ;; Ammonium chloride=CHLORIDE ;; Ammonium sulfate=SUL ;; Ammonium salts (other)=.
+Iodates (potassium / calcium iodate) :: Potassium iodate=POTASSIUM ;; Calcium iodate=CALCIUM
+Bleached flour / bleaching agents :: Bleached flour=BLEACHED ;; Benzoyl peroxide=BENZOYL ;; Chlorine / chlorine dioxide=CHLORIN
+Licorice / glycyrrhizin :: Glycyrrhizin=GLYCYRRHIZ ;; Licorice extract=.
+Hydrolyzed vegetable protein :: Hydrolyzed soy protein=SOY ;; Hydrolyzed corn protein=CORN ;; Hydrolyzed wheat protein=WHEAT|GLUTEN ;; Hydrolyzed yeast protein=YEAST ;; Hydrolyzed vegetable protein=.
+Polyethylene glycol / synthetic polymers :: Polyethylene glycol=GLYCOL|PEG ;; Mica / pearlescent pigments=MICA|PEARL|GLITTER ;; Polyvinyl acetate / PVP=POLYVINYL|POVIDONE|PVP ;; Synthetic rubber (gum base polymers)=ISOBUTYLENE|RUBBER
+Carrageenan :: Carrageenan=.
+Other synthetic dyes :: Red 2 (amaranth)=RED 2\b|AMARANTH ;; Red 4 / Ponceau=RED 4\b|PONCEAU ;; Carmoisine (azorubine)=CARMOISINE|AZORUBINE ;; Quinoline yellow=QUINOLINE|YELLOW 10 ;; Patent blue / Green S / Brilliant black=PATENT|GREEN S|BRILLIANT BLACK ;; Synthetic dye (other number)=.

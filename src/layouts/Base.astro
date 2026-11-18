@@ -11,12 +11,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const path = Astro.url.pathname.replace(/\/$/, '');
 const rel = path.startsWith(base) ? path.slice(base.length) : path;
-const current = (href: string) => (rel === href || (href === '' && rel === '') ? 'page' : undefined);
+const current = (href: string) => (rel === href || (href === '' && rel === '') || (href === '/products' && rel.startsWith('/ingredients')) ? 'page' : undefined);
 
 const NAV = [
   { href: '', label: 'Library', short: 'Library', icon: 'book' },
   { href: '/pantry', label: 'Cook with what I have', short: 'Cook', icon: 'basket' },
   { href: '/scan', label: 'Scan food', short: 'Scan', icon: 'camera' },
+  { href: '/products', label: 'Products', short: 'Products', icon: 'barcode' },
   { href: '/settings', label: 'Settings', short: 'Settings', icon: 'gear' },
 ];
 ---
@@ -40,6 +41,7 @@ const NAV = [
       <symbol id="i-book" viewBox="0 0 24 24"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"/><path d="M4 20.5V5.5"/><path d="M20 18v3H6.5a2.5 2.5 0 0 1 0-5"/></symbol>
       <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3 10h18l-1.6 9.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8z"/><path d="M8 10 11 4"/><path d="m16 10-3-6"/><path d="M9 14v3"/><path d="M15 14v3"/><path d="M12 14v3"/></symbol>
       <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
+      <symbol id="i-barcode" viewBox="0 0 24 24"><path d="M4 6v12"/><path d="M7 6v12"/><path d="M11 6v12"/><path d="M14 6v12"/><path d="M18 6v12"/><path d="M20 6v12"/><path d="M2 4h2M20 4h2M2 20h2M20 20h2"/></symbol>
       <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
     </svg>
 
