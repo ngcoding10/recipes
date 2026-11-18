@@ -16,3 +16,5 @@ screenshots/
 # Open Food Facts taxonomies (downloaded, see scripts/build-synonyms.py)
 data/off/
 scripts/__pycache__/
+# firebase emulator logs
+*-debug.log
