@@ -6,7 +6,7 @@
  *   firebase functions:secrets:set ANTHROPIC_API_KEY
  *   firebase deploy --only functions,firestore:rules
  * Optional limits (defaults below) are asked for on first deploy, or set in functions/.env:
- *   DAILY_LIMIT_PER_USER=10  DAILY_LIMIT_TOTAL=300
+ *   DAILY_LIMIT_PER_USER=8  DAILY_LIMIT_TOTAL=100
  */
 import { initializeApp } from 'firebase-admin/app';
 import { getFirestore, FieldValue } from 'firebase-admin/firestore';
@@ -22,8 +22,8 @@ initializeApp();
 const db = getFirestore();
 
 const ANTHROPIC_API_KEY = defineSecret('ANTHROPIC_API_KEY');
-const DAILY_LIMIT_PER_USER = defineInt('DAILY_LIMIT_PER_USER', { default: 10, description: 'AI requests each Google account may make per day' });
-const DAILY_LIMIT_TOTAL = defineInt('DAILY_LIMIT_TOTAL', { default: 300, description: 'AI requests for the whole site per day (a spending cap)' });
+const DAILY_LIMIT_PER_USER = defineInt('DAILY_LIMIT_PER_USER', { default: 8, description: 'AI requests each Google account may make per day' });
+const DAILY_LIMIT_TOTAL = defineInt('DAILY_LIMIT_TOTAL', { default: 100, description: 'AI requests for the whole site per day (a spending cap)' });
 
 // The website's origins. Callable functions reject other sites' pages.
 const CORS = [/^https:\/\/nicorgutierrez08-eng\.github\.io$/, /^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/];

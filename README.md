@@ -1,45 +1,49 @@
-# 🥬 The Pantry — my personal recipe library
+# 🥬 The Pantry
 
-A clean, fast, **static** recipe app. One user (me), no accounts, no backend,
-no database. Every recipe is a plain Markdown file with YAML frontmatter, so
-**adding a recipe = dropping a new `.md` file into `recipes/` and pushing.**
-It deploys to GitHub Pages for free.
+A recipe library you can cook from, a tool that writes new recipes from what you have, and a label
+scanner that scores every ingredient. Static site on GitHub Pages; Google sign-in and the AI backend
+run on Firebase when it is switched on.
 
 - **Live site:** https://nicorgutierrez08-eng.github.io/recipes/
-- **Built with:** [Astro](https://astro.build) + React islands, Manrope, no CSS framework.
+- **Built with:** [Astro](https://astro.build) + React islands, Fraunces + Manrope, no CSS framework.
+- **Switching on Google sign-in and free AI:** [`docs/SETUP-FIREBASE.md`](docs/SETUP-FIREBASE.md)
+- **How ingredients are scored:** [`docs/SCORING.md`](docs/SCORING.md)
 
 ---
 
-
-## Products and ingredient database
-
-- **Products** (`/products/`): 416,454 US packaged foods. Search by brand, brand plus product, or barcode. Each product shows its full ingredient list and the same score the Scan page would give it, with a button to open it in Scan.
-- **Ingredients** (`/ingredients/`): 552 food additives and questionable ingredients. Each has its scanner score plus regulatory status, sources, how many products use it, and which brands use it most.
-- **Recipes**: every recipe page has an ingredient check, using the same database as Scan.
-
-How the data was built is in [`data-pipeline/README.md`](data-pipeline/README.md).
-
 ## What's on the site
 
-| Page | What it does | Needs an API key? |
-|---|---|---|
-| **Library** (`/`) | All 91 recipes. Meal tabs (All / Breakfast / Lunch / Dinner / Snacks & desserts), keyword chips (type, Enter, ×), typo-tolerant search, filters for time, protein, tags, difficulty, cost and source level. Filter state lives in the URL. | No |
-| **Recipe** (`/r0001-…/`) | Servings scaler, edit-any-amount proportional scaling, session-only tick boxes, storage, nutrition, substitutions, and collapsible *Source & accuracy notes* with provenance badges. | No |
-| **Cook with what I have** (`/pantry/`) | Type the ingredients you have. The library is ranked by how many of them each recipe uses. "Make me a new recipe" asks Claude to write one from exactly those ingredients. | Only for the AI recipe |
-| **Scan** (`/scan/`) | Photograph a food, cosmetic or household ingredients label. The text is read on-device (Tesseract OCR, free), each ingredient is matched against a built-in database of ~300 additives, cosmetic ingredients and contaminants, and you get a 0–100 score with the worst ingredients explained, plus Yuka's own rating where known. An optional AI pass judges the nutrition panel and whole foods. | Only for the AI pass |
-| **Settings** (`/settings/`) | Paste your Anthropic API key once. It is stored in your browser only. | — |
+| Page | What it does |
+|---|---|
+| **Library** (`/`) | All 91 recipes. Meal tabs, keyword chips, typo-tolerant search, filters for time, protein, tags, difficulty, cost and source level. Filter state lives in the URL. |
+| **Recipe** (`/r0001-…/`) | Servings scaler, edit-any-amount scaling, session-only tick boxes, storage, nutrition, substitutions, an ingredient check, and *Source & accuracy notes* with provenance badges. |
+| **Cook** (`/pantry/`) | Type what you have; the library is ranked by how many of those ingredients each recipe uses. |
+| **New** (`/new/`) | Pick Breakfast, Lunch, Dinner, Snack or Dessert, servings, time and diet, and Claude writes a complete recipe from your ingredients. Optionally only what you listed, and away from anything this site scores 0. The result is checked against the ingredient database and can be saved, copied or printed. |
+| **Scan** (`/scan/`) | Photograph a food, cosmetic or household label (or paste the text, in English, Spanish, French, Italian, German, Portuguese or Dutch). Text is read on-device, every ingredient is scored, and the worst are explained. Optional AI second opinion. |
+| **Products** (`/products/`) | 416,454 US packaged foods by brand, product or barcode, each scored by the same scanner ([how the data was built](data-pipeline/README.md); re-score with `npm run build:products`). |
+| **Ingredients** (`/ingredients/`) | 552 additives and questionable ingredients with score, regulatory status, sources and the brands that use them most. |
+| **Account** (`/account/`) | Sign in with Google, light/dark/system theme, optional own API key, delete your data. |
+| **Privacy** (`/privacy/`) | What is stored where. |
 
-### About the API key (how the AI features are paid for)
+### Accounts and AI (who pays)
 
-- The site is static, so there is no server to hold a key. You create a key at
-  **console.anthropic.com → API keys**, add a small prepaid credit (minimum $5),
-  and paste it into **Settings**. It is saved in `localStorage` on that device
-  and only ever sent to `api.anthropic.com`.
-- **Claude Pro does not cover this.** Pro pays for claude.ai and Claude Code;
-  API usage is separate pay-as-you-go billing. A recipe costs well under a cent,
-  a photo scan roughly one to two cents.
-- Anyone else opening the site gets the library as normal; the AI buttons show
-  an "add your key" box instead. **Never commit a key to this repo** — it's public.
+- **Signed out:** your pantry list and saved recipes stay in this browser. AI features work if you
+  paste your own Anthropic API key on the Account page (stored only in the browser, sent only to
+  api.anthropic.com).
+- **Signed in with Google** (once Firebase is set up): the pantry and saved recipes sync through
+  Firestore, and AI requests go to the site's Cloud Functions, which use the owner's key from
+  Secret Manager with a per-account and site-wide daily limit. Firestore rules let each account
+  read and write only its own data.
+- Model: `claude-opus-5-5` with structured outputs (`src/lib/ai-shared.ts`, shared by browser and
+  server). About 5–7 cents per recipe. **Never commit a key to this repo**; it is public.
+
+| Folder | What |
+|---|---|
+| `src/config/firebase.ts` | Firebase web config (null = off) |
+| `src/lib/ai.ts`, `ai-shared.ts` | AI client (own key or Cloud Function), prompts and schemas |
+| `src/lib/firebase.ts`, `store.ts` | Lazy Firebase, sign-in, pantry and saved-recipe storage |
+| `functions/` | Cloud Functions `generateRecipe`, `checkLabel` (`npm test` there) |
+| `firestore.rules`, `firebase.json` | Database rules and deploy config |
 
 ### How the scan score works
 
