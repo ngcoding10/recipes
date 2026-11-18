@@ -1,0 +1,40 @@
+---
+import Base from '../layouts/Base.astro';
+import ApiKeyBox from '../components/ApiKeyBox.tsx';
+import { AccountCard, ThemePicker, DeviceData } from '../components/AccountPanel.tsx';
+import { MODEL } from '../lib/ai-shared';
+import '../styles/tools.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Account — The Pantry" description="Sign in with Google, choose light or dark, and manage your data.">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">Account</p>
+    <h1 class="page-head__title">Your <em>account</em> and settings.</h1>
+    <p class="page-head__lede">Sign in to keep your pantry and saved recipes everywhere. Everything else on this site works without an account.</p>
+  </section>
+
+  <div class="container container--narrow tools">
+    <div class="card-surface tools__card">
+      <AccountCard client:load />
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Appearance</h2>
+      <ThemePicker client:load />
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Your own AI key (optional)</h2>
+      <p class="tools__muted" style="margin-top:0">If you have an Anthropic API key, the AI features can run on it instead of a Google account, with no daily limit. It stays in this browser and is sent only to api.anthropic.com. Model: <code>{MODEL}</code>.</p>
+      <ApiKeyBox client:load />
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">On this device</h2>
+      <p class="tools__muted" style="margin-top:0">When you are signed out, your pantry list and saved recipes live in this browser only.</p>
+      <DeviceData client:load />
+      <p class="tools__hint">Read the <a href={`${base}/privacy/`}>privacy page</a> for exactly what is stored and where.</p>
+    </div>
+  </div>
+</Base>

@@ -1,0 +1,29 @@
+rules_version = '2';
+// The Pantry: each Google account can read and write only its own pantry and saved recipes.
+// Usage counters are written by the Cloud Functions (admin access) and are not readable here.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isOwner(uid) { return request.auth != null && request.auth.uid == uid; }
+
+    match /users/{uid} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid)
+        && request.resource.data.keys().hasOnly(['pantry', 'updatedAt'])
+        && request.resource.data.pantry is list
+        && request.resource.data.pantry.size() <= 200;
+
+      match /recipes/{recipeId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid)
+          && request.resource.data.keys().hasOnly(['recipe', 'request', 'createdAt'])
+          && request.resource.data.recipe is map
+          && request.resource.data.recipe.title is string
+          && request.resource.data.recipe.title.size() <= 200;
+      }
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

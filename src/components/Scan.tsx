@@ -1,23 +1,14 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { analyzeLabel, buildDataset, type Dataset, type LabelAnalysis, type ProductKind, type ScoringMode } from '../lib/label';
 import { CARC_LABEL, RISK_LABEL, YUKA_LABEL, type Carc } from '../data/additives';
-import { askClaude, extractJson, fileToImageBlock, getKey, KEY_EVENT, type ContentBlock } from '../lib/ai';
-import ApiKeyBox from './ApiKeyBox';
+import { checkLabel, fileToImageBlock, getKey, KEY_EVENT, type Usage } from '../lib/ai';
+import type { LabelCheck } from '../lib/ai-shared';
+import { firebaseEnabled } from '../lib/firebase';
+import { useAccount } from '../lib/useAccount';
+import AiAccess from './AiAccess';
 
 type Stage = 'idle' | 'ocr' | 'ready' | 'error';
 type KindChoice = ProductKind | 'auto';
-
-interface AiResult {
-  score: number;
-  summary: string;
-  productGuess?: string;
-  items?: Array<{ name: string; score: number; note?: string }>;
-  concerns?: Array<{ title: string; severity: 'low' | 'moderate' | 'high'; detail: string }>;
-  positives?: string[];
-  swaps?: string[];
-  nutritionNotes?: string;
-  confidence?: 'low' | 'medium' | 'high';
-}
 
 const KIND_LABEL: Record<ProductKind, string> = { food: 'Food', cosmetic: 'Cosmetic', household: 'Household' };
 
@@ -82,7 +73,9 @@ export default function Scan({ base }: Props) {
   const [showAll, setShowAll] = useState(false);
   const [hasKey, setHasKey] = useState(false);
   const [aiBusy, setAiBusy] = useState(false);
-  const [ai, setAi] = useState<AiResult | null>(null);
+  const [ai, setAi] = useState<LabelCheck | null>(null);
+  const [aiUsage, setAiUsage] = useState<Usage | null>(null);
+  const { account } = useAccount();
   const [aiError, setAiError] = useState('');
   const [pasteMode, setPasteMode] = useState(false);
   const [drag, setDrag] = useState(false);
@@ -155,27 +148,12 @@ export default function Scan({ base }: Props) {
   const runAi = async () => {
     setAiBusy(true); setAiError(''); setAi(null);
     try {
-      const content: ContentBlock[] = [];
-      if (file) content.push(await fileToImageBlock(file));
-      const found = analysis?.flagged.map((g) => `${g.match?.name ?? g.raw} (risk ${g.risk})`).join('; ') || 'none';
-      const k = analysis?.kind ?? 'food';
-      content.push({ type: 'text', text:
-`Analyse this ${k} product like the Yuka app would. ${file ? 'A photo is attached.' : 'No photo; use the label text only.'}
-Label text read by OCR (may contain errors):
-"""${text.slice(0, 4000)}"""
-Our ingredient database already flagged: ${found}.
-Return JSON only:
-{"productGuess":"what the product most likely is","score":0-100,"summary":"two sentences, plain English",
- "nutritionNotes":"${k === 'food' ? 'what the nutrition panel or visible food suggests about sugar, salt, saturated fat, fibre, protein — say \'not visible\' if you cannot see it' : 'what the product type and claims suggest (leave-on vs rinse-off, spray vs cream, baby/child use) and how that changes exposure'}",
- "items":[{"name":"ingredient or item","score":0-100,"note":"short reason"}],
- "concerns":[{"title":"","severity":"low|moderate|high","detail":"why, with the public classification (IARC group, EU/US ban, EFSA/SCCS opinion) where one exists"}],
- "positives":["..."],"swaps":["healthier alternatives"],"confidence":"low|medium|high"}
-Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% degree of processing. Scoring for cosmetics: the worst ingredient sets the band (high-risk ingredient → under 25, moderate → under 50), then the rest adjust within the band. Be precise and calm: distinguish 'possibly carcinogenic (IARC 2B)' from 'carcinogenic (Group 1)' and from hormone or allergy concerns. Never diagnose. If the image is not a product, say so in summary and give score 0.` });
-      const reply = await askClaude({ system: 'You are a careful food-label, cosmetic-ingredient and nutrition analyst. You only state classifications you are sure of and you say when something is uncertain or not visible. This is educational, not medical advice.', content, maxTokens: 1800, temperature: 0.2 });
-      const data = extractJson<AiResult>(reply);
-      if (typeof data.score !== 'number') throw new Error('The AI reply was incomplete. Try again.');
-      data.score = Math.max(0, Math.min(100, Math.round(data.score)));
-      setAi(data);
+      const image = file ? await fileToImageBlock(file) : null;
+      const flagged = (analysis?.ingredients ?? []).filter((g) => g.score !== null).slice(0, 40).map((g) => `${g.match?.name ?? g.ds?.name ?? g.raw} = ${g.score}`);
+      const { result, usage } = await checkLabel({ kind: analysis?.kind ?? 'food', text, hasImage: !!image, flagged }, image, !!account);
+      result.score = Math.max(0, Math.min(100, Math.round(result.score)));
+      setAi(result);
+      if (usage) setAiUsage(usage);
     } catch (e: any) {
       setAiError(e?.message ?? 'AI check failed.');
     } finally {
@@ -355,15 +333,16 @@ Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% d
           {/* ------------ AI second opinion ------------ */}
           <div className="card-surface tools__card">
             <h2 className="section-title">AI check</h2>
-            <p className="tools__muted" style={{ marginTop: 0 }}>Optional. Sends the photo once to Claude to judge the {analysis.kind === 'food' ? 'nutrition panel, the type of food' : 'product type, how it is used'} and anything the label reader missed. About a cent per scan on your own key.</p>
-            {!hasKey ? (
-              <div style={{ marginTop: '0.75rem' }}><ApiKeyBox compact onChange={setHasKey} /></div>
+            <p className="tools__muted" style={{ marginTop: 0 }}>Optional. Sends the photo once to Claude to judge the {analysis.kind === 'food' ? 'nutrition panel, the type of food' : 'product type, how it is used'} and anything the label reader missed, using the same scoring rule as this page.</p>
+            {!(hasKey || (firebaseEnabled && account)) ? (
+              <div style={{ marginTop: '0.75rem' }}><AiAccess onKey={setHasKey} /></div>
             ) : (
               <div className="tools__actions">
                 <button className="btn btn--dark" onClick={runAi} disabled={aiBusy}>{aiBusy ? <><span className="spinner" /> Checking…</> : ai ? 'Run again' : 'Run AI check'}</button>
               </div>
             )}
             {aiError && <p className="notice notice--red" style={{ marginTop: '0.75rem' }}>{aiError}</p>}
+            {aiUsage && <p className="tools__hint">{aiUsage.used} of {aiUsage.limit} free AI requests used today.</p>}
             {ai && (
               <div style={{ marginTop: '1rem' }}>
                 <ScoreRing score={ai.score} grade={gradeOf(ai.score)[0]} label={`${gradeOf(ai.score)[1]} · AI`} sub={`${ai.productGuess ? ai.productGuess + '. ' : ''}${ai.summary}`} />
@@ -385,7 +364,7 @@ Scoring for food: 60% nutrition quality (Nutri-Score-like), 30% additives, 10% d
                 {ai.items && ai.items.length > 0 && (
                   <>
                     <h3 className="tools__sub">Items the AI saw</h3>
-                    <div className="ai__items">{ai.items.map((it, i) => <span key={i} className={`pill ${it.score >= 75 ? 'pill--green' : it.score >= 50 ? 'pill--amber' : 'pill--red'}`} title={it.note}>{it.name} · {it.score}</span>)}</div>
+                    <div className="ai__items">{ai.items.map((it, i) => <span key={i} className={`pill ${it.score >= 75 ? 'pill--green' : it.score >= 50 ? 'pill--amber' : it.score >= 25 ? 'pill--orange' : 'pill--red'}`} title={it.note}>{it.name} · {it.score}</span>)}</div>
                   </>
                 )}
                 {ai.positives && ai.positives.length > 0 && (<><h3 className="tools__sub">Positives</h3><ul className="ai__list">{ai.positives.map((p, i) => <li key={i}>{p}</li>)}</ul></>)}

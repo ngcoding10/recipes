@@ -2,6 +2,7 @@
 import '@fontsource-variable/manrope';
 import '@fontsource-variable/fraunces/full.css';
 import '../styles/global.css';
+import HeaderAccount from '../components/HeaderAccount.tsx';
 
 interface Props {
   title: string;
@@ -14,12 +15,13 @@ const path = Astro.url.pathname.replace(/\/$/, '');
 const rel = path.startsWith(base) ? path.slice(base.length) : path;
 const current = (href: string) => (rel === href || (href === '' && rel === '') || (href === '/products' && rel.startsWith('/ingredients')) ? 'page' : undefined);
 
+// Five destinations: the header on desktop, the tab bar on phones. Account sits in the header.
 const NAV = [
   { href: '', label: 'Library', short: 'Library', icon: 'book' },
-  { href: '/pantry', label: 'Cook with what I have', short: 'Cook', icon: 'basket' },
-  { href: '/scan', label: 'Scan food', short: 'Scan', icon: 'camera' },
+  { href: '/pantry', label: 'Cook', short: 'Cook', icon: 'basket' },
+  { href: '/new', label: 'New recipe', short: 'New', icon: 'spark' },
+  { href: '/scan', label: 'Scan', short: 'Scan', icon: 'camera' },
   { href: '/products', label: 'Products', short: 'Products', icon: 'barcode' },
-  { href: '/settings', label: 'Settings', short: 'Settings', icon: 'gear' },
 ];
 ---
 
@@ -49,6 +51,8 @@ const NAV = [
       <symbol id="i-basket" viewBox="0 0 24 24"><path d="M3 10h18l-1.6 9.2a2 2 0 0 1-2 1.8H6.6a2 2 0 0 1-2-1.8z"/><path d="M8 10 11 4"/><path d="m16 10-3-6"/><path d="M9 14v3"/><path d="M15 14v3"/><path d="M12 14v3"/></symbol>
       <symbol id="i-camera" viewBox="0 0 24 24"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="13.5" r="3.5"/></symbol>
       <symbol id="i-barcode" viewBox="0 0 24 24"><path d="M4 6v12"/><path d="M7 6v12"/><path d="M11 6v12"/><path d="M14 6v12"/><path d="M18 6v12"/><path d="M20 6v12"/><path d="M2 4h2M20 4h2M2 20h2M20 20h2"/></symbol>
+      <symbol id="i-spark" viewBox="0 0 24 24"><path d="M12 3l1.8 4.9L19 9.7l-4.6 2.2L12 17l-2.4-5.1L5 9.7l5.2-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></symbol>
+      <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></symbol>
       <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
     </svg>
 
@@ -65,12 +69,13 @@ const NAV = [
         </a>
         <nav class="app-nav" aria-label="Primary">
           {NAV.map((n) => (
-            <a class={`app-nav__link${n.icon === 'gear' ? ' app-nav__link--icon' : ''}`} href={`${base}${n.href}/`.replace(/\/\/$/, '/')} aria-current={current(n.href)} aria-label={n.icon === 'gear' ? n.label : undefined}>
+            <a class="app-nav__link" href={`${base}${n.href}/`.replace(/\/\/$/, '/')} aria-current={current(n.href)}>
               <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><use href={`#i-${n.icon}`} /></svg>
-              {n.icon !== 'gear' && <span>{n.label}</span>}
+              <span>{n.label}</span>
             </a>
           ))}
         </nav>
+        <HeaderAccount client:idle href={`${base}/account/`} current={current('/account') === 'page'} />
       </div>
     </header>
 
@@ -79,7 +84,7 @@ const NAV = [
     </main>
 
     <footer class="app-footer">
-      <div class="container">Your recipes, saved by codeword. AI features run on your own API key and never leave your browser except to Anthropic.</div>
+      <div class="container">The Pantry · <a href={`${base}/privacy/`}>Privacy</a> · <a href={`${base}/ingredients/`}>Ingredient scores</a> · <a href="https://github.com/nicorgutierrez08-eng/recipes/issues">Feedback</a><br />Scores are informational, not medical advice. Ingredient data includes Open Food Facts (ODbL) and USDA FoodData Central.</div>
     </footer>
 
     <nav class="tabbar" aria-label="Primary">

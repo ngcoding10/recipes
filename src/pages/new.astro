@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import NewRecipe from '../components/NewRecipe.tsx';
+import '../styles/library.css';
+import '../styles/recipe.css';
+import '../styles/tools.css';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="New recipe — The Pantry" description="Turn the ingredients you have into a brand-new breakfast, lunch or dinner recipe, checked against the ingredient database.">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">New recipe</p>
+    <h1 class="page-head__title">Cook something <em>new</em>.</h1>
+    <p class="page-head__lede">Tell it what you have and which meal you want. You get a complete recipe built around your ingredients, checked against the same ingredient scores as Scan.</p>
+  </section>
+  <div class="container container--narrow tools">
+    <NewRecipe client:load base={base} />
+  </div>
+</Base>

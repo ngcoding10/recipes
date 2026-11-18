@@ -12,11 +12,11 @@ const entries = await getCollection('recipes');
 const recipes = entries.map((e) => toRecipeData(e, base));
 ---
 
-<Base title="Cook with what I have — The Pantry">
+<Base title="Cook with what I have — The Pantry" description="List the ingredients you have and see which of your recipes you can make right now.">
   <section class="page-head container">
     <p class="page-head__eyebrow">Cook with what I have</p>
     <h1 class="page-head__title">What's in the <em>fridge</em>?</h1>
-    <p class="page-head__lede">List what you have. See which of your own recipes you can make right now, or have AI write a new one from exactly those ingredients.</p>
+    <p class="page-head__lede">List what you have and see which of your own recipes you can make right now. Want something new? The New recipe tab writes one from the same list.</p>
   </section>
   <div class="container tools">
     <Pantry client:load recipes={recipes} base={base} />
