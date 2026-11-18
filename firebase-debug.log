@@ -1,0 +1,540 @@
+[debug] [2026-11-18T04:59:50.131Z] ----------------------------------------------------------------------
+[debug] [2026-11-18T04:59:50.132Z] Command:       /opt/node22/bin/node /tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/.bin/firebase emulators:start --project demo-pantry --only auth,firestore,functions
+[debug] [2026-11-18T04:59:50.133Z] CLI Version:   15.36.0
+[debug] [2026-11-18T04:59:50.133Z] Platform:      linux
+[debug] [2026-11-18T04:59:50.133Z] Node Version:  v22.23.4
+[debug] [2026-11-18T04:59:50.133Z] Detected Agent: claude-code_2-1-327_agent
+[debug] [2026-11-18T04:59:50.133Z] Time:          Wed Nov 18 2026 04:59:50 GMT+0000 (Coordinated Universal Time)
+[debug] [2026-11-18T04:59:50.133Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-11-18T04:59:50.147Z] >>> [apiv2][query] GET https://firebase-public.firebaseio.com/cli.json [none]
+[debug] [2026-11-18T04:59:50.632Z] Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=33185 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+
+[debug] [2026-11-18T04:59:50.663Z] openjdk version "21.0.12.1" 2026-08-18
+
+[debug] [2026-11-18T04:59:50.664Z] OpenJDK Runtime Environment (build 21.0.12.1+1-1-24.04.4-Ubuntu)
+
+[debug] [2026-11-18T04:59:50.664Z] OpenJDK 64-Bit Server VM (build 21.0.12.1+1-1-24.04.4-Ubuntu, mixed mode, sharing)
+
+[debug] [2026-11-18T04:59:50.747Z] Parsed Java major version: 21
+[info] i  emulators: Starting emulators: auth, functions, firestore {"metadata":{"emulator":{"name":"hub"},"message":"Starting emulators: auth, functions, firestore"}}
+[info] i  emulators: Detected demo project ID "demo-pantry", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail. {"metadata":{"emulator":{"name":"hub"},"message":"Detected demo project ID \"demo-pantry\", emulated services will use a demo configuration and attempts to access non-emulated services for this project will fail."}}
+[warn] ⚠  ui: Error when trying to check port 4000 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4000 {"metadata":{"emulator":{"name":"ui"},"message":"Error when trying to check port 4000 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4000"}}
+[warn] ⚠  ui: Port 4000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"ui"},"message":"Port 4000 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  ui: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"ui"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  logging: Error when trying to check port 4500 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4500 {"metadata":{"emulator":{"name":"logging"},"message":"Error when trying to check port 4500 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4500"}}
+[warn] ⚠  logging: Port 4500 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"logging"},"message":"Port 4500 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  logging: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"logging"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  auth: Error when trying to check port 9099 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9099 {"metadata":{"emulator":{"name":"auth"},"message":"Error when trying to check port 9099 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9099"}}
+[warn] ⚠  auth: Port 9099 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"auth"},"message":"Port 9099 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  auth: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"auth"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  firestore: Error when trying to check port 8080 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:8080 {"metadata":{"emulator":{"name":"firestore"},"message":"Error when trying to check port 8080 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:8080"}}
+[warn] ⚠  firestore: Port 8080 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"firestore"},"message":"Port 8080 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  firestore: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"firestore"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  firestore.websocket: Error when trying to check port 9150 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9150 {"metadata":{"emulator":{"name":"firestore"},"message":"Error when trying to check port 9150 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9150"}}
+[warn] ⚠  firestore: Port 9150 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"firestore"},"message":"Port 9150 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  firestore: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"firestore"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  hub: Error when trying to check port 4401 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4401 {"metadata":{"emulator":{"name":"hub"},"message":"Error when trying to check port 4401 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:4401"}}
+[warn] ⚠  hub: Port 4400 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"hub"},"message":"Port 4400 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  hub: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"hub"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  hub: emulator hub unable to start on port 4400, starting on 4401 instead. {"metadata":{"emulator":{"name":"hub"},"message":"emulator hub unable to start on port 4400, starting on 4401 instead."}}
+[debug] [2026-11-18T04:59:50.754Z] assigned listening specs for emulators {"user":{"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hub":[{"address":"127.0.0.1","family":"IPv4","port":4401}]},"metadata":{"message":"assigned listening specs for emulators"}}
+[debug] [2026-11-18T04:59:50.756Z] Write emulator hub locator at /tmp/hub-demo-pantry.json
+[warn] ⚠  functions: Error when trying to check port 5001 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:5001 {"metadata":{"emulator":{"name":"functions"},"message":"Error when trying to check port 5001 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:5001"}}
+[warn] ⚠  functions: Port 5001 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"functions"},"message":"Port 5001 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  functions: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"functions"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  eventarc: Error when trying to check port 9299 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9299 {"metadata":{"emulator":{"name":"eventarc"},"message":"Error when trying to check port 9299 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9299"}}
+[warn] ⚠  eventarc: Port 9299 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"eventarc"},"message":"Port 9299 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  eventarc: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"eventarc"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[warn] ⚠  tasks: Error when trying to check port 9499 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9499 {"metadata":{"emulator":{"name":"tasks"},"message":"Error when trying to check port 9499 on ::1: Error: listen EAFNOSUPPORT: address family not supported ::1:9499"}}
+[warn] ⚠  tasks: Port 9499 is available on 127.0.0.1 but not ::1. This may cause issues with some clients. {"metadata":{"emulator":{"name":"tasks"},"message":"Port 9499 is available on 127.0.0.1 but not ::1. This may cause issues with some clients."}}
+[warn] ⚠  tasks: If you encounter connectivity issues, consider switching to a different port or explicitly specifying "host": "<ip address>" instead of hostname in firebase.json {"metadata":{"emulator":{"name":"tasks"},"message":"If you encounter connectivity issues, consider switching to a different port or explicitly specifying \"host\": \"<ip address>\" instead of hostname in firebase.json"}}
+[debug] [2026-11-18T04:59:50.759Z] late-assigned ports for functions and eventarc emulators {"user":{"ui":[{"address":"127.0.0.1","family":"IPv4","port":4000}],"logging":[{"address":"127.0.0.1","family":"IPv4","port":4500}],"auth":[{"address":"127.0.0.1","family":"IPv4","port":9099}],"firestore":[{"address":"127.0.0.1","family":"IPv4","port":8080}],"firestore.websocket":[{"address":"127.0.0.1","family":"IPv4","port":9150}],"hub":[{"address":"127.0.0.1","family":"IPv4","port":4401}],"functions":[{"address":"127.0.0.1","family":"IPv4","port":5001}],"eventarc":[{"address":"127.0.0.1","family":"IPv4","port":9299}],"tasks":[{"address":"127.0.0.1","family":"IPv4","port":9499}]},"metadata":{"message":"late-assigned ports for functions and eventarc emulators"}}
+[debug] [2026-11-18T04:59:51.036Z] <<< [apiv2][status] GET https://firebase-public.firebaseio.com/cli.json 200
+[debug] [2026-11-18T04:59:51.036Z] <<< [apiv2][body] GET https://firebase-public.firebaseio.com/cli.json {"cloudBuildErrorAfter":1594252800000,"cloudBuildWarnAfter":1590019200000,"defaultNode10After":1594252800000,"minVersion":"3.0.5","node8DeploysDisabledAfter":1613390400000,"node8RuntimeDisabledAfter":1615809600000,"node8WarnAfter":1600128000000}
+[info] i  firestore: downloading cloud-firestore-emulator-v1.22.0.jar... {"metadata":{"emulator":{"name":"firestore"},"message":"downloading cloud-firestore-emulator-v1.22.0.jar..."}}
+[debug] [2026-11-18T04:59:53.850Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.22.0.jar 
+[debug] [2026-11-18T04:59:54.296Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.22.0.jar 200
+[debug] [2026-11-18T04:59:54.296Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/cloud-firestore-emulator-v1.22.0.jar [stream]
+[debug] [2026-11-18T05:00:03.675Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2026-11-18T05:00:03.675Z] Ignoring unsupported arg: single_project_mode_error {"metadata":{"emulator":{"name":"firestore"},"message":"Ignoring unsupported arg: single_project_mode_error"}}
+[debug] [2026-11-18T05:00:03.675Z] Starting Firestore Emulator with command {"binary":"java","args":["-Dgoogle.cloud_firestore.debug_log_level=FINE","-Duser.language=en","-jar","/root/.cache/firebase/emulators/cloud-firestore-emulator-v1.22.0.jar","--host","127.0.0.1","--port",8080,"--websocket_port",9150,"--database-edition","standard","--project_id","demo-pantry","--rules","/home/user/recipes/firestore.rules","--single_project_mode",true,"--functions_emulator","127.0.0.1:5001"],"optionalArgs":["port","webchannel_port","host","rules","websocket_port","database-edition","functions_emulator","seed_from_export","project_id","single_project_mode"],"joinArgs":false,"shell":false,"port":8080} {"metadata":{"emulator":{"name":"firestore"},"message":"Starting Firestore Emulator with command {\"binary\":\"java\",\"args\":[\"-Dgoogle.cloud_firestore.debug_log_level=FINE\",\"-Duser.language=en\",\"-jar\",\"/root/.cache/firebase/emulators/cloud-firestore-emulator-v1.22.0.jar\",\"--host\",\"127.0.0.1\",\"--port\",8080,\"--websocket_port\",9150,\"--database-edition\",\"standard\",\"--project_id\",\"demo-pantry\",\"--rules\",\"/home/user/recipes/firestore.rules\",\"--single_project_mode\",true,\"--functions_emulator\",\"127.0.0.1:5001\"],\"optionalArgs\":[\"port\",\"webchannel_port\",\"host\",\"rules\",\"websocket_port\",\"database-edition\",\"functions_emulator\",\"seed_from_export\",\"project_id\",\"single_project_mode\"],\"joinArgs\":false,\"shell\":false,\"port\":8080}"}}
+[info] i  firestore: Firestore Emulator logging to firestore-debug.log {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator logging to firestore-debug.log"}}
+[debug] [2026-11-18T05:00:03.691Z] Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=33185 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Picked up JAVA_TOOL_OPTIONS: -Djavax.net.ssl.trustStore=/etc/ssl/certs/java/cacerts -Djavax.net.ssl.trustStoreType=JKS -Dhttps.proxyHost=127.0.0.1 -Dhttps.proxyPort=33185 -Dhttp.nonProxyHosts=localhost|127.0.0.1|::1|127.*|0.*|::|169.254.*|api.anthropic.com|api-staging.anthropic.com|api-pr-preview.anthropic.com|mcp-proxy.anthropic.com|mcp-proxy-staging.anthropic.com|registry.npmjs.org|jsr.io|npm.jsr.io|pypi.org|files.pythonhosted.org|index.crates.io|proxy.golang.org|host.docker.internal|10.*|172.16.*|172.17.*|172.18.*|172.19.*|172.20.*|172.21.*|172.22.*|172.23.*|172.24.*|172.25.*|172.26.*|172.27.*|172.28.*|172.29.*|172.30.*|172.31.*|192.168.*|100.64.0.0/10|*.svc.cluster.local|*.svc.cluster.local -Djdk.http.auth.tunneling.disabledSchemes= -Djdk.http.auth.proxying.disabledSchemes=\n"}}
+[debug] [2026-11-18T05:00:05.405Z] Nov 18, 2026 5:00:05 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start
+INFO: Started WebSocket server on ws://127.0.0.1:9150
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:00:05 AM com.google.cloud.datastore.emulator.firestore.websocket.WebSocketServer start\nINFO: Started WebSocket server on ws://127.0.0.1:9150\n"}}
+[debug] [2026-11-18T05:00:05.433Z] 
+API endpoint: http://127.0.0.1:8080 {"metadata":{"emulator":{"name":"firestore"},"message":"\nAPI endpoint: http://127.0.0.1:8080"}}
+[debug] [2026-11-18T05:00:05.433Z] 
+Database Edition: STANDARD
+Database Mode: CLOUD_FIRESTORE
+
+If you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:
+
+   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+
+If you are running a Firestore in Datastore Mode project, run:
+
+   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080
+
+Note: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.
+Dev App Server is now running.
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"\nDatabase Edition: STANDARD\nDatabase Mode: CLOUD_FIRESTORE\n\nIf you are using a library that supports the FIRESTORE_EMULATOR_HOST environment variable, run:\n\n   export FIRESTORE_EMULATOR_HOST=127.0.0.1:8080\n\nIf you are running a Firestore in Datastore Mode project, run:\n\n   export DATASTORE_EMULATOR_HOST=127.0.0.1:8080\n\nNote: Support for Datastore Mode is in preview. If you encounter any bugs please file at https://github.com/firebase/firebase-tools/issues.\nDev App Server is now running.\n\n"}}
+[info] ✔  firestore: Firestore Emulator was started in standard edition. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator was started in standard edition."}}
+[info] ✔  firestore: Firestore Emulator UI websocket is running on 9150. {"metadata":{"emulator":{"name":"firestore"},"message":"Firestore Emulator UI websocket is running on 9150."}}
+[info] i  ui: downloading ui-v1.15.0.zip... {"metadata":{"emulator":{"name":"ui"},"message":"downloading ui-v1.15.0.zip..."}}
+[debug] [2026-11-18T05:00:05.698Z] >>> [apiv2][query] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip 
+[debug] [2026-11-18T05:00:06.075Z] <<< [apiv2][status] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip 200
+[debug] [2026-11-18T05:00:06.075Z] <<< [apiv2][body] GET https://storage.googleapis.com/firebase-preview-drop/emulator/ui-v1.15.0.zip [stream]
+[debug] [2026-11-18T05:00:06.276Z] Data is 3538469
+[debug] [2026-11-18T05:00:06.276Z] [unzip] Entry: client/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.276Z] [unzip] Processing entry: client/
+[debug] [2026-11-18T05:00:06.276Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/
+[debug] [2026-11-18T05:00:06.277Z] [unzip] Entry: client/favicon-16x16.png (compressed_size=293 bytes, uncompressed_size=293 bytes)
+[debug] [2026-11-18T05:00:06.277Z] [unzip] Processing entry: client/favicon-16x16.png
+[debug] [2026-11-18T05:00:06.277Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.277Z] [unzip] Writing file: /root/.cache/firebase/emulators/ui-v1.15.0/client/favicon-16x16.png
+[debug] [2026-11-18T05:00:06.278Z] [unzip] Entry: client/safari-pinned-tab.svg (compressed_size=1433 bytes, uncompressed_size=2611 bytes)
+[debug] [2026-11-18T05:00:06.278Z] [unzip] Processing entry: client/safari-pinned-tab.svg
+[debug] [2026-11-18T05:00:06.278Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.278Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/safari-pinned-tab.svg
+[debug] [2026-11-18T05:00:06.280Z] [unzip] Entry: client/favicon.ico (compressed_size=2933 bytes, uncompressed_size=13294 bytes)
+[debug] [2026-11-18T05:00:06.281Z] [unzip] Processing entry: client/favicon.ico
+[debug] [2026-11-18T05:00:06.281Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.281Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/favicon.ico
+[debug] [2026-11-18T05:00:06.282Z] [unzip] Entry: client/index.html (compressed_size=1364 bytes, uncompressed_size=3071 bytes)
+[debug] [2026-11-18T05:00:06.282Z] [unzip] Processing entry: client/index.html
+[debug] [2026-11-18T05:00:06.282Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.282Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/index.html
+[debug] [2026-11-18T05:00:06.283Z] [unzip] Entry: client/android-chrome-192x192.png (compressed_size=2684 bytes, uncompressed_size=2684 bytes)
+[debug] [2026-11-18T05:00:06.283Z] [unzip] Processing entry: client/android-chrome-192x192.png
+[debug] [2026-11-18T05:00:06.283Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.283Z] [unzip] Writing file: /root/.cache/firebase/emulators/ui-v1.15.0/client/android-chrome-192x192.png
+[debug] [2026-11-18T05:00:06.283Z] [unzip] Entry: client/apple-touch-icon.png (compressed_size=2123 bytes, uncompressed_size=2152 bytes)
+[debug] [2026-11-18T05:00:06.283Z] [unzip] Processing entry: client/apple-touch-icon.png
+[debug] [2026-11-18T05:00:06.283Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.284Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/apple-touch-icon.png
+[debug] [2026-11-18T05:00:06.284Z] [unzip] Entry: client/android-chrome-512x512.png (compressed_size=5369 bytes, uncompressed_size=5411 bytes)
+[debug] [2026-11-18T05:00:06.284Z] [unzip] Processing entry: client/android-chrome-512x512.png
+[debug] [2026-11-18T05:00:06.284Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.284Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/android-chrome-512x512.png
+[debug] [2026-11-18T05:00:06.285Z] [unzip] Entry: client/manifest.json (compressed_size=245 bytes, uncompressed_size=551 bytes)
+[debug] [2026-11-18T05:00:06.285Z] [unzip] Processing entry: client/manifest.json
+[debug] [2026-11-18T05:00:06.285Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.285Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/manifest.json
+[debug] [2026-11-18T05:00:06.286Z] [unzip] Entry: client/robots.txt (compressed_size=26 bytes, uncompressed_size=26 bytes)
+[debug] [2026-11-18T05:00:06.286Z] [unzip] Processing entry: client/robots.txt
+[debug] [2026-11-18T05:00:06.286Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.286Z] [unzip] Writing file: /root/.cache/firebase/emulators/ui-v1.15.0/client/robots.txt
+[debug] [2026-11-18T05:00:06.286Z] [unzip] Entry: client/mstile-150x150.png (compressed_size=2034 bytes, uncompressed_size=2034 bytes)
+[debug] [2026-11-18T05:00:06.286Z] [unzip] Processing entry: client/mstile-150x150.png
+[debug] [2026-11-18T05:00:06.286Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.287Z] [unzip] Writing file: /root/.cache/firebase/emulators/ui-v1.15.0/client/mstile-150x150.png
+[debug] [2026-11-18T05:00:06.287Z] [unzip] Entry: client/assets/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.287Z] [unzip] Processing entry: client/assets/
+[debug] [2026-11-18T05:00:06.287Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/
+[debug] [2026-11-18T05:00:06.287Z] [unzip] Entry: client/assets/index-BX-A56oj.js (compressed_size=582089 bytes, uncompressed_size=2092775 bytes)
+[debug] [2026-11-18T05:00:06.287Z] [unzip] Processing entry: client/assets/index-BX-A56oj.js
+[debug] [2026-11-18T05:00:06.287Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets
+[debug] [2026-11-18T05:00:06.287Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/index-BX-A56oj.js
+[debug] [2026-11-18T05:00:06.299Z] [unzip] Entry: client/assets/index-CjB9C900.css (compressed_size=35979 bytes, uncompressed_size=298654 bytes)
+[debug] [2026-11-18T05:00:06.299Z] [unzip] Processing entry: client/assets/index-CjB9C900.css
+[debug] [2026-11-18T05:00:06.299Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets
+[debug] [2026-11-18T05:00:06.299Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/index-CjB9C900.css
+[debug] [2026-11-18T05:00:06.301Z] [unzip] Entry: client/assets/index-BX-A56oj.js.map (compressed_size=2362482 bytes, uncompressed_size=10036679 bytes)
+[debug] [2026-11-18T05:00:06.301Z] [unzip] Processing entry: client/assets/index-BX-A56oj.js.map
+[debug] [2026-11-18T05:00:06.301Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets
+[debug] [2026-11-18T05:00:06.301Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/index-BX-A56oj.js.map
+[debug] [2026-11-18T05:00:06.353Z] [unzip] Entry: client/assets/extensions/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.353Z] [unzip] Processing entry: client/assets/extensions/
+[debug] [2026-11-18T05:00:06.353Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/extensions/
+[debug] [2026-11-18T05:00:06.353Z] [unzip] Entry: client/assets/extensions/default-extension.png (compressed_size=1646 bytes, uncompressed_size=1657 bytes)
+[debug] [2026-11-18T05:00:06.353Z] [unzip] Processing entry: client/assets/extensions/default-extension.png
+[debug] [2026-11-18T05:00:06.353Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/extensions
+[debug] [2026-11-18T05:00:06.353Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/extensions/default-extension.png
+[debug] [2026-11-18T05:00:06.354Z] [unzip] Entry: client/assets/img/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.354Z] [unzip] Processing entry: client/assets/img/
+[debug] [2026-11-18T05:00:06.354Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/img/
+[debug] [2026-11-18T05:00:06.354Z] [unzip] Entry: client/assets/img/database.png (compressed_size=29449 bytes, uncompressed_size=29988 bytes)
+[debug] [2026-11-18T05:00:06.354Z] [unzip] Processing entry: client/assets/img/database.png
+[debug] [2026-11-18T05:00:06.354Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/img
+[debug] [2026-11-18T05:00:06.354Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/img/database.png
+[debug] [2026-11-18T05:00:06.355Z] [unzip] Entry: client/assets/provider-icons/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.355Z] [unzip] Processing entry: client/assets/provider-icons/
+[debug] [2026-11-18T05:00:06.355Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/
+[debug] [2026-11-18T05:00:06.355Z] [unzip] Entry: client/assets/provider-icons/auth_service_saml.svg (compressed_size=575 bytes, uncompressed_size=1226 bytes)
+[debug] [2026-11-18T05:00:06.355Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_saml.svg
+[debug] [2026-11-18T05:00:06.355Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.356Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_saml.svg
+[debug] [2026-11-18T05:00:06.356Z] [unzip] Entry: client/assets/provider-icons/auth_service_phone.svg (compressed_size=261 bytes, uncompressed_size=414 bytes)
+[debug] [2026-11-18T05:00:06.356Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_phone.svg
+[debug] [2026-11-18T05:00:06.356Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.356Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_phone.svg
+[debug] [2026-11-18T05:00:06.357Z] [unzip] Entry: client/assets/provider-icons/auth_service_facebook.svg (compressed_size=289 bytes, uncompressed_size=457 bytes)
+[debug] [2026-11-18T05:00:06.357Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_facebook.svg
+[debug] [2026-11-18T05:00:06.357Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.357Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_facebook.svg
+[debug] [2026-11-18T05:00:06.358Z] [unzip] Entry: client/assets/provider-icons/auth_service_game_center.svg (compressed_size=991 bytes, uncompressed_size=3921 bytes)
+[debug] [2026-11-18T05:00:06.358Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_game_center.svg
+[debug] [2026-11-18T05:00:06.358Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.358Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_game_center.svg
+[debug] [2026-11-18T05:00:06.359Z] [unzip] Entry: client/assets/provider-icons/auth_service_apple.svg (compressed_size=230 bytes, uncompressed_size=334 bytes)
+[debug] [2026-11-18T05:00:06.359Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_apple.svg
+[debug] [2026-11-18T05:00:06.359Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.359Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_apple.svg
+[debug] [2026-11-18T05:00:06.359Z] [unzip] Entry: client/assets/provider-icons/auth_service_github.svg (compressed_size=466 bytes, uncompressed_size=838 bytes)
+[debug] [2026-11-18T05:00:06.359Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_github.svg
+[debug] [2026-11-18T05:00:06.359Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.359Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_github.svg
+[debug] [2026-11-18T05:00:06.360Z] [unzip] Entry: client/assets/provider-icons/auth_service_mslive.svg (compressed_size=203 bytes, uncompressed_size=378 bytes)
+[debug] [2026-11-18T05:00:06.360Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_mslive.svg
+[debug] [2026-11-18T05:00:06.360Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.360Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_mslive.svg
+[debug] [2026-11-18T05:00:06.360Z] [unzip] Entry: client/assets/provider-icons/auth_service_yahoo.svg (compressed_size=577 bytes, uncompressed_size=1182 bytes)
+[debug] [2026-11-18T05:00:06.360Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_yahoo.svg
+[debug] [2026-11-18T05:00:06.360Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.360Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_yahoo.svg
+[debug] [2026-11-18T05:00:06.361Z] [unzip] Entry: client/assets/provider-icons/auth_service_twitter.svg (compressed_size=444 bytes, uncompressed_size=751 bytes)
+[debug] [2026-11-18T05:00:06.361Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_twitter.svg
+[debug] [2026-11-18T05:00:06.361Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.361Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_twitter.svg
+[debug] [2026-11-18T05:00:06.361Z] [unzip] Entry: client/assets/provider-icons/auth_service_play_games.svg (compressed_size=565 bytes, uncompressed_size=1173 bytes)
+[debug] [2026-11-18T05:00:06.361Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_play_games.svg
+[debug] [2026-11-18T05:00:06.361Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.361Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_play_games.svg
+[debug] [2026-11-18T05:00:06.362Z] [unzip] Entry: client/assets/provider-icons/auth_service_email.svg (compressed_size=228 bytes, uncompressed_size=326 bytes)
+[debug] [2026-11-18T05:00:06.362Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_email.svg
+[debug] [2026-11-18T05:00:06.362Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.362Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_email.svg
+[debug] [2026-11-18T05:00:06.362Z] [unzip] Entry: client/assets/provider-icons/auth_service_google.svg (compressed_size=409 bytes, uncompressed_size=720 bytes)
+[debug] [2026-11-18T05:00:06.362Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_google.svg
+[debug] [2026-11-18T05:00:06.362Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.362Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_google.svg
+[debug] [2026-11-18T05:00:06.363Z] [unzip] Entry: client/assets/provider-icons/auth_service_oidc.svg (compressed_size=414 bytes, uncompressed_size=858 bytes)
+[debug] [2026-11-18T05:00:06.363Z] [unzip] Processing entry: client/assets/provider-icons/auth_service_oidc.svg
+[debug] [2026-11-18T05:00:06.363Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons
+[debug] [2026-11-18T05:00:06.363Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/assets/provider-icons/auth_service_oidc.svg
+[debug] [2026-11-18T05:00:06.363Z] [unzip] Entry: client/browserconfig.xml (compressed_size=491 bytes, uncompressed_size=822 bytes)
+[debug] [2026-11-18T05:00:06.363Z] [unzip] Processing entry: client/browserconfig.xml
+[debug] [2026-11-18T05:00:06.363Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.363Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/client/browserconfig.xml
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Entry: client/favicon-32x32.png (compressed_size=475 bytes, uncompressed_size=475 bytes)
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Processing entry: client/favicon-32x32.png
+[debug] [2026-11-18T05:00:06.364Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/client
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Writing file: /root/.cache/firebase/emulators/ui-v1.15.0/client/favicon-32x32.png
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Entry: server/ (compressed_size=0 bytes, uncompressed_size=0 bytes)
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Processing entry: server/
+[debug] [2026-11-18T05:00:06.364Z] [unzip] mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/server/
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Entry: server/server.mjs.map (compressed_size=217845 bytes, uncompressed_size=944978 bytes)
+[debug] [2026-11-18T05:00:06.364Z] [unzip] Processing entry: server/server.mjs.map
+[debug] [2026-11-18T05:00:06.364Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/server
+[debug] [2026-11-18T05:00:06.364Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/server/server.mjs.map
+[debug] [2026-11-18T05:00:06.371Z] [unzip] Entry: server/server.mjs (compressed_size=276407 bytes, uncompressed_size=933701 bytes)
+[debug] [2026-11-18T05:00:06.371Z] [unzip] Processing entry: server/server.mjs
+[debug] [2026-11-18T05:00:06.371Z] [unzip] else mkdir: /root/.cache/firebase/emulators/ui-v1.15.0/server
+[debug] [2026-11-18T05:00:06.371Z] [unzip] deflating: /root/.cache/firebase/emulators/ui-v1.15.0/server/server.mjs
+[info] i  functions: Watching "/home/user/recipes/functions" for Cloud Functions... {"metadata":{"emulator":{"name":"functions"},"message":"Watching \"/home/user/recipes/functions\" for Cloud Functions..."}}
+[debug] [2026-11-18T05:00:06.379Z] Validating nodejs source
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions. Please upgrade using npm install --save firebase-functions@latest in your functions directory. 
+[warn] ⚠  functions: Please note that there will be breaking changes when you upgrade. 
+[debug] [2026-11-18T05:00:06.681Z] > [functions] package.json contents: {
+  "name": "pantry-functions",
+  "private": true,
+  "main": "lib/index.js",
+  "engines": {
+    "node": "22"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs --test && node --test lib-test/handlers.test.mjs",
+    "deploy": "firebase deploy --only functions"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^1.10.0",
+    "firebase-admin": "^13.0.0",
+    "firebase-functions": "^6.0.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
+[debug] [2026-11-18T05:00:06.681Z] Building nodejs source
+[debug] [2026-11-18T05:00:06.681Z] Failed to find version of module node: reached end of search path /home/user/recipes/functions/node_modules
+[info] ✔  functions: Using node@22 from host. 
+[debug] [2026-11-18T05:00:06.683Z] Could not find functions.yaml. Must use http discovery
+[debug] [2026-11-18T05:00:06.684Z] Found firebase-functions binary at '/home/user/recipes/functions/node_modules/.bin/firebase-functions'
+[info] Serving at port 8963
+
+[debug] [2026-11-18T05:00:06.945Z] Got response from /__/functions.yaml {"endpoints":{"checkLabel":{"availableMemoryMb":512,"timeoutSeconds":120,"minInstances":null,"maxInstances":5,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["us-central1"],"secretEnvironmentVariables":[{"key":"ANTHROPIC_API_KEY"}],"labels":{},"callableTrigger":{},"entryPoint":"checkLabel"},"generateRecipe":{"availableMemoryMb":512,"timeoutSeconds":120,"minInstances":null,"maxInstances":5,"ingressSettings":null,"concurrency":null,"serviceAccountEmail":null,"vpc":null,"platform":"gcfv2","region":["us-central1"],"secretEnvironmentVariables":[{"key":"ANTHROPIC_API_KEY"}],"labels":{},"callableTrigger":{},"entryPoint":"generateRecipe"}},"specVersion":"v1alpha1","requiredAPIs":[],"extensions":{},"params":[{"type":"secret","name":"ANTHROPIC_API_KEY"},{"name":"DAILY_LIMIT_PER_USER","description":"AI requests each Google account may make per day","type":"int","default":8},{"name":"DAILY_LIMIT_TOTAL","description":"AI requests for the whole site per day (a spending cap)","type":"int","default":100}]}
+[info] Prompting for parameters for codebase default:
+[info] 
+DAILY_LIMIT_PER_USER: AI requests each Google account may make per day
+[info] 
+DAILY_LIMIT_TOTAL: AI requests for the whole site per day (a spending cap)
+[info] i  functions: Created new local file functions/.env.local to store param values. We suggest explicitly adding or excluding this file from version control. 
+[info] i  functions: Loaded environment variables from functions/.env.local 
+[info] i  functions: Writing new parameter values to disk: functions/.env.local 
+[info] ✔  functions: Loaded functions definitions from source: checkLabel, generateRecipe. {"metadata":{"emulator":{"name":"functions"},"message":"Loaded functions definitions from source: checkLabel, generateRecipe."}}
+[info] ✔  functions[us-central1-checkLabel]: http function initialized (http://127.0.0.1:5001/demo-pantry/us-central1/checkLabel). {"metadata":{"emulator":{"name":"functions"},"message":"http function initialized (http://127.0.0.1:5001/demo-pantry/us-central1/checkLabel)."}}
+[info] ✔  functions[us-central1-generateRecipe]: http function initialized (http://127.0.0.1:5001/demo-pantry/us-central1/generateRecipe). {"metadata":{"emulator":{"name":"functions"},"message":"http function initialized (http://127.0.0.1:5001/demo-pantry/us-central1/generateRecipe)."}}
+[debug] [2026-11-18T05:00:09.986Z] Could not find VSCode notification endpoint: TypeError: fetch failed. If you are not running the Firebase SQL Connect VSCode extension, this is expected and not an issue.
+[info] 
+┌─────────────────────────────────────────────────────────────┐
+│ ✔  All emulators ready! It is now safe to connect your app. │
+│ i  View Emulator UI at http://127.0.0.1:4000/               │
+└─────────────────────────────────────────────────────────────┘
+
+┌────────────────┬────────────────┬─────────────────────────────────┐
+│ Emulator       │ Host:Port      │ View in Emulator UI             │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Authentication │ 127.0.0.1:9099 │ http://127.0.0.1:4000/auth      │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Functions      │ 127.0.0.1:5001 │ http://127.0.0.1:4000/functions │
+├────────────────┼────────────────┼─────────────────────────────────┤
+│ Firestore      │ 127.0.0.1:8080 │ http://127.0.0.1:4000/firestore │
+└────────────────┴────────────────┴─────────────────────────────────┘
+  Emulator Hub host: 127.0.0.1 port: 4401
+  Other reserved ports: 4500, 9150
+
+Issues? Report them at https://github.com/firebase/firebase-tools/issues and attach the *-debug.log files.
+ 
+[debug] [2026-11-18T05:01:04.165Z] [work-queue] {"queuedWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:04.165Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:04.165Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:04.165Z"],"workRunningCount":1}
+[debug] [2026-11-18T05:01:04.166Z] Accepted request POST /demo-pantry/us-central1/generateRecipe --> us-central1-generateRecipe
+[debug] [2026-11-18T05:01:04.166Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-11-18T05:01:04.166Z] [functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/"}}
+[info] i  functions: Loaded environment variables from functions/.env.local 
+[debug] [2026-11-18T05:01:04.176Z] [worker-pool] addWorker(us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] addWorker(us-central1-generateRecipe)"}}
+[debug] [2026-11-18T05:01:04.177Z] [worker-pool] Adding worker with key us-central1-generateRecipe, total=1 {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] Adding worker with key us-central1-generateRecipe, total=1"}}
+[debug] [2026-11-18T05:01:04.885Z] [runtime-status] [24853] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.10.0","resolution":"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.10.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-11-18T05:01:04.885Z] [runtime-status] [24853] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.6.0","resolution":"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.6.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2026-11-18T05:01:04.886Z] [runtime-status] [24853] Outgoing network have been stubbed. [{"name":"http","status":"mocked"},{"name":"http","status":"mocked"},{"name":"https","status":"mocked"},{"name":"https","status":"mocked"},{"name":"net","status":"mocked"}] {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Outgoing network have been stubbed. [{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"http\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"https\",\"status\":\"mocked\"},{\"name\":\"net\",\"status\":\"mocked\"}]"}}
+[debug] [2026-11-18T05:01:04.886Z] [runtime-status] [24853] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.6.0","resolution":"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.6.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2026-11-18T05:01:04.939Z] [runtime-status] [24853] Resolved module firebase-admin {"declared":true,"installed":true,"version":"13.10.0","resolution":"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Resolved module firebase-admin {\"declared\":true,\"installed\":true,\"version\":\"13.10.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js\"}"}}
+[debug] [2026-11-18T05:01:04.939Z] [runtime-status] [24853] Resolved module firebase-functions {"declared":true,"installed":true,"version":"6.6.0","resolution":"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Resolved module firebase-functions {\"declared\":true,\"installed\":true,\"version\":\"6.6.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-functions/lib/v2/index.js\"}"}}
+[debug] [2026-11-18T05:01:04.992Z] [runtime-status] [24853] firebase-admin has been stubbed. {"adminResolution":{"declared":true,"installed":true,"version":"13.10.0","resolution":"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js"}} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] firebase-admin has been stubbed. {\"adminResolution\":{\"declared\":true,\"installed\":true,\"version\":\"13.10.0\",\"resolution\":\"/home/user/recipes/functions/node_modules/firebase-admin/lib/index.js\"}}"}}
+[debug] [2026-11-18T05:01:05.082Z] [runtime-status] [24853] Functions runtime initialized. {"cwd":"/home/user/recipes/functions","node_version":"22.23.4"} {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Functions runtime initialized. {\"cwd\":\"/home/user/recipes/functions\",\"node_version\":\"22.23.4\"}"}}
+[debug] [2026-11-18T05:01:05.082Z] [runtime-status] [24853] Listening to port: /tmp/fire_emu_ee14868b2c1b3893.sock {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[runtime-status] [24853] Listening to port: /tmp/fire_emu_ee14868b2c1b3893.sock"}}
+[debug] [2026-11-18T05:01:05.093Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:05.093Z] [worker-pool] submitRequest(triggerId=us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateRecipe)"}}
+[info] i  functions: Beginning execution of "us-central1-generateRecipe" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Beginning execution of \"us-central1-generateRecipe\""}}
+[debug] [2026-11-18T05:01:05.094Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"MISSING"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"MISSING\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-11-18T05:01:05.106Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateRecipe" in 12.898174ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finished \"us-central1-generateRecipe\" in 12.898174ms"}}
+[debug] [2026-11-18T05:01:05.107Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:05.107Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-11-18T05:01:05.107Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-11-18T05:01:05.107Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:05.211Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast [none]
+[debug] [2026-11-18T05:01:05.211Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast {"eventId":"c1115b8c-d8b0-476a-ac81-03635bedfa6b","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/demo-pantry","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2026-11-18T05:01:05.210Z","data":{"uid":"7QswOaEZwAYPqVyTMxKpmkxUJV6X","email":"alice@example.com","emailVerified":true,"displayName":"Test alice","customClaims":{},"metadata":{"creationTime":"2026-11-18T05:01:05.210Z","lastSignInTime":"2026-11-18T05:01:05.210Z"},"providerData":[{"rawId":"alice","providerId":"google.com","displayName":"Test alice","email":"alice@example.com","federatedId":"alice"}]}}
+[debug] [2026-11-18T05:01:05.393Z] Nov 18, 2026 5:01:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:05 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[debug] [2026-11-18T05:01:05.442Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast 502
+[debug] [2026-11-18T05:01:05.443Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast "upstream request failed"
+[debug] [2026-11-18T05:01:05.443Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast [none]
+[debug] [2026-11-18T05:01:05.444Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast {"specversion":"1.0","id":"e108248b-35f3-4c98-9a88-e6c409dba1ab","time":"2026-11-18T05:01:05.210Z","type":"google.firebase.auth.user.v2.created","source":"//identitytoolkit.googleapis.com/projects/demo-pantry","subject":"users/7QswOaEZwAYPqVyTMxKpmkxUJV6X","data":{"value":{"uid":"7QswOaEZwAYPqVyTMxKpmkxUJV6X","email":"alice@example.com","emailVerified":true,"displayName":"Test alice","customClaims":{},"metadata":{"createTime":"2026-11-18T05:01:05.210Z","lastSignInTime":"2026-11-18T05:01:05.210Z"},"providerData":[{"uid":"alice","providerId":"google.com","displayName":"Test alice","email":"alice@example.com"}]}}}
+[debug] [2026-11-18T05:01:05.748Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast 502
+[debug] [2026-11-18T05:01:05.748Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast "upstream request failed"
+[warn] ⚠  functions: Firebase Authentication function was not triggered due to emulation error. Please file a bug. {"metadata":{"emulator":{"name":"auth"},"message":"Firebase Authentication function was not triggered due to emulation error. Please file a bug."}}
+[debug] [2026-11-18T05:01:06.459Z] Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError
+WARNING: Operation failed: 
+false for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26
+com.google.cloud.datastore.core.exception.DatastoreException: 
+false for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26
+	at com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)
+	at io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)
+	at io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError\nWARNING: Operation failed: \nfalse for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26\ncom.google.cloud.datastore.core.exception.DatastoreException: \nfalse for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26\n\tat com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)\n\tat io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)\n\tat io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)\n\tat io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)\n\tat io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n\n"}}
+[debug] [2026-11-18T05:01:06.559Z] Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError
+WARNING: Operation failed: 
+false for 'create' @ L26, false for 'update' @ L26
+com.google.cloud.datastore.core.exception.DatastoreException: 
+false for 'create' @ L26, false for 'update' @ L26
+	at com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)
+	at io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)
+	at io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError\nWARNING: Operation failed: \nfalse for 'create' @ L26, false for 'update' @ L26\ncom.google.cloud.datastore.core.exception.DatastoreException: \nfalse for 'create' @ L26, false for 'update' @ L26\n\tat com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)\n\tat io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)\n\tat io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)\n\tat io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)\n\tat io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n\n"}}
+[debug] [2026-11-18T05:01:06.563Z] [work-queue] {"queuedWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.563Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.564Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.563Z"],"workRunningCount":1}
+[debug] [2026-11-18T05:01:06.564Z] Accepted request POST /demo-pantry/us-central1/generateRecipe --> us-central1-generateRecipe
+[debug] [2026-11-18T05:01:06.564Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-11-18T05:01:06.564Z] [functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/"}}
+[debug] [2026-11-18T05:01:06.564Z] [worker-pool] submitRequest(triggerId=us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateRecipe)"}}
+[info] i  functions: Beginning execution of "us-central1-generateRecipe" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Beginning execution of \"us-central1-generateRecipe\""}}
+[debug] [2026-11-18T05:01:06.564Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-11-18T05:01:06.568Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateRecipe" in 4.351246ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finished \"us-central1-generateRecipe\" in 4.351246ms"}}
+[debug] [2026-11-18T05:01:06.569Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:06.569Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-11-18T05:01:06.569Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-11-18T05:01:06.569Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.571Z] [work-queue] {"queuedWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.571Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.571Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.571Z"],"workRunningCount":1}
+[debug] [2026-11-18T05:01:06.571Z] Accepted request POST /demo-pantry/us-central1/generateRecipe --> us-central1-generateRecipe
+[debug] [2026-11-18T05:01:06.571Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-11-18T05:01:06.571Z] [functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/"}}
+[debug] [2026-11-18T05:01:06.571Z] [worker-pool] submitRequest(triggerId=us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateRecipe)"}}
+[info] i  functions: Beginning execution of "us-central1-generateRecipe" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Beginning execution of \"us-central1-generateRecipe\""}}
+[debug] [2026-11-18T05:01:06.571Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-11-18T05:01:06.698Z] Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[info] >  {"status":401,"message":"Error: AI request failed\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)","severity":"ERROR"} {"user":{"status":401,"message":"Error: AI request failed\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)","severity":"ERROR"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"status\":401,\"message\":\"Error: AI request failed\\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)\",\"severity\":\"ERROR\"}"}}
+[debug] [2026-11-18T05:01:06.829Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateRecipe" in 257.968137ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finished \"us-central1-generateRecipe\" in 257.968137ms"}}
+[debug] [2026-11-18T05:01:06.829Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:06.829Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-11-18T05:01:06.830Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-11-18T05:01:06.830Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.834Z] Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2026-11-18T05:01:06.878Z] Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected HTTP/2 connection.\n"}}
+[debug] [2026-11-18T05:01:06.906Z] Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead
+INFO: Detected non-HTTP/2 connection.
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM io.gapi.emulators.netty.HttpVersionRoutingHandler channelRead\nINFO: Detected non-HTTP/2 connection.\n"}}
+[debug] [2026-11-18T05:01:06.920Z] [work-queue] {"queuedWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.920Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.920Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.920Z"],"workRunningCount":1}
+[debug] [2026-11-18T05:01:06.920Z] Accepted request POST /demo-pantry/us-central1/generateRecipe --> us-central1-generateRecipe
+[debug] [2026-11-18T05:01:06.920Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-11-18T05:01:06.920Z] [functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/"}}
+[debug] [2026-11-18T05:01:06.920Z] [worker-pool] submitRequest(triggerId=us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateRecipe)"}}
+[info] i  functions: Beginning execution of "us-central1-generateRecipe" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Beginning execution of \"us-central1-generateRecipe\""}}
+[debug] [2026-11-18T05:01:06.920Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[debug] [2026-11-18T05:01:06.937Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateRecipe" in 16.345083ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finished \"us-central1-generateRecipe\" in 16.345083ms"}}
+[debug] [2026-11-18T05:01:06.937Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:06.937Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-11-18T05:01:06.937Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-11-18T05:01:06.937Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.942Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast [none]
+[debug] [2026-11-18T05:01:06.942Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast {"eventId":"4d54a3e9-55c7-4e9a-a752-3990afb62e09","eventType":"providers/firebase.auth/eventTypes/user.create","resource":{"name":"projects/demo-pantry","service":"firebaseauth.googleapis.com"},"params":{},"timestamp":"2026-11-18T05:01:06.942Z","data":{"uid":"vGJXsFIevD7YzxCiR6nTauX8AN7o","email":"bob@example.com","emailVerified":true,"displayName":"Test bob","customClaims":{},"metadata":{"creationTime":"2026-11-18T05:01:06.941Z","lastSignInTime":"2026-11-18T05:01:06.941Z"},"providerData":[{"rawId":"bob","providerId":"google.com","displayName":"Test bob","email":"bob@example.com","federatedId":"bob"}]}}
+[debug] [2026-11-18T05:01:06.971Z] Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError
+WARNING: Operation failed: 
+false for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26
+com.google.cloud.datastore.core.exception.DatastoreException: 
+false for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26
+	at com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)
+	at com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)
+	at com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)
+	at com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)
+	at io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)
+	at io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)
+	at io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)
+	at io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)
+	at io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)
+	at io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+ {"metadata":{"emulator":{"name":"firestore"},"message":"Nov 18, 2026 5:01:06 AM com.google.cloud.datastore.emulator.impl.util.WrappedStreamObserver onError\nWARNING: Operation failed: \nfalse for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26\ncom.google.cloud.datastore.core.exception.DatastoreException: \nfalse for 'create' @ L10, false for 'create' @ L26, false for 'update' @ L10, false for 'update' @ L26\n\tat com.google.cloud.datastore.core.exception.DatastoreException$Builder.build(DatastoreException.java:152)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.verboseError(DefaultEmulatorRulesAuthorizer.java:349)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.withVerboseErrors(DefaultEmulatorRulesAuthorizer.java:326)\n\tat com.google.cloud.datastore.emulator.impl.rules.DefaultEmulatorRulesAuthorizer.checkCommit(DefaultEmulatorRulesAuthorizer.java:113)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.commitHelper(FirestoreEmulatorHelper.java:407)\n\tat com.google.cloud.datastore.emulator.impl.firestore.FirestoreEmulatorHelper.internalCommit(FirestoreEmulatorHelper.java:348)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.internalCommit(CloudFirestoreV1.java:1336)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1.write(CloudFirestoreV1.java:1321)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.handleRequest(CloudFirestoreV1WriteStream.java:222)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.write(CloudFirestoreV1WriteStream.java:144)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:99)\n\tat com.google.cloud.datastore.emulator.impl.firestore.CloudFirestoreV1WriteStream.onNext(CloudFirestoreV1WriteStream.java:27)\n\tat io.grpc.stub.ServerCalls$StreamingServerCallHandler$StreamingServerCallListener.onMessage(ServerCalls.java:262)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.ForwardingServerCallListener.onMessage(ForwardingServerCallListener.java:33)\n\tat io.grpc.Contexts$ContextualizedServerCallListener.onMessage(Contexts.java:76)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailableInternal(ServerCallImpl.java:334)\n\tat io.grpc.internal.ServerCallImpl$ServerStreamListenerImpl.messagesAvailable(ServerCallImpl.java:319)\n\tat io.grpc.internal.ServerImpl$JumpToApplicationThreadServerStreamListener$1MessagesAvailable.runInContext(ServerImpl.java:852)\n\tat io.grpc.internal.ContextRunnable.run(ContextRunnable.java:37)\n\tat io.grpc.internal.SerializingExecutor.run(SerializingExecutor.java:133)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)\n\tat java.base/java.lang.Thread.run(Thread.java:1583)\n\n"}}
+[debug] [2026-11-18T05:01:06.974Z] [work-queue] {"queuedWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.974Z"],"queueLength":1,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:06.974Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":["/demo-pantry/us-central1/generateRecipe-2026-11-18T05:01:06.974Z"],"workRunningCount":1}
+[debug] [2026-11-18T05:01:06.974Z] Accepted request POST /demo-pantry/us-central1/generateRecipe --> us-central1-generateRecipe
+[debug] [2026-11-18T05:01:06.974Z] [functions] Runtime ready! Sending request! {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Runtime ready! Sending request!"}}
+[debug] [2026-11-18T05:01:06.974Z] [functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/ {"metadata":{"emulator":{"name":"functions"},"message":"[functions] Got req.url=/demo-pantry/us-central1/generateRecipe, mapping to path=/"}}
+[debug] [2026-11-18T05:01:06.974Z] [worker-pool] submitRequest(triggerId=us-central1-generateRecipe) {"metadata":{"emulator":{"name":"functions"},"message":"[worker-pool] submitRequest(triggerId=us-central1-generateRecipe)"}}
+[info] i  functions: Beginning execution of "us-central1-generateRecipe" {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Beginning execution of \"us-central1-generateRecipe\""}}
+[debug] [2026-11-18T05:01:06.974Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: BUSY"}}
+[info] >  {"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"} {"user":{"verifications":{"app":"MISSING","auth":"VALID"},"logging.googleapis.com/labels":{"firebase-log-type":"callable-request-verification"},"severity":"DEBUG","message":"Callable request verification passed"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"verifications\":{\"app\":\"MISSING\",\"auth\":\"VALID\"},\"logging.googleapis.com/labels\":{\"firebase-log-type\":\"callable-request-verification\"},\"severity\":\"DEBUG\",\"message\":\"Callable request verification passed\"}"}}
+[info] >  {"status":401,"message":"Error: AI request failed\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)","severity":"ERROR"} {"user":{"status":401,"message":"Error: AI request failed\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)","severity":"ERROR"},"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":">  {\"status\":401,\"message\":\"Error: AI request failed\\n    at entryFromArgs (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:144:19)\\n    at Object.error (/home/user/recipes/functions/node_modules/firebase-functions/lib/logger/index.js:131:11)\\n    at run (/home/user/recipes/functions/lib/index.js:1155:12)\\n    at async /home/user/recipes/functions/node_modules/firebase-functions/lib/common/providers/https.js:545:26\\n    at async runFunction (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:400:9)\\n    at async runHTTPS (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:425:5)\\n    at async handleRequest (/tmp/claude-0/-home-user-recipes/5a2c0c8f-6a8e-592f-93e1-3050a38969b0/scratchpad/fbtools/node_modules/firebase-tools/lib/emulator/functionsEmulatorRuntime.js:593:21)\",\"severity\":\"ERROR\"}"}}
+[debug] [2026-11-18T05:01:07.029Z] Finishing up request with event=pause {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=pause"}}
+[info] i  functions: Finished "us-central1-generateRecipe" in 54.721596ms {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finished \"us-central1-generateRecipe\" in 54.721596ms"}}
+[debug] [2026-11-18T05:01:07.029Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: IDLE"}}
+[debug] [2026-11-18T05:01:07.029Z] Finishing up request with event=finish {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=finish"}}
+[debug] [2026-11-18T05:01:07.029Z] Finishing up request with event=close {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"Finishing up request with event=close"}}
+[debug] [2026-11-18T05:01:07.029Z] [work-queue] {"queuedWork":[],"queueLength":0,"runningWork":[],"workRunningCount":0}
+[debug] [2026-11-18T05:01:07.216Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast 502
+[debug] [2026-11-18T05:01:07.216Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast "upstream request failed"
+[debug] [2026-11-18T05:01:07.217Z] >>> [apiv2][query] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast [none]
+[debug] [2026-11-18T05:01:07.217Z] >>> [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast {"specversion":"1.0","id":"df1defc5-deae-438c-8939-dae4f2975efd","time":"2026-11-18T05:01:06.942Z","type":"google.firebase.auth.user.v2.created","source":"//identitytoolkit.googleapis.com/projects/demo-pantry","subject":"users/vGJXsFIevD7YzxCiR6nTauX8AN7o","data":{"value":{"uid":"vGJXsFIevD7YzxCiR6nTauX8AN7o","email":"bob@example.com","emailVerified":true,"displayName":"Test bob","customClaims":{},"metadata":{"createTime":"2026-11-18T05:01:06.941Z","lastSignInTime":"2026-11-18T05:01:06.941Z"},"providerData":[{"uid":"bob","providerId":"google.com","displayName":"Test bob","email":"bob@example.com"}]}}}
+[debug] [2026-11-18T05:01:07.498Z] <<< [apiv2][status] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast 502
+[debug] [2026-11-18T05:01:07.498Z] <<< [apiv2][body] POST http://127.0.0.1:5001/functions/projects/demo-pantry/trigger_multicast "upstream request failed"
+[warn] ⚠  functions: Firebase Authentication function was not triggered due to emulation error. Please file a bug. {"metadata":{"emulator":{"name":"auth"},"message":"Firebase Authentication function was not triggered due to emulation error. Please file a bug."}}
+[debug] [2026-11-18T05:01:15.707Z] Received signal SIGTERM 1
+[info]  
+[info] i  emulators: Received SIGTERM for the first time. Starting a clean shutdown. 
+[info] i  emulators: Please wait for a clean shutdown or send the SIGTERM signal again to stop right now. 
+[debug] [2026-11-18T05:01:15.708Z] Found emulator hub locator: {"version":"15.36.0","origins":["http://127.0.0.1:4401"],"pid":24736}
+[debug] [2026-11-18T05:01:15.709Z] Delete emulator hub locator file: /tmp/hub-demo-pantry.json
+[info] i  emulators: Shutting down emulators. {"metadata":{"emulator":{"name":"hub"},"message":"Shutting down emulators."}}
+[info] i  ui: Stopping Emulator UI {"metadata":{"emulator":{"name":"ui"},"message":"Stopping Emulator UI"}}
+[info] i  functions: Stopping Functions Emulator {"metadata":{"emulator":{"name":"functions"},"message":"Stopping Functions Emulator"}}
+[info] i  firestore: Stopping Firestore Emulator {"metadata":{"emulator":{"name":"firestore"},"message":"Stopping Firestore Emulator"}}
+[debug] [2026-11-18T05:01:15.711Z] Ignoring signal SIGTERM due to short delay of 4ms
+[debug] [2026-11-18T05:01:15.714Z] *** shutting down gRPC server since JVM is shutting down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** shutting down gRPC server since JVM is shutting down\n"}}
+[debug] [2026-11-18T05:01:15.716Z] *** server shut down
+ {"metadata":{"emulator":{"name":"firestore"},"message":"*** server shut down\n"}}
+[debug] [2026-11-18T05:01:15.717Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: exited {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: exited"}}
+[debug] [2026-11-18T05:01:15.717Z] [worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: FINISHED {"metadata":{"emulator":{"name":"functions"},"function":{"name":"us-central1-generateRecipe"},"extension":{},"message":"[worker-us-central1-generateRecipe-763fe281-189e-47d4-b72e-9c8e7322ee6a]: FINISHED"}}

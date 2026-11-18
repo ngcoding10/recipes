@@ -103,3 +103,10 @@ Cheaper option, your call: change `MODEL` in `src/lib/ai-shared.ts` to `claude-h
 
 Optional hardening later: Firebase **App Check** (reCAPTCHA Enterprise) so only your site can call
 the functions; then add `enforceAppCheck: true` to the options in `functions/src/index.ts`.
+
+## Testing without touching the real project
+
+`npm test` checks the label analyser; `cd functions && npm test` checks the function logic with a
+fake model. For a full run against the Firebase emulators (Google sign-in, database rules and both
+functions), put `ANTHROPIC_API_KEY=anything` in `functions/.secret.local` (git-ignored) and run
+`npm run test:emulators` (needs Java and firebase-tools).
