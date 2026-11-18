@@ -51,9 +51,15 @@ It deploys to GitHub Pages for free.
   allergy, heart and metabolic links, regulatory restrictions, how well studied it is.
   Bands: 1–24 high concern, 25–49 moderate, 50–74 limited, 75–100 low.
 
+The full rulebook (what counts as a cancer link, the consistency rules, the few on-skin scores)
+is in [`docs/SCORING.md`](docs/SCORING.md). After editing scores run `npm run build:data`; it
+rebuilds both lists and runs the consistency audit, which fails on any contradiction. `npm test`
+checks the label analyser against known labels.
+
 **Two sources, both re-rated under that rule.**
 
-- `src/data/additives.ts`: ~300 curated entries (food, cosmetic, household) with the evidence
+- `src/data/additives.ts`: ~400 curated entries (additives, whole foods, cosmetic and household
+  chemicals) with the evidence
   cited. Their scores live in `scripts/build-scores.py`, which writes `src/data/scores.ts` and
   fails if any entry is unscored. Each 0 carries its reason.
 - `data/flagged_ingredients_rated.csv`: 27,288 label ingredients with real spellings and
@@ -61,6 +67,12 @@ It deploys to GitHub Pages for free.
   keywords that catch cancer-linked substances inside combined names) and writes
   `public/data/ingredients.json` (~330 KB gzipped), loaded on first scan. Curated entries win;
   the list fills the rest. Rows with only a category-default rating are shown but not scored.
+- `public/data/synonyms.json`: ~14,500 ingredient names in Spanish, French, Italian, German,
+  Portuguese and Dutch mapped to English, so foreign labels score the same way
+  (`npm run build:synonyms`).
+
+Ingredient spellings and translations are derived from [Open Food Facts](https://world.openfoodfacts.org)
+data, available under the [Open Database License](https://opendatacommons.org/licenses/odbl/1-0/).
 
 **Product score.** Starts at 100. Each distinct ingredient subtracts: classified carcinogen −40,
 cancer link −25, high −30, moderate −12, limited −4 (cosmetics −15 / −6). Sugar first on the list

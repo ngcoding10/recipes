@@ -13,3 +13,6 @@ node_modules/
 npm-debug.log*
 # playwright screenshots (local review artifacts)
 screenshots/
+# Open Food Facts taxonomies (downloaded, see scripts/build-synonyms.py)
+data/off/
+scripts/__pycache__/

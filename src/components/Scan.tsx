@@ -107,9 +107,10 @@ export default function Scan({ base }: Props) {
   useEffect(() => {
     if (!text.trim() || dsState !== 'idle') return;
     setDsState('loading');
-    fetch(`${base}/data/ingredients.json`)
-      .then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); })
-      .then((json) => { setDataset(buildDataset(json)); setDsState('ready'); })
+    const get = (f: string) => fetch(`${base}/data/${f}`).then((r) => { if (!r.ok) throw new Error(String(r.status)); return r.json(); });
+    // Synonyms (labels in Spanish, French, Italian, German, Portuguese, Dutch) are optional.
+    Promise.all([get('ingredients.json'), get('synonyms.json').catch(() => null)])
+      .then(([json, syn]) => { setDataset(buildDataset(json, syn)); setDsState('ready'); })
       .catch(() => setDsState('failed'));
   }, [text, dsState, base]);
 

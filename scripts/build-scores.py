@@ -56,7 +56,7 @@ L|TBHQ|Tumour findings in some rodent studies at high dose; NTP and EFSA conclud
 L|BHT|Tumour promotion in some animal studies; IARC Group 3
 L|Ethoxyquin|Impurity p-phenetidine is a possible mutagen (EFSA 2015); EU suspended it
 L|Hydrolysed vegetable protein|Acid hydrolysis forms 3-MCPD (IARC Group 2B)
-C|Alcohol (in food)|Alcoholic beverages: IARC Group 1 (trace carrier amounts are far smaller)
+C|Alcohol (ethanol)|Ethanol in alcoholic beverages: IARC Group 1 (carrier and toner amounts are far smaller)
 L|Carrageenan|Degraded form (poligeenan) is IARC 2B; breast-cancer association in NutriNet-Santé (2024)
 L|Processed Eucheuma|Semi-refined carrageenan; degraded carrageenan is IARC 2B
 L|Polysorbate 80|Promoted colon tumours in a mouse study (2017); ethoxylated, may carry 1,4-dioxane (IARC 2B)
@@ -65,7 +65,6 @@ L|Carboxymethylcellulose|Promoted colon tumours in a mouse study (2017)
 L|Mono- and diglycerides|Cancer association in the NutriNet-Santé cohort (2024); may carry glycidyl esters
 L|Ethoxylated mono-|Ethoxylated: may carry 1,4-dioxane traces (IARC 2B)
 C|Talc (in food)|IARC Group 2A (2024)
-L|Microcrystalline / paraffin wax|Aromatic mineral-oil fraction (MOAH) may be genotoxic (EFSA 2023)
 L|Palm oil|Refining forms glycidyl esters (glycidol is IARC 2A), highest in palm oil
 C|Processed meat|IARC Group 1 (colorectal cancer)
 C|Red meat|IARC Group 2A
@@ -78,7 +77,7 @@ L|Octocrylene|Breaks down into benzophenone (IARC 2B) as the product ages
 C|Titanium dioxide (cosmetic)|IARC Group 2B (inhaled particles: sprays and loose powders)
 C|Methyleugenol|IARC Group 2A (2023)
 C|Safrole|IARC Group 2B
-L|Estragole|Genotoxic liver carcinogen in rodents (EFSA); not yet classified by IARC
+L|Estragole$|Genotoxic liver carcinogen in rodents (EFSA); not yet classified by IARC
 L|Coumarin|Liver and lung tumours in rodents at high dose (NTP); IARC Group 3
 L|Synthetic musks|Musk xylene is an EU category 2 carcinogen
 L|Hydroquinone|Kidney tumours in rats (NTP "some evidence"); IARC Group 3
@@ -87,18 +86,18 @@ C|Dibutyl phthalate|IARC Group 2B (2026); toxic to reproduction
 C|Dimethyltolylamine|N,N-dimethyl-p-toluidine: IARC Group 2B
 C|Melamine|IARC Group 2B
 L|Kojic acid|Thyroid and liver tumours in mice; IARC Group 3
-L|Retinyl palmitate|Sped up skin tumours with UV light in an NTP mouse study (2012)
 C|Cocamide DEA|IARC Group 2B; California Prop 65
 L|Ethanolamines|Can form nitrosamines such as NDELA (IARC 2B)
 L|Ethoxylated surfactants|Ethoxylation can leave 1,4-dioxane (IARC 2B) and ethylene oxide (Group 1) traces
 L|Cyclopentasiloxane|Uterine tumours in rats in a two-year inhalation study
-L|Petrolatum|Unrefined grades carry PAHs; untreated mineral oils are IARC Group 1
+L|Mineral oil hydrocarbons|Aromatic fraction (MOAH) may be genotoxic (EFSA 2023); untreated mineral oils are IARC Group 1
 C|Talc (cosmetic)|IARC Group 2A (2024)
 C|PFAS|PFOA is IARC Group 1, PFOS Group 2B
 L|Microplastics|Can carry residual monomers such as acrylamide and styrene (IARC 2A)
 C|Carbon black|IARC Group 2B (inhaled)
 C|Coal tar|IARC Group 1
-L|Benzoyl peroxide (acne)|Can break down into benzene (IARC Group 1) when stored warm
+L|Bleached flour$|Bleached with benzoyl peroxide (can break down into benzene, IARC Group 1) or chlorine (forms chloroform, IARC 2B); not allowed in the EU
+L|Benzoyl peroxide|Can break down into benzene (IARC Group 1): shown in acne products stored warm (2024)
 C|Benzene|IARC Group 1
 C|1,4-Dioxane|IARC Group 2B
 C|Ethylene oxide|IARC Group 1
@@ -132,13 +131,81 @@ C|Heavy metals|Arsenic, cadmium, chromium VI, nickel compounds: IARC Group 1; le
 C|Pentachlorophenol|IARC Group 1
 C|Silica, crystalline|IARC Group 1 (inhaled)
 C|Asbestos|IARC Group 1
+C|Alcohol-based flavour extracts$|Made with alcohol: US vanilla extract is at least 35% ethanol, and alcohol is IARC Group 1. The amount per serving is very small.
+L|Smoked foods$|Smoking deposits polycyclic aromatic hydrocarbons such as benzo[a]pyrene (IARC Group 1); the EU sets limits for smoked foods.
+C|Chinese-style salted fish$|Chinese-style salted fish is IARC Group 1 (nasopharyngeal cancer).
+C|Traditional Asian pickled vegetables$|Pickled vegetables (traditional Asian) are IARC Group 2B, based on stomach and oesophageal cancer studies in China, Japan and Korea.
+C|Aloe vera$|Whole-leaf aloe vera extract taken by mouth is IARC Group 2B (bowel tumours in rats, NTP 2013).
+C|Kava$|Kava extract is IARC Group 2B (liver tumours in mice, NTP 2012).
+C|Ginkgo biloba$|Ginkgo biloba extract is IARC Group 2B (liver and thyroid tumours in rodents, NTP 2013).
+C|Goldenseal$|Goldenseal root powder is IARC Group 2B (liver tumours in rats, NTP 2010).
+C|Betel quid and areca nut$|Areca nut and betel quid are IARC Group 1 (mouth and oesophageal cancer).
+L|Essential oils rich in estragole, methyleugenol or safrole$|Concentrated sources of estragole, methyleugenol or safrole, which cause liver tumours in rodents (methyleugenol IARC 2A, safrole 2B).
+C|Pulegone and beta-myrcene$|Pulegone and beta-myrcene are IARC Group 2B (2018)
+L|Arbutin$|Releases hydroquinone, which caused kidney tumours in rats (NTP); the EU caps arbutin levels.
+C|Selenium sulfide$|Selenium sulfide is listed by the US NTP as reasonably anticipated to be a human carcinogen (by mouth in rats).
+L|Chlorine bleach (hypochlorite)$|Reacts with organic matter to form chloroform (IARC 2B) and other disinfection by-products; the EU banned chlorine as a flour bleach.
+L|2-Butoxyethanol$|Caused liver tumours (haemangiosarcoma) in male mice in an NTP study; IARC Group 3.
+L|Fluoride$|An NTP rat study (1990) found equivocal evidence of bone tumours in male rats; IARC Group 3. Strong evidence that it prevents tooth decay.
+C|Amaranth (Red 2)$|The US banned it in 1976 after rat studies suggested tumours; the EU allows it only in aperitif wines and fish roe.
+C|Red 2G$|Converts to aniline (IARC 2A) in the body; the EU suspended it in 2007.
+"""
+
+# Whole oils (added here, scored like the extended list's oil groups)
+OILS = r"""
+56|Coconut oil
+60|Refined seed oils
+72|High-oleic oils
+92|Olive oil
+88|Avocado oil
+80|Cocoa butter and shea butter
+90|Nut and seed oils (cosmetic)
+90|Vitamin A (retinol
+"""
+
+# On-skin scores: ONLY for substances whose concern depends on the route (see docs/SCORING.md § Route).
+# Format: score|key  or  C|key|why / L|key|why
+TOPICAL = r"""
+92|Coconut oil
+90|Refined seed oils
+92|Olive oil
+92|Cocoa butter and shea butter
+55|Sodium lauryl sulfate
+88|Zinc oxide
+L|Vitamin A (retinol|On skin: sped up skin tumours with UV light in an NTP mouse study (2012)
+90|Sugar$
+90|Dextrose
+90|High-fructose
+95|Salt$
+92|Sorbitol
+92|Maltitol
+92|Mannitol
+92|Lactitol
+92|Erythritol
+92|Xylitol
+92|Maltodextrin
+88|Caffeine
+90|Phosphate additives
+85|Phosphoric acid
+92|Monosodium glutamate
+92|Disodium guanylate
+95|Added vitamins and minerals
+92|Whey
+92|Soy protein
+92|Plant protein isolates$
+92|Milk$
+90|Cheese$
+90|Cream$
+90|Butter and ghee$
+92|Plant milks$
+90|Green tea extract$
+92|Aloe vera$
+90|Glycyrrhizin (licorice)$
 """
 
 SCORES = r"""
 3|Partially hydrogenated oil
 5|Brominated vegetable oil
-14|Propylparaben (food)
-45|Methylparaben (food)
 10|Boric acid
 20|Quinoline yellow
 20|Carmoisine
@@ -157,7 +224,7 @@ SCORES = r"""
 92|Curcumin
 96|Riboflavin
 93|Chlorophyll
-93|Beta-carotene
+85|Beta-carotene
 93|Paprika extract
 93|Lycopene
 86|Apocarotenal
@@ -201,7 +268,7 @@ SCORES = r"""
 97|Acetic acid
 98|Ascorbic acid
 88|Erythorbates
-98|Tocopherols
+92|Tocopherols
 24|Octyl / dodecyl gallate
 58|Calcium disodium EDTA
 93|Rosemary extract
@@ -251,7 +318,7 @@ SCORES = r"""
 86|Calcium / magnesium silicate
 88|Stearic acid
 96|Sodium bicarbonate
-90|Baking powder
+60|Baking powder$
 90|Calcium / magnesium / potassium chloride
 88|Hydroxides
 90|Sulphate salts
@@ -263,7 +330,6 @@ SCORES = r"""
 88|Waxes
 50|Hydrogenated poly-1-decene
 85|L-cysteine
-50|Benzoyl peroxide (flour
 99|Packaging gases
 85|Propellants
 82|Quillaia
@@ -274,11 +340,13 @@ SCORES = r"""
 90|Potassium iodate
 36|Fully hydrogenated
 90|Whey
-85|Soy protein
-68|Enriched
+82|Soy protein
+62|Refined (enriched) flour
+94|Added vitamins and minerals
+55|Synthetic isoparaffins
 20|Methylisothiazolinone
-30|Parabens (long-chain)
-56|Parabens (short-chain)
+20|Parabens (long-chain)
+50|Parabens (short-chain)
 60|Phenoxyethanol
 20|Triclocarban
 55|Chlorphenesin
@@ -290,7 +358,7 @@ SCORES = r"""
 55|Octisalate
 10|4-Methylbenzylidene camphor
 45|PABA
-88|Zinc oxide
+93|Zinc oxide
 80|Avobenzone
 8|Lilial
 15|HICC
@@ -309,22 +377,103 @@ SCORES = r"""
 45|Pentetic acid
 80|Alpha-hydroxy
 50|Hydrogen peroxide
-55|Sodium lauryl sulfate
+72|Sodium lauryl sulfate
 86|Mild surfactants
 20|Cyclotetrasiloxane
 78|Dimethicone
 65|Lanolin
-78|Alcohol denat
 88|Butylene glycol
 50|Aluminium salts
 42|Coal-tar / D&C dyes
 85|Mica
 50|Nanomaterials
 88|Hydroxyapatite
-60|Essential oils
+60|Essential oils (allergen-rich)$
 95|Common safe cosmetic bases
 8|Bisphenol A
 40|Hexane
+100|Water$
+98|Vegetables$
+98|Fruit$
+85|Dried fruit$
+60|Fruit juice$
+95|Whole grains$
+64|White rice, pasta and refined grains$
+80|Starches (unmodified)$
+96|Legumes$
+94|Nuts and seeds$
+82|Plant protein isolates$
+90|Eggs$
+88|Milk$
+90|Yogurt and kefir$
+70|Cheese$
+70|Cream$
+58|Butter and ghee$
+82|Plant milks$
+85|Poultry$
+88|Fish and seafood$
+90|Fish oil and algal oil$
+76|Broth and stock$
+50|Animal fats$
+85|Yeast$
+92|Nutritional yeast$
+88|Spirulina and chlorella$
+96|Herbs and spices$
+88|Cinnamon$
+86|Mustard and hot sauce$
+70|Soy sauce, fish sauce and miso$
+82|Western pickles, olives and sauerkraut$
+88|Cocoa$
+70|Dark chocolate$
+46|Sweetened chocolate$
+85|Coffee$
+92|Tea$
+42|Green tea extract$
+15|Zinc pyrithione$
+35|Benzophenone-1, -2 and -4$
+40|Quaternary ammonium disinfectants and conditioners$
+60|Camphor$
+85|Menthol$
+75|Henna$
+75|Isopropyl alcohol$
+30|Methanol$
+55|Optical brighteners$
+75|Sodium percarbonate (oxygen bleach)$
+55|Ammonia$
+92|Urea$
+85|Castor oil$
+90|Phytic acid$
+55|Patent Blue V$
+15|Withdrawn synthetic food dyes$
+88|Other xanthophyll colours$
+80|Gardenia blue and sandalwood$
+90|Tannins$
+75|Formic acid and formates$
+80|Guaiac resin$
+40|Anoxomer$
+75|Heptonolactone and thiodipropionates$
+90|Peptones$
+80|Succistearin$
+88|Cyclodextrins$
+50|Thermally oxidised soy bean oil (E479b)$
+80|Methyl glucoside-coconut oil ester$
+80|Sodium thiosulphate$
+80|Maltol and ethyl maltol$
+95|Amino acids (glycine, leucine)$
+20|Veterinary antibiotics (delisted E-numbers)$
+60|Gum benzoin and rosin esters (E906, E915)$
+78|Fatty acid methyl esters and montan waxes$
+25|Nitrogen oxides and nitrosyl chloride$
+45|Persulfates$
+50|Chlorine dioxide$
+60|Acetone peroxide and calcium peroxide$
+30|CFC propellant (dichlorodifluoromethane)$
+70|Alitame$
+65|Glycyrrhizin (licorice)$
+80|Tagatose$
+80|Cholic acid and bile salts$
+85|Ethyl acetate$
+85|Dietary fibres (inulin, psyllium)$
 """
 
 def names():
@@ -346,17 +495,28 @@ def find(key):
 for line in ZERO.strip().splitlines():
     lvl, key, why = line.split('|', 2)
     result[find(key)] = [0, 'classified' if lvl == 'C' else 'linked', why]
-for line in SCORES.strip().splitlines():
+for line in (SCORES.strip() + '\n' + OILS.strip()).splitlines():
     sc, key = line.split('|', 1)
     assert 1 <= int(sc) <= 100
     result[find(key)] = [int(sc)]
+topical = {}
+for line in TOPICAL.strip().splitlines():
+    parts = line.split('|', 2)
+    exact = parts[1].endswith('$'); k = parts[1].rstrip('$')
+    hits = [n for n in ALL if (n == k if exact else n.startswith(k))]
+    if len(hits) != 1: sys.exit(f'topical key {parts[1]!r} matched {hits}')
+    topical[hits[0]] = [0, 'classified' if parts[0] == 'C' else 'linked', parts[2]] if parts[0] in 'CL' else [int(parts[0])]
 missing = [n for n in ALL if n not in result]
 if missing: sys.exit('no score for: ' + '; '.join(missing))
 
 ts = ['// GENERATED by scripts/build-scores.py — edit the tables there, not this file.',
       "export type CarcLevel = 'classified' | 'linked';",
-      'export const SCORES: Record<string, [number] | [0, CarcLevel, string]> = {']
-for n in ALL: ts.append(f'  {json.dumps(n, ensure_ascii=False)}: {json.dumps(result[n], ensure_ascii=False)},')
+      'export type ScoreSpec = [number] | [0, CarcLevel, string];',
+      '/** [score] or [0, level, why]; optional second spec = on-skin score (route-specific, see docs/SCORING.md). */',
+      'export const SCORES: Record<string, [ScoreSpec] | [ScoreSpec, ScoreSpec]> = {']
+for n in ALL:
+    v = [result[n]] + ([topical[n]] if n in topical else [])
+    ts.append(f'  {json.dumps(n, ensure_ascii=False)}: {json.dumps(v, ensure_ascii=False)},')
 ts.append('};\n')
 (ROOT / 'src' / 'data' / 'scores.ts').write_text('\n'.join(ts))
 z = sum(1 for v in result.values() if v[0] == 0)
