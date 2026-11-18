@@ -1,5 +1,6 @@
 /* Shared styles for the Cook / Scan / Settings tool pages */
 .tools { display: flex; flex-direction: column; gap: 1rem; padding-bottom: 3rem; }
+.tools > *, .tools > * > * { min-width: 0; }
 .tools__card { padding: 1.25rem; }
 .tools__list { margin: 0; padding-left: 1.1rem; color: var(--ink-soft); display: flex; flex-direction: column; gap: 0.45rem; }
 .tools__list strong { color: var(--ink); }
@@ -103,7 +104,7 @@
 .ingr__row--c .ingr__score { color: var(--risk-c-row-hot); }
 .risk--c { background: var(--risk-c); box-shadow: 0 0 0 2px var(--risk-c-ring); }
 .ingr__carc { margin: 0.3rem 0 0.2rem; font-size: 0.68rem; padding: 0.2rem 0.5rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.ingr__carc--classified { background: var(--red); color: var(--on-color); }
+.ingr__carc--classified { background: oklch(50% 0.19 27); color: var(--on-color); }
 .ingr__carc--linked { background: var(--carc-linked); color: var(--carc-linked-ink); }
 
 /* ---- New recipe ---- */

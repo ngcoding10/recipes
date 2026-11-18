@@ -1,0 +1,16 @@
+---
+import Base from '../layouts/Base.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Base title="Page not found — The Pantry" description="That page does not exist." noindex>
+  <section class="page-head container container--narrow" style="padding-block: 3rem 4rem">
+    <p class="page-head__eyebrow">404</p>
+    <h1 class="page-head__title">That page is <em>not in the pantry</em>.</h1>
+    <p class="page-head__lede">The link may be old, or the recipe was renamed. Search the library by name, ingredient or codeword instead.</p>
+    <div class="tools__actions" style="margin-top:1.25rem; display:flex; gap:0.6rem; flex-wrap:wrap">
+      <a class="btn btn--primary" href={`${base}/`}>Go to the library</a>
+      <a class="btn btn--outline" href={`${base}/new/`}>Make a new recipe</a>
+      <a class="btn btn--outline" href={`${base}/scan/`}>Scan a label</a>
+    </div>
+  </section>
+</Base>

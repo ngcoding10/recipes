@@ -192,8 +192,8 @@ export default function Scan({ base }: Props) {
             <button className="btn btn--ghost" onClick={() => inputRef.current?.click()}>Choose from gallery</button>
             <button className="btn-link" onClick={() => setPasteMode(true)}>or paste the ingredient text</button>
           </div>
-          <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden onChange={(e) => onFile(e.target.files?.[0])} />
-          <input ref={inputRef} type="file" accept="image/*" hidden onChange={(e) => onFile(e.target.files?.[0])} />
+          <input ref={cameraRef} type="file" accept="image/*" capture="environment" hidden aria-label="Take a photo of the label" onChange={(e) => onFile(e.target.files?.[0])} />
+          <input ref={inputRef} type="file" accept="image/*" hidden aria-label="Choose a photo of the label" onChange={(e) => onFile(e.target.files?.[0])} />
         </div>
       )}
 

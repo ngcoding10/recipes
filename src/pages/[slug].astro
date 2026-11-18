@@ -81,7 +81,7 @@ const en = d.editorialNotes;
 const hasSourceNotes = !!en || (d.sourceInstructions?.length && usingWorking) || d.verification || d.nutrition;
 ---
 
-<Base title={`${d.title} — The Pantry`} description={d.description ?? d.title}>
+<Base title={`${d.title} (${d.id}) — The Pantry`} description={d.description ?? d.title} image={d.image && !d.image.endsWith(".svg") ? `${base}${d.image}` : undefined}>
   <article class="recipe">
     <div class="container recipe__inner">
       <a id="back-link" class="back-link" href={`${base}/`}>

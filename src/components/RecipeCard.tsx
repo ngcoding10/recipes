@@ -63,7 +63,14 @@ export default function RecipeCard({ recipe, href, note }: Props) {
     <a className="card" href={href}>
       <div className="card__media" style={r.image ? undefined : tileStyle(r.id)}>
         {r.image ? (
-          <img src={r.image} alt="" loading="lazy" width={800} height={500} />
+          r.image.endsWith('.jpg') ? (
+            <img
+              src={r.image.replace('/images/', '/images/thumb/')}
+              srcSet={`${r.image.replace('/images/', '/images/thumb/')} 480w, ${r.image} 800w`}
+              sizes="(max-width: 640px) 92vw, (max-width: 1100px) 46vw, 290px"
+              alt="" loading="lazy" decoding="async" width={480} height={480}
+            />
+          ) : <img src={r.image} alt="" loading="lazy" width={800} height={500} />
         ) : (
           <span className="card__emoji" aria-hidden="true">{foodEmoji(r)}</span>
         )}
