@@ -1,5 +1,6 @@
 ---
 import '@fontsource-variable/manrope';
+import '@fontsource-variable/fraunces/full.css';
 import '../styles/global.css';
 
 interface Props {
@@ -28,7 +29,13 @@ const NAV = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#ffffff" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f0e6" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d1915" />
+    <meta name="color-scheme" content="light dark" />
+    <script is:inline>
+      // Apply a saved light/dark choice before first paint (no flash). "system" = follow the device.
+      try { var t = localStorage.getItem('pantry.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="The Pantry" />
     <title>{title}</title>

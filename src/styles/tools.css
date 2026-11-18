@@ -42,7 +42,7 @@
   transition: border-color 0.12s ease, background 0.12s ease;
 }
 .scan__drop:hover, .scan__drop--active { border-color: var(--primary); background: var(--primary-wash); }
-.scan__drop-ico { width: 56px; height: 56px; border-radius: 18px; background: #fff; display: grid; place-items: center; color: var(--primary); box-shadow: var(--shadow-sm); }
+.scan__drop-ico { width: 56px; height: 56px; border-radius: 18px; background: var(--card); display: grid; place-items: center; color: var(--primary); box-shadow: var(--shadow-sm); }
 .scan__drop-title { font-weight: 800; font-size: 1.05rem; }
 .scan__drop-sub { color: var(--ink-soft); font-size: 0.9rem; max-width: 36ch; }
 .scan__preview { position: relative; border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
@@ -62,10 +62,10 @@
 .score__num small { color: var(--ink-faint); font-size: 0.72rem; font-weight: 700; }
 .score__grade { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.02em; }
 .score__sum { color: var(--ink-soft); margin-top: 0.3rem; }
-.score--excellent .score__ring-fg, .score--excellent .score__grade { stroke: #16a34a; color: #15803d; }
-.score--good .score__ring-fg, .score--good .score__grade { stroke: #84cc16; color: #4d7c0f; }
-.score--poor .score__ring-fg, .score--poor .score__grade { stroke: #f97316; color: #c2410c; }
-.score--bad .score__ring-fg, .score--bad .score__grade { stroke: #ef4444; color: #b91c1c; }
+.score--excellent .score__ring-fg, .score--excellent .score__grade { stroke: var(--grade-excellent); color: var(--grade-excellent-ink); }
+.score--good .score__ring-fg, .score--good .score__grade { stroke: var(--grade-good); color: var(--grade-good-ink); }
+.score--poor .score__ring-fg, .score--poor .score__grade { stroke: var(--grade-poor); color: var(--grade-poor-ink); }
+.score--bad .score__ring-fg, .score--bad .score__grade { stroke: var(--grade-bad); color: var(--grade-bad-ink); }
 
 .ingr { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .ingr__row { display: grid; grid-template-columns: 12px 1fr auto; gap: 0.75rem; align-items: start; padding: 0.7rem 0.85rem; border-radius: var(--r-md); background: var(--surface); }
@@ -78,7 +78,7 @@
 .ingr__row--2 { background: var(--orange-wash); }
 .ingr__row--1 { background: var(--amber-wash); }
 .ingr__row--0 { background: var(--primary-wash); }
-.risk--3 { background: #ef4444; } .risk--2 { background: #f97316; } .risk--1 { background: #f59e0b; } .risk--0 { background: #16a34a; } .risk--u { background: #cbd5e1; }
+.risk--3 { background: var(--risk-3); } .risk--2 { background: var(--risk-2); } .risk--1 { background: var(--risk-1); } .risk--0 { background: var(--risk-0); } .risk--u { background: var(--risk-u); }
 .ingr__score { font-weight: 800; font-size: 0.9rem; white-space: nowrap; }
 
 .scan__ocr { width: 100%; min-height: 110px; font-size: 0.88rem; }
@@ -97,11 +97,11 @@
 @media (max-width: 640px) { .scan__modes { grid-template-columns: 1fr; } }
 
 /* scan: cancer-link rows */
-.ingr__row--c { background: #1f1215; color: #fff; }
-.ingr__row--c .ingr__why { color: #f3d9dc; }
-.ingr__row--c .ingr__ev, .ingr__row--c .ingr__raw { color: #c9a3a8; }
-.ingr__row--c .ingr__score { color: #ff8a8a; }
-.risk--c { background: #7f1d1d; box-shadow: 0 0 0 2px #fecaca; }
+.ingr__row--c { background: var(--risk-c-row); color: var(--risk-c-row-ink); }
+.ingr__row--c .ingr__why { color: var(--risk-c-row-ink); }
+.ingr__row--c .ingr__ev, .ingr__row--c .ingr__raw { color: var(--risk-c-row-soft); }
+.ingr__row--c .ingr__score { color: var(--risk-c-row-hot); }
+.risk--c { background: var(--risk-c); box-shadow: 0 0 0 2px var(--risk-c-ring); }
 .ingr__carc { margin: 0.3rem 0 0.2rem; font-size: 0.68rem; padding: 0.2rem 0.5rem; letter-spacing: 0.04em; text-transform: uppercase; }
-.ingr__carc--classified { background: #ef4444; color: #fff; }
-.ingr__carc--linked { background: #fca5a5; color: #450a0a; }
+.ingr__carc--classified { background: var(--red); color: var(--on-color); }
+.ingr__carc--linked { background: var(--carc-linked); color: var(--carc-linked-ink); }

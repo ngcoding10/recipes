@@ -1,19 +1,19 @@
 /* Ingredient database + product search. Builds on tools.css (.ingr rows, risk dots). */
 
-.sc { display: inline-grid; place-items: center; min-width: 40px; height: 30px; padding: 0 0.5rem; border-radius: 9px; font-weight: 800; font-size: 0.92rem; color: #fff; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+.sc { display: inline-grid; place-items: center; min-width: 40px; height: 30px; padding: 0 0.5rem; border-radius: 9px; font-weight: 800; font-size: 0.92rem; color: var(--on-color); flex: 0 0 auto; font-variant-numeric: tabular-nums; }
 .sc--lg { min-width: 72px; height: 64px; font-size: 1.9rem; border-radius: 18px; letter-spacing: -0.03em; }
 .sc--xs { min-width: 30px; height: 22px; font-size: 0.75rem; border-radius: 6px; padding: 0 0.35rem; }
-.sc--c { background: #7f1d1d; }
-.sc--3 { background: #ef4444; }
-.sc--2 { background: #f97316; }
-.sc--1 { background: #f59e0b; }
-.sc--0 { background: #16a34a; }
+.sc--c { background: var(--risk-c); }
+.sc--3 { background: var(--risk-3); }
+.sc--2 { background: var(--risk-2); }
+.sc--1 { background: var(--risk-1); color: var(--ink); }
+.sc--0 { background: var(--risk-0); color: var(--on-primary); }
 .sc--none { background: var(--surface-2); color: var(--ink-faint); }
 /* product grades, same colors as the scan score ring */
-.sc--excellent { background: #16a34a; }
-.sc--good { background: #84cc16; }
-.sc--poor { background: #f97316; }
-.sc--bad { background: #ef4444; }
+.sc--excellent { background: var(--grade-excellent); color: var(--on-primary); }
+.sc--good { background: var(--grade-good); color: oklch(22% 0.05 125); }
+.sc--poor { background: var(--grade-poor); }
+.sc--bad { background: var(--grade-bad); }
 
 .db-search { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
 .db-search .input { flex: 1 1 260px; min-height: 48px; }
@@ -23,7 +23,7 @@
 
 .db-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
 .db-item { display: grid; grid-template-columns: auto 1fr auto; gap: 0.2rem 0.85rem; align-items: center; padding: 0.75rem 0.9rem; border-radius: var(--r-md); background: var(--surface); text-decoration: none; color: inherit; border: 1px solid transparent; transition: border-color 0.12s ease, background 0.12s ease; }
-.db-item:hover { border-color: var(--line-strong); background: #fff; }
+.db-item:hover { border-color: var(--line-strong); background: var(--card); }
 .db-item__name { font-weight: 800; line-height: 1.25; }
 .db-item__sub { color: var(--ink-faint); font-size: 0.82rem; font-weight: 600; margin-top: 0.1rem; }
 .db-item__why { color: var(--ink-soft); font-size: 0.88rem; margin-top: 0.2rem; line-height: 1.4; }
@@ -32,7 +32,7 @@
 
 .brand-grid { list-style: none; padding: 0; margin: 0.75rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 0.5rem; }
 .brand-btn { width: 100%; display: flex; align-items: center; gap: 0.7rem; text-align: left; background: var(--surface); border: 1px solid transparent; border-radius: var(--r-md); padding: 0.65rem 0.8rem; color: var(--ink); }
-.brand-btn:hover { border-color: var(--line-strong); background: #fff; }
+.brand-btn:hover { border-color: var(--line-strong); background: var(--card); }
 .brand-btn__name { font-weight: 800; line-height: 1.2; display: block; }
 .brand-btn__count { display: block; font-size: 0.8rem; color: var(--ink-faint); font-weight: 600; }
 
@@ -40,7 +40,7 @@
 .brand-head h2 { font-size: clamp(1.5rem, 4vw, 2rem); }
 
 .prod { border-radius: var(--r-md); background: var(--surface); overflow: hidden; border: 1px solid transparent; }
-.prod--open { background: #fff; border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+.prod--open { background: var(--card); border-color: var(--line-strong); box-shadow: var(--shadow-md); }
 .prod__row { width: 100%; display: grid; grid-template-columns: auto 1fr auto; gap: 0.8rem; align-items: center; padding: 0.7rem 0.85rem; text-align: left; border: 0; background: transparent; color: var(--ink); }
 .prod__name { font-weight: 800; line-height: 1.25; display: block; }
 .prod__worst { display: block; font-size: 0.82rem; color: var(--ink-soft); font-weight: 600; margin-top: 0.15rem; }
