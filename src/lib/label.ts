@@ -189,14 +189,6 @@ export function splitIngredients(text: string): { parts: string[]; negated: stri
   return { parts, negated };
 }
 
-/** Index of `needle` in `hay` as a whole phrase, or -1. */
-function wordIndex(hay: string, needle: string): number {
-  const esc = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-  const tail = needle.endsWith('-') ? '' : '(?=[^a-z0-9]|$)';
-  const m = new RegExp(`(^|[^a-z0-9])(${esc})${tail}`, 'i').exec(hay);
-  return m ? m.index + m[1].length : -1;
-}
-
 function hasWord(hay: string, needle: string): boolean {
   const esc = needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
   // Aliases that end in "-" (peg-, ppg-) are prefixes: allow digits straight after.
@@ -250,7 +242,19 @@ export function buildDataset(json: any, synonyms?: { map: Record<string, string>
 }
 
 /** Look one label segment up in the extended dataset: exact, then contained phrase, then fuzzy. */
+const DS_CACHE = new WeakMap<Dataset, Map<string, DatasetRow | null>>();
 export function lookupDataset(raw: string, ds: Dataset): DatasetRow | undefined {
+  let c = DS_CACHE.get(ds);
+  if (!c) { c = new Map(); DS_CACHE.set(ds, c); }
+  const hit = c.get(raw);
+  if (hit !== undefined) return hit ?? undefined;
+  const row = lookupUncached(raw, ds);
+  if (c.size > 200_000) c.clear();
+  c.set(raw, row ?? null);
+  return row;
+}
+
+function lookupUncached(raw: string, ds: Dataset): DatasetRow | undefined {
   const n = normKey(raw);
   if (!n) return undefined;
   const exact = ds.byKey.get(n);
@@ -302,18 +306,45 @@ export function translate(raw: string, syn?: Map<string, string>): string | unde
   return changed ? words.join(' ').replace(/\u0000/g, '') : undefined;
 }
 
-// Accent-folded aliases per entry, computed once.
+// Accent-folded aliases per entry, computed once, plus an index by first word so a label segment
+// is only tested against aliases that could possibly appear in it.
 const FOLDED = new Map<Additive, string[]>(ADDITIVES.map((a) => [a, a.aliases.map(fold)]));
+interface AliasRef { a: Additive; al: string; re: RegExp }
+const BY_FIRST_WORD = new Map<string, AliasRef[]>();
+const FUZZY_BY_LEN = new Map<number, AliasRef[]>();
+for (const [a, list] of FOLDED) {
+  for (const al of list) {
+    if (/^(?:e|ins )?\d/.test(al) || al.length < 3) continue;
+    const esc = al.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    // Aliases that end in "-" (peg-, ppg-) are prefixes: allow digits straight after.
+    const re = new RegExp(`(^|[^a-z0-9])(${esc})${al.endsWith('-') ? '' : '(?=[^a-z0-9]|$)'}`);
+    const ref = { a, al, re };
+    const first = al.match(/[a-z0-9]+/)?.[0];
+    if (first) { const arr = BY_FIRST_WORD.get(first) ?? []; arr.push(ref); BY_FIRST_WORD.set(first, arr); }
+    if (al.length >= 7 && !/\d/.test(al)) { const arr = FUZZY_BY_LEN.get(al.length) ?? []; arr.push(ref); FUZZY_BY_LEN.set(al.length, arr); }
+  }
+}
+
+const MATCH_CACHE = new Map<string, Additive | null>();
 
 /** Match one ingredient string against the database, honouring the product type. */
 export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additive | undefined {
+  const key = kind + '\u0001' + raw;
+  const cached = MATCH_CACHE.get(key);
+  if (cached !== undefined) return cached ?? undefined;
+  const found = matchUncached(raw, kind);
+  if (MATCH_CACHE.size > 200_000) MATCH_CACHE.clear();
+  MATCH_CACHE.set(key, found ?? null);
+  return found;
+}
+
+function matchUncached(raw: string, kind: ProductKind): Additive | undefined {
   const s = fold(raw);
-  const pool = ADDITIVES.filter((a) => inDomain(a, kind));
 
   // E-numbers / INS numbers, incl. OCR forms like "E 102" or "e-102"
   const code = s.match(/\b(?:e|ins)[\s\-]?(\d{3,4}[a-z]?)\b/);
   if (code) {
-    const hit = pool.find((a) => a.aliases.some((al) => al === `e${code[1]}` || al === `ins ${code[1]}`) || a.code?.toLowerCase() === `e${code[1]}`) ?? BY_CODE[code[1]];
+    const hit = ADDITIVES.find((a) => inDomain(a, kind) && (a.aliases.some((al) => al === `e${code[1]}` || al === `ins ${code[1]}`) || a.code?.toLowerCase() === `e${code[1]}`)) ?? BY_CODE[code[1]];
     if (hit && inDomain(hit, kind)) return hit;
   }
   const bare = s.match(/^(\d{3,4}[a-z]?)$/); // some labels list "102" alone
@@ -323,11 +354,11 @@ export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additi
   // ("nitrite" inside "sodium nitrite"); of what remains, the worst-scoring entry wins,
   // so "hydrogenated palm kernel oil" scores as palm oil, not as hydrogenated fat.
   const hits: Array<{ a: Additive; start: number; end: number }> = [];
-  for (const a of pool) {
-    for (const al of FOLDED.get(a)!) {
-      if (/^(?:e|ins )?\d/.test(al) || al.length < 3) continue;
-      const at = wordIndex(s, al);
-      if (at >= 0) hits.push({ a, start: at, end: at + al.length });
+  for (const tok of new Set(s.match(/[a-z0-9]+/g) ?? [])) {
+    for (const ref of BY_FIRST_WORD.get(tok) ?? []) {
+      if (!inDomain(ref.a, kind)) continue;
+      const m = ref.re.exec(s);
+      if (m) { const start = m.index + m[1].length; hits.push({ a: ref.a, start, end: start + ref.al.length }); }
     }
   }
   if (hits.length) {
@@ -342,11 +373,11 @@ export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additi
   const word = s.replace(/[^a-z\s]/g, '').trim();
   if (word.length >= 7) {
     let found: Additive | undefined; let ambiguous = false;
-    for (const a of pool) {
-      for (const al of FOLDED.get(a)!) {
-        if (al.length < 7 || /\d/.test(al)) continue;
-        const max = al.length >= 16 ? 2 : 1;
-        if (lev(word, al, max) <= max) { if (found && found !== a) ambiguous = true; found = a; }
+    for (let len = word.length - 2; len <= word.length + 2; len++) {
+      for (const ref of FUZZY_BY_LEN.get(len) ?? []) {
+        if (!inDomain(ref.a, kind)) continue;
+        const max = ref.al.length >= 16 ? 2 : 1;
+        if (lev(word, ref.al, max) <= max) { if (found && found !== ref.a) ambiguous = true; found = ref.a; }
       }
     }
     if (found && !ambiguous) return found;
