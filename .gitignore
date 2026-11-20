@@ -18,3 +18,4 @@ data/off/
 scripts/__pycache__/
 # firebase emulator logs
 *-debug.log
+shots/
