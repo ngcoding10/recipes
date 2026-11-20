@@ -26,7 +26,7 @@ const DAILY_LIMIT_PER_USER = defineInt('DAILY_LIMIT_PER_USER', { default: 8, des
 const DAILY_LIMIT_TOTAL = defineInt('DAILY_LIMIT_TOTAL', { default: 100, description: 'AI requests for the whole site per day (a spending cap)' });
 
 // The website's origins. Callable functions reject other sites' pages.
-const CORS = [/^https:\/\/nicorgutierrez08-eng\.github\.io$/, /^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/];
+const CORS = [/^https:\/\/ngcoding10\.github\.io$/, /^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/];
 
 const today = () => new Date().toISOString().slice(0, 10); // UTC day
 

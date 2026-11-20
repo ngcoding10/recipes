@@ -14,7 +14,7 @@ interface Props {
 const { title, description = 'A recipe library you can cook from, a new-recipe generator, and a label scanner that scores every ingredient.', image, noindex = false } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-const site = (Astro.site?.origin ?? 'https://nicorgutierrez08-eng.github.io');
+const site = (Astro.site?.origin ?? 'https://ngcoding10.github.io');
 const canonical = new URL(Astro.url.pathname.replace(/\/?$/, '/'), site).href;
 const shareImage = image ? (image.startsWith('http') ? image : new URL(image, site).href) : `${site}${base}/og.jpg`;
 const path = Astro.url.pathname.replace(/\/$/, '');
@@ -126,7 +126,7 @@ const NAV = [
     </main>
 
     <footer class="app-footer">
-      <div class="container">The Pantry · <a href={`${base}/privacy/`}>Privacy</a> · <a href={`${base}/ingredients/`}>Ingredient scores</a> · <a href="https://github.com/nicorgutierrez08-eng/recipes/issues">Feedback</a><br />Scores are informational, not medical advice. Ingredient data includes Open Food Facts (ODbL) and USDA FoodData Central.</div>
+      <div class="container">The Pantry · <a href={`${base}/privacy/`}>Privacy</a> · <a href={`${base}/ingredients/`}>Ingredient scores</a> · <a href="https://github.com/ngcoding10/recipes/issues">Feedback</a><br />Scores are informational, not medical advice. Ingredient data includes Open Food Facts (ODbL) and USDA FoodData Central.</div>
     </footer>
 
     <nav class="tabbar" aria-label="Primary">

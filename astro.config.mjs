@@ -6,7 +6,7 @@ import react from '@astrojs/react';
 // The site will live at https://<user>.github.io/recipes/
 // If you deploy to a custom domain or a user/organization page, set base to '/'.
 export default defineConfig({
-  site: 'https://nicorgutierrez08-eng.github.io',
+  site: 'https://ngcoding10.github.io',
   base: '/recipes',
   trailingSlash: 'ignore',
   integrations: [react()],
