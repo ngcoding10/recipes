@@ -217,7 +217,7 @@ export default function NewRecipe({ base }: { base: string }) {
       </section>
 
       {g && (
-        <article id="new-result" className="card-surface tools__card gen" aria-live="polite">
+        <article id="new-result" key={g.title} className="card-surface tools__card gen rise-in" aria-live="polite">
           <div className="gen__head">
             <span className="pill pill--green" style={{ alignSelf: 'flex-start' }}>New {MEAL_INFO[g.meal]?.label.toLowerCase() ?? 'recipe'} · written by AI</span>
             <h2 className="gen__title display">{g.title}</h2>

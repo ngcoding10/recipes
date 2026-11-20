@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type SetStateAction } from 'react';
+import { flushSync } from 'react-dom';
 import type { FilterState, RecipeData } from '../lib/types';
 import {
   EMPTY_FILTERS,
@@ -52,7 +53,20 @@ function optionLabel(field: MultiField, value: string): string {
 }
 
 export default function RecipeLibrary({ recipes, base }: Props) {
-  const [filters, setFilters] = useState<FilterState>(EMPTY_FILTERS);
+  const [filters, setFiltersNow] = useState<FilterState>(EMPTY_FILTERS);
+  const gridRef = useRef<HTMLDivElement>(null);
+  // Filter changes rearrange the grid with a view transition: cards that stay glide to their new
+  // place, others fade. Names are added only for the moment of the transition, so page navigation
+  // is not slowed by 91 snapshots. Instant when unsupported or with reduced motion.
+  const setFilters = (next: SetStateAction<FilterState>) => {
+    const grid = gridRef.current;
+    const doc = document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> } };
+    if (!grid || !doc.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) { setFiltersNow(next); return; }
+    grid.classList.add('grid--vt');
+    const t = doc.startViewTransition(() => flushSync(() => setFiltersNow(next)));
+    t.ready.catch(() => {}); // a quicker second click skips this transition; that is expected
+    t.finished.finally(() => grid.classList.remove('grid--vt'));
+  };
   const [draft, setDraft] = useState(''); // the keyword currently being typed
   const [panelOpen, setPanelOpen] = useState(false);
   const hydrated = useRef(false);
@@ -60,7 +74,7 @@ export default function RecipeLibrary({ recipes, base }: Props) {
   // --- Read filter state from the URL on first mount (bookmark/share support) ---
   useEffect(() => {
     const parsed = filtersFromParams(new URLSearchParams(window.location.search));
-    setFilters(parsed);
+    setFiltersNow(parsed);
     hydrated.current = true;
   }, []);
 
@@ -305,7 +319,7 @@ export default function RecipeLibrary({ recipes, base }: Props) {
 
       {/* ---------------- Results grid / empty state ---------------- */}
       {results.length > 0 ? (
-        <div className="grid">
+        <div className="grid" ref={gridRef}>
           {results.map((r) => <RecipeCard key={r.slug} recipe={r} href={cardHref(r.slug)} />)}
         </div>
       ) : (

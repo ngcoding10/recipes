@@ -344,7 +344,7 @@ export default function Scan({ base }: Props) {
             {aiError && <p className="notice notice--red" style={{ marginTop: '0.75rem' }}>{aiError}</p>}
             {aiUsage && <p className="tools__hint">{aiUsage.used} of {aiUsage.limit} free AI requests used today.</p>}
             {ai && (
-              <div style={{ marginTop: '1rem' }}>
+              <div className="rise-in" style={{ marginTop: '1rem' }}>
                 <ScoreRing score={ai.score} grade={gradeOf(ai.score)[0]} label={`${gradeOf(ai.score)[1]} · AI`} sub={`${ai.productGuess ? ai.productGuess + '. ' : ''}${ai.summary}`} />
                 {ai.nutritionNotes && <p className="gen__why"><strong>{analysis.kind === 'food' ? 'Nutrition' : 'Use'}:</strong> {ai.nutritionNotes}</p>}
                 {ai.concerns && ai.concerns.length > 0 && (

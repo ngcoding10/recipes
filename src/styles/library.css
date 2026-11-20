@@ -80,3 +80,11 @@
   .card__tags { display: none; }
   .count { width: 100%; margin-left: 0; }
 }
+
+/* grid rearrangement while filtering (see RecipeLibrary.setFilters) */
+.grid--vt .card { view-transition-name: match-element; view-transition-class: card; }
+::view-transition-group(.card) { animation-duration: var(--dur-slow); animation-timing-function: var(--ease-out); }
+::view-transition-new(.card):only-child { animation: vt-card-in var(--dur-slow) var(--ease-out); }
+::view-transition-old(.card):only-child { animation: vt-card-out var(--dur) var(--ease-in) forwards; }
+@keyframes vt-card-in { from { opacity: 0; transform: scale(.94); } }
+@keyframes vt-card-out { to { opacity: 0; transform: scale(.94); } }

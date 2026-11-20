@@ -83,6 +83,11 @@
   --shadow-md: 0 1px 2px hsl(var(--shadow-color) / 0.05), 0 4px 10px -2px hsl(var(--shadow-color) / 0.08), 0 12px 24px -12px hsl(var(--shadow-color) / 0.14);
   --shadow-lg: 0 2px 4px hsl(var(--shadow-color) / 0.05), 0 18px 44px -14px hsl(var(--shadow-color) / 0.26);
 
+  /* motion: fast, exits quicker than entries */
+  --ease-out: cubic-bezier(.16, 1, .3, 1);
+  --ease-in: cubic-bezier(.7, 0, .84, 0);
+  --dur-fast: 150ms; --dur: 250ms; --dur-slow: 400ms;
+
   --maxw: 1180px;
   --gutter: clamp(1rem, 4vw, 2rem);
   --nav-h: 64px;
@@ -299,7 +304,7 @@ main { flex: 1; }
   color: var(--ink); background: var(--surface);
   transition: transform 0.12s ease, background 0.12s ease, box-shadow 0.12s ease, border-color 0.12s ease;
 }
-.btn:active { transform: scale(0.98); }
+.btn:active:not(:disabled) { transform: scale(0.97); transition-duration: 60ms; }
 .btn--primary { background: var(--primary); color: var(--on-primary); box-shadow: 0 6px 16px -6px var(--primary-glow); }
 .btn--primary:hover { background: var(--primary-strong); }
 .btn--ghost { background: var(--surface); color: var(--ink); }
@@ -338,6 +343,7 @@ main { flex: 1; }
 }
 
 .section-title { font-size: 1.3rem; margin-bottom: 0.9rem; }
+.section-title__aside { font-family: var(--font); font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-faint); margin-left: 0.4rem; vertical-align: middle; }
 .perforation { height: 0; border: 0; border-top: 1px solid var(--line); margin: 0; }
 
 /* token / chip input (search keywords, pantry ingredients) */
@@ -417,7 +423,36 @@ textarea.input { min-height: 90px; padding: 0.75rem 1rem; resize: vertical; }
 .empty__title { font-size: 1.4rem; }
 .empty__body { color: var(--ink-soft); margin: 0.5rem 0 1.25rem; }
 
+/* ---- motion ---------------------------------------------------------------
+   Page changes cross-fade quickly; a recipe photo grows from its card into the
+   recipe page (names set in Base.astro). Header and tab bar stay put. */
+@view-transition { navigation: auto; }
+.app-header { view-transition-name: site-header; }
+.tabbar { view-transition-name: tabbar; }
+::view-transition-old(root) { animation: vt-fade-out 140ms var(--ease-in) both; }
+::view-transition-new(root) { animation: vt-fade-in 220ms var(--ease-out) both; }
+::view-transition-group(recipe-photo) { animation-duration: 380ms; animation-timing-function: var(--ease-out); }
+::view-transition-old(recipe-photo), ::view-transition-new(recipe-photo) { height: 100%; object-fit: cover; overflow: clip; }
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; transform: translateY(6px); } }
+
+/* things that appear after an action rise in gently */
+@keyframes rise-in { from { opacity: 0; transform: translateY(10px); } }
+.rise-in { animation: rise-in var(--dur-slow) var(--ease-out) both; }
+
+/* accordions open smoothly where the browser supports it (Chromium); elsewhere they open instantly */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+  details::details-content {
+    block-size: 0; overflow: clip;
+    transition: block-size var(--dur) var(--ease-out), content-visibility var(--dur) allow-discrete;
+  }
+  details[open]::details-content { block-size: auto; }
+}
+summary { cursor: pointer; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
 }

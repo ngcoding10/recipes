@@ -164,3 +164,4 @@
   .card-surface { box-shadow: none !important; border: 0 !important; }
 }
 .pantry__cta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+.pantry__empty { margin: 0.5rem 0 0; padding: 1.25rem; border: 1.5px dashed var(--line-strong); border-radius: var(--r-lg); color: var(--ink-soft); text-align: center; text-wrap: balance; }

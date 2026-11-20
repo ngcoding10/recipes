@@ -44,6 +44,27 @@ const NAV = [
       // Apply a saved light/dark choice before first paint (no flash). "system" = follow the device.
       try { var t = localStorage.getItem('pantry.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
     </script>
+    <script is:inline>
+      // Shared-element page transition: the photo of the recipe you open grows into the recipe page,
+      // and shrinks back into its card when you go back. Browsers without view transitions just load.
+      (function () {
+        var NAME = 'recipe-photo';
+        var path = function (u) { try { return new URL(u, location.href).pathname.replace(/\/?$/, '/'); } catch (e) { return ''; } };
+        var cardImg = function (p) { return p ? document.querySelector('a[href="' + p + '"] .card__media img, a[href="' + p.replace(/\/$/, '') + '"] .card__media img') : null; };
+        var hero = function () { return document.querySelector('.recipe__hero'); };
+        var mark = function (el, vt) { if (!el || !vt) return; el.style.viewTransitionName = NAME; vt.finished.finally(function () { el.style.viewTransitionName = ''; }); };
+        addEventListener('pageswap', function (e) {
+          if (!e.viewTransition || !e.activation || !e.activation.entry) return;
+          var to = path(e.activation.entry.url);
+          mark(hero() || cardImg(to), e.viewTransition);
+        });
+        addEventListener('pagereveal', function (e) {
+          if (!e.viewTransition || !window.navigation || !navigation.activation || !navigation.activation.from) return;
+          var from = path(navigation.activation.from.url);
+          mark(hero() || cardImg(from), e.viewTransition);
+        });
+      })();
+    </script>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="The Pantry" />
     <title>{title}</title>

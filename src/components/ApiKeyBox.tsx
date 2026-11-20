@@ -38,13 +38,13 @@ export default function ApiKeyBox({ compact, onChange }: Props) {
 
   return (
     <div className={`keybox${compact ? ' keybox--compact' : ''}`}>
-      {!compact && <h2 className="section-title">Anthropic API key</h2>}
+      {!compact && <h2 className="section-title">Your own Anthropic key <span className="section-title__aside">optional</span></h2>}
       {compact && <p className="keybox__title">Add your API key to use this</p>}
       <p className="keybox__help">
         {saved ? (
           <>Key saved: <code>{maskKey(saved)}</code>. It is stored only in this browser and sent only to api.anthropic.com.</>
         ) : (
-          <>The AI features run on your own pay-as-you-go key, so they cost you pennies and nobody else can use your account. Claude Pro does not cover this; the key comes with its own small prepaid credit.</>
+          <>With your own pay-as-you-go key, the AI features run on it with no daily limit, for a few cents each. It stays in this browser and is sent only to api.anthropic.com. A Claude Pro subscription does not cover API use.</>
         )}
       </p>
       {saved ? (

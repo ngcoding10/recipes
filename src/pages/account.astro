@@ -25,9 +25,8 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     </div>
 
     <div class="card-surface tools__card">
-      <h2 class="section-title">Your own AI key (optional)</h2>
-      <p class="tools__muted" style="margin-top:0">If you have an Anthropic API key, the AI features can run on it instead of a Google account, with no daily limit. It stays in this browser and is sent only to api.anthropic.com. Model: <code>{MODEL}</code>.</p>
       <ApiKeyBox client:load />
+      <p class="tools__hint">Model: <code>{MODEL}</code>.</p>
     </div>
 
     <div class="card-surface tools__card">

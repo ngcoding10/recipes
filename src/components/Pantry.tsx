@@ -55,15 +55,19 @@ export default function Pantry({ recipes, base }: Props) {
         <PantryInput items={items} onChange={setItems} />
         <p className="tools__hint">{account ? 'Synced to your account.' : 'Saved on this device.'} The New recipe page uses the same list.</p>
 
-        <div className="pantry__options">
-          <label className="field">
-            <span className="field__label">Meal</span>
-            <select className="input" value={meal} onChange={(e) => setMeal(e.target.value)}>
-              {MEALS.map((m) => <option key={m.v} value={m.v}>{m.l}</option>)}
-            </select>
-          </label>
+        <div className="field" style={{ marginTop: '1rem' }}>
+          <span className="field__label" id="cook-meal">Meal</span>
+          <div className="newr__chips" role="radiogroup" aria-labelledby="cook-meal">
+            {MEALS.map((m) => (
+              <button key={m.v} type="button" role="radio" aria-checked={meal === m.v} className={`choice${meal === m.v ? ' choice--on' : ''}`} onClick={() => setMeal(m.v)}>{m.l}</button>
+            ))}
+          </div>
         </div>
       </div>
+
+      {items.length === 0 && (
+        <p className="pantry__empty">Add a few things from your fridge or cupboard and your matching recipes appear here, best match first.</p>
+      )}
 
       {/* ------------ From the library ------------ */}
       {items.length > 0 && (
