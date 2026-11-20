@@ -1,8 +1,12 @@
 name: Deploy to GitHub Pages
 
-# Builds the Astro site and publishes it to GitHub Pages whenever you push to
-# `main` (e.g. after merging your recipe changes). You can also run it by hand
-# from the Actions tab via "Run workflow".
+# Builds the Astro site once and publishes the same files to two addresses:
+#   1. this repo's GitHub Pages site   https://ngcoding10.github.io/recipes/
+#   2. the ASCoding copy               https://ascoding11.github.io/recipes/
+#      (the ASCoding11/recipes repo's gh-pages branch; see docs/ASCODING.md)
+# Both copies use the same Firebase project and Cloud Functions, so accounts,
+# pantries and saved recipes are shared. The ASCoding step is skipped until the
+# ASCODING_DEPLOY_KEY secret exists. You can also run this from the Actions tab.
 on:
   push:
     branches: [main, claude/recipe-library-site-y0b77e]
@@ -53,3 +57,39 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  # Same build, published to ASCoding11/recipes (served at ascoding11.github.io/recipes/).
+  mirror-ascoding:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    env:
+      HAS_KEY: ${{ secrets.ASCODING_DEPLOY_KEY != '' }}
+    steps:
+      - name: Skip until the deploy key is set up
+        if: env.HAS_KEY != 'true'
+        run: echo "ASCODING_DEPLOY_KEY is not set; skipping the ASCoding copy (see docs/ASCODING.md)."
+
+      - name: Download the built site
+        if: env.HAS_KEY == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: github-pages
+          path: ./artifact
+
+      - name: Unpack
+        if: env.HAS_KEY == 'true'
+        run: mkdir site && tar -xf artifact/artifact.tar -C site && touch site/.nojekyll
+
+      - name: Publish to ASCoding11/recipes
+        if: env.HAS_KEY == 'true'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          deploy_key: ${{ secrets.ASCODING_DEPLOY_KEY }}
+          external_repository: ASCoding11/recipes
+          publish_branch: gh-pages
+          publish_dir: ./site
+          force_orphan: true   # keep only the latest build, so the repo does not grow with every deploy
+          user_name: github-actions[bot]
+          user_email: 41898283+github-actions[bot]@users.noreply.github.com
+          commit_message: Deploy ${{ github.sha }} from ngcoding10/recipes

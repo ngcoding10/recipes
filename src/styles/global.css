@@ -256,6 +256,14 @@ button { cursor: pointer; }
 .acct-btn--in { background: var(--primary); color: var(--on-primary); border-color: transparent; }
 .acct-btn img { width: 100%; height: 100%; object-fit: cover; }
 .app-footer a { color: inherit; }
+/* "← ASCoding" chip, only on the copy served at ascoding11.github.io and only on phones
+   (desktop shows the link in the footer, which phones hide behind the tab bar). */
+.from-ascoding {
+  display: inline-flex; align-items: center; min-height: 32px; padding: 0 0.7rem; border-radius: 999px;
+  font-size: 0.8rem; font-weight: 700; color: var(--ink-soft); background: var(--surface); text-decoration: none;
+}
+.from-ascoding:hover { color: var(--ink); }
+@media (min-width: 761px) { #from-ascoding-top { display: none; } }
 
 main { flex: 1; }
 

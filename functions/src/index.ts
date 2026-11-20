@@ -25,8 +25,9 @@ const ANTHROPIC_API_KEY = defineSecret('ANTHROPIC_API_KEY');
 const DAILY_LIMIT_PER_USER = defineInt('DAILY_LIMIT_PER_USER', { default: 8, description: 'AI requests each Google account may make per day' });
 const DAILY_LIMIT_TOTAL = defineInt('DAILY_LIMIT_TOTAL', { default: 100, description: 'AI requests for the whole site per day (a spending cap)' });
 
-// The website's origins. Callable functions reject other sites' pages.
-const CORS = [/^https:\/\/ngcoding10\.github\.io$/, /^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/];
+// The website's two addresses (its own Pages site and the ASCoding copy) plus local testing.
+// Callable functions reject other sites' pages.
+const CORS = [/^https:\/\/ngcoding10\.github\.io$/, /^https:\/\/ascoding11\.github\.io$/, /^http:\/\/localhost:\d+$/, /^http:\/\/127\.0\.0\.1:\d+$/];
 
 const today = () => new Date().toISOString().slice(0, 10); // UTC day
 

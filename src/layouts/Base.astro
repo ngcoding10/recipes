@@ -109,6 +109,7 @@ const NAV = [
           </span>
           <span class="brand__text">The Pantry</span>
         </a>
+        <a id="from-ascoding-top" class="from-ascoding" href="https://ascoding11.github.io/" hidden>← ASCoding</a>
         <nav class="app-nav" aria-label="Primary">
           {NAV.map((n) => (
             <a class="app-nav__link" href={`${base}${n.href}/`.replace(/\/\/$/, '/')} aria-current={current(n.href)}>
@@ -126,8 +127,13 @@ const NAV = [
     </main>
 
     <footer class="app-footer">
-      <div class="container">The Pantry · <a href={`${base}/privacy/`}>Privacy</a> · <a href={`${base}/ingredients/`}>Ingredient scores</a> · <a href="https://github.com/ngcoding10/recipes/issues">Feedback</a><br />Scores are informational, not medical advice. Ingredient data includes Open Food Facts (ODbL) and USDA FoodData Central.</div>
+      <div class="container">The Pantry · <a href={`${base}/privacy/`}>Privacy</a> · <a href={`${base}/ingredients/`}>Ingredient scores</a> · <a href="https://github.com/ngcoding10/recipes/issues">Feedback</a><span id="from-ascoding" hidden> · <a href="https://ascoding11.github.io/">Back to ASCoding</a></span><br />Scores are informational, not medical advice. Ingredient data includes Open Food Facts (ODbL) and USDA FoodData Central.</div>
     </footer>
+
+    <script is:inline>
+      // The same build is also served at ascoding11.github.io/recipes/; there, offer a way back.
+      if (location.hostname === 'ascoding11.github.io') ['from-ascoding', 'from-ascoding-top'].forEach(function (id) { var el = document.getElementById(id); if (el) el.hidden = false; });
+    </script>
 
     <nav class="tabbar" aria-label="Primary">
       <div class="tabbar__inner">

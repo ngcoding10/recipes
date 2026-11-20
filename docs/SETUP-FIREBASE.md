@@ -13,8 +13,9 @@ Time: about 20 minutes. You need a computer with Node.js 20 or later.
    Google Analytics: off (the site has no analytics).
 2. **Build → Authentication → Get started → Sign-in method → Google → Enable.** Pick your support
    email, Save.
-3. Still in Authentication: **Settings → Authorized domains → Add domain** →
-   `ngcoding10.github.io`. (`localhost` is already there for testing.)
+3. Still in Authentication: **Settings → Authorized domains → Add domain** → add both addresses the
+   site is served from: `ngcoding10.github.io` and `ascoding11.github.io` (the ASCoding copy, see
+   [`ASCODING.md`](ASCODING.md)). `localhost` is already there for testing.
 4. **Build → Firestore Database → Create database** → *Start in production mode* → pick a location
    near you (e.g. `nam5` for the US). The rules in this repo replace the defaults in step 4.
 5. **Project settings (gear) → General → Your apps → Web (`</>`)** → register an app called

@@ -4,7 +4,7 @@ A recipe library you can cook from, a tool that writes new recipes from what you
 scanner that scores every ingredient. Static site on GitHub Pages; Google sign-in and the AI backend
 run on Firebase when it is switched on.
 
-- **Live site:** https://ngcoding10.github.io/recipes/
+- **Live site:** https://ngcoding10.github.io/recipes/ (also served at https://ascoding11.github.io/recipes/, same accounts; see [`docs/ASCODING.md`](docs/ASCODING.md))
 - **Built with:** [Astro](https://astro.build) + React islands, Fraunces + Manrope, no CSS framework.
 - **Switching on Google sign-in and free AI:** [`docs/SETUP-FIREBASE.md`](docs/SETUP-FIREBASE.md)
 - **How ingredients are scored:** [`docs/SCORING.md`](docs/SCORING.md)
