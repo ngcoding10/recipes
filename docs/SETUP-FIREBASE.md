@@ -80,6 +80,13 @@ git add src/config/firebase.ts && git commit -m "Turn on Firebase" && git push
 GitHub Actions rebuilds the site in about a minute. Open the site → **Account** (top-right icon) →
 **Sign in with Google**. Then try **New** → pick a meal → **Create**.
 
+## Check it
+
+Run `npm run check:live`. It tests both website addresses, the Firebase config in the code,
+authorized domains, the Google provider, the database and its rules, and both Cloud Functions
+(including that each accepts requests from both addresses), and lists the few things only a
+dashboard can show. Everything should be ✓.
+
 ## What it costs
 
 The model is `claude-opus-5-5` ($4 per million input tokens, $20 per million output). A recipe is
