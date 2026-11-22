@@ -54,7 +54,7 @@ From the repo folder:
 ```bash
 npm install -g firebase-tools
 firebase login
-firebase use --add            # choose the project, alias "default"
+# (the project, the-pantry-8e315, is already set in .firebaserc)
 
 cd functions && npm install && npm test && cd ..
 
