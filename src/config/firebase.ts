@@ -26,4 +26,4 @@ export const FIREBASE_CONFIG: FirebaseWebConfig | null = {
   appId: '1:102320113071:web:b7b91336dd83b42d181b5a',
 };
 
-export const APP_CHECK_SITE_KEY: string | null = null;
+export const APP_CHECK_SITE_KEY: string | null = '6LeG7S4uAAAAABOlsa7JG8j-B_Cy7d9EWDMP8iJH';
