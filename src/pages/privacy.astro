@@ -8,7 +8,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <section class="page-head container container--narrow">
     <p class="page-head__eyebrow">Privacy</p>
     <h1 class="page-head__title">What we keep, and <em>where</em>.</h1>
-    <p class="page-head__lede">Short version: no ads, no tracking, no analytics. Most features run entirely on your device.</p>
+    <p class="page-head__lede">Short version: this site currently shows no ads and uses no tracking or analytics. Most features run entirely on your device.</p>
   </section>
 
   <div class="container container--narrow tools prose">
@@ -29,7 +29,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <li><strong>Stored in your account</strong> (Google Firebase, Firestore): your pantry list and the recipes you choose to save. Only you can read them; the database rules block everyone else.</li>
         <li><strong>A daily counter</strong> of how many AI requests your account made, so the free daily limit works.</li>
       </ul>
-      <p class="tools__muted">The sign-in is shared with the site owner's other apps on the same Firebase project; each app keeps its own data, and using The Pantry creates nothing in the others. You can delete everything The Pantry stores from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my Pantry data</em>. If you use none of the other apps, that also removes the sign-in itself.</p>
+      <p class="tools__muted">The sign-in is shared with the site owner's other apps on the same Firebase project; each app keeps its own data, and using The Pantry creates nothing in the others. You can delete everything The Pantry stores from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my Pantry data</em>. If you use none of the other apps, that also removes the sign-in itself; otherwise you stay signed in.</p>
     </div>
 
     <div class="card-surface tools__card">

@@ -61,10 +61,10 @@ export function AccountCard() {
           act(async () => {
             const { accountDeleted } = await deleteMyPantryData();
             clearDeviceData();
-            if (!accountDeleted) await signOutNow();
+            setSavedCount(0);
             setMsg(accountDeleted
               ? 'Your Pantry data was deleted. You use no other app with this sign-in, so the sign-in was removed too.'
-              : 'Your Pantry data was deleted and you are signed out. Your sign-in is kept because another app still uses it.');
+              : 'Your Pantry data was deleted. You are still signed in, because another app uses this sign-in.');
           });
         }}>Delete my Pantry data</button>
       </div>

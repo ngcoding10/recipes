@@ -93,13 +93,5 @@ export async function signOutNow(): Promise<void> {
 
 /** Call a Cloud Function. Errors carry a message that is fine to show. */
 export async function callFunction<I, O>(name: string, data: I): Promise<O> {
-  const c = await loadFirebase();
-  try {
-    return await c.call<O>(name, data);
-  } catch (e: any) {
-    // The Firebase SDK adds the HTTP status to every message ("… [429]"); nobody needs to read that.
-    const err = new Error(String(e?.message ?? 'Something went wrong. Try again.').replace(/\s*\[\d{3}\]$/, '')) as Error & { code?: string };
-    err.code = e?.code;
-    throw err;
-  }
+  return (await loadFirebase()).call<O>(name, data);
 }

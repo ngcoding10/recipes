@@ -38,7 +38,9 @@ export function setPantry(items: string[], uid: string | null): void {
   pushTimer = setTimeout(async () => {
     try {
       const { db, F } = await loadFirebase();
-      await F.setDoc(F.doc(db, USERS, uid), { pantry: clean, updatedAt: F.serverTimestamp() });
+      // An empty pantry is stored as no document at all, so nothing exists for people who added nothing.
+      if (clean.length) await F.setDoc(F.doc(db, USERS, uid), { pantry: clean, updatedAt: F.serverTimestamp() });
+      else await F.deleteDoc(F.doc(db, USERS, uid));
     } catch { /* offline: Firestore retries from its local cache */ }
   }, 600);
 }
@@ -106,18 +108,15 @@ export async function migrateLocalSaved(uid: string): Promise<number> {
 
 /**
  * Delete everything The Pantry stores for the signed-in person (pantry and saved recipes).
- * A Cloud Function does it; it also removes the sign-in itself when the person has nothing
- * left in any other app on the shared backend (`accountDeleted`).
+ * A Cloud Function does it; it also removes the sign-in itself (and signs the person out) when
+ * they have nothing left in any other app on the shared backend (`accountDeleted`). Otherwise
+ * they stay signed in.
  */
 export async function deleteMyPantryData(): Promise<{ accountDeleted: boolean }> {
   clearTimeout(pushTimer); // a pantry save still waiting must not bring the data back
   const core = await loadFirebase();
-  try {
-    const res = await core.deleteMyData(APP_NAME);
-    return { accountDeleted: !!res.accountDeleted };
-  } catch (e: any) {
-    throw new Error(String(e?.message ?? 'Could not delete your data. Try again.').replace(/\s*\[\d{3}\]$/, ''));
-  }
+  const res = await core.deleteMyData(APP_NAME);
+  return { accountDeleted: !!res.accountDeleted };
 }
 
 /** Delete everything kept on this device. */

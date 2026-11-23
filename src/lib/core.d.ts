@@ -36,6 +36,8 @@ export interface CoreAccount { uid: string; username: string; displayName: strin
 export interface Core {
   appName: string;
   emulator: boolean;
+  /** True when the page runs inside another site's frame. */
+  embedded: boolean;
   app: FirebaseApp;
   auth: Auth;
   db: Firestore;
