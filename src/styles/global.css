@@ -390,6 +390,12 @@ main { flex: 1; }
 }
 .choice:hover { border-color: var(--ink-faint); color: var(--ink); }
 .choice--on { background: var(--ink); border-color: var(--ink); color: var(--on-ink); }
+/* a spelling suggestion for something already in the list: "brocoli → broccoli", with a way to keep it as typed */
+.choice--fix { display: inline-flex; align-items: center; padding: 0; border-color: var(--primary, var(--ink-faint)); color: var(--ink); }
+.choice--fix s { color: var(--ink-faint); }
+.choice__main { min-height: 34px; padding: 0.35rem 0.3rem 0.35rem 0.85rem; font: inherit; color: inherit; }
+.choice__x { min-height: 34px; padding: 0.35rem 0.7rem 0.35rem 0.35rem; color: var(--ink-faint); font-size: 1rem; line-height: 1; }
+.choice__x:hover { color: var(--ink); }
 
 /* segmented control */
 .segmented { max-width: 100%; display: flex; gap: 0.3rem; padding: 0.3rem; background: var(--surface); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }

@@ -12,7 +12,7 @@
     "build:data": "python3 scripts/build-scores.py && python3 -I scripts/build-ingredients.py && node scripts/audit-scores.mjs --apply > /dev/null && node scripts/audit-scores.mjs",
     "build:synonyms": "python3 -I scripts/build-synonyms.py",
     "audit": "node scripts/audit-scores.mjs",
-    "test": "node scripts/test-label.mjs",
+    "test": "node scripts/test-label.mjs && node scripts/test-search.mjs",
     "build:products": "node data-pipeline/rescore.mjs",
     "export:zero-list": "node scripts/export-zero-list.mjs"
   },

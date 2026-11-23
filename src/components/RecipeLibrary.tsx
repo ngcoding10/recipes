@@ -18,6 +18,7 @@ import {
   keywordMatches,
   type MultiField,
 } from '../lib/filters';
+import { FEW, recipeFuzzy } from '../lib/search';
 import { labelize } from '../lib/format';
 import RecipeCard from './RecipeCard';
 
@@ -113,6 +114,14 @@ export default function RecipeLibrary({ recipes, base }: Props) {
         const words = wordIndex.get(r.slug) ?? [];
         return activeKeywords.every((kw) => keywordMatches(words, kw));
       });
+      // Nothing or very little found: add recipes whose title or ingredients are a close
+      // misspelling away ("spagetti", "brocolli chedar"). Every keyword must still match.
+      if (list.length < FEW) {
+        const fuzzy = recipeFuzzy(recipes);
+        const sets = activeKeywords.map((kw) => new Set([...recipes.filter((r) => keywordMatches(wordIndex.get(r.slug) ?? [], kw)), ...fuzzy.search(kw, { limit: 40 })]));
+        const seen = new Set(list);
+        list = [...list, ...recipes.filter((r) => !seen.has(r) && sets.every((s) => s.has(r)))];
+      }
     }
     const noMeal = { ...filters, meal: [] };
     return list.filter((r) => matchesFacets(r, noMeal));

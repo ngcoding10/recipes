@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { RecipeData } from '../lib/types';
 import { keywordMatches } from '../lib/filters';
+import { recipeFuzzy } from '../lib/search';
 import { usePantry } from '../lib/usePantry';
 import RecipeCard from './RecipeCard';
 import PantryInput from './PantryInput';
@@ -39,10 +40,15 @@ export default function Pantry({ recipes, base }: Props) {
   const matches = useMemo(() => {
     if (!items.length) return [];
     const out: Array<{ r: RecipeData; hits: string[] }> = [];
+    // An item that matches no recipe as typed ("brocolli", "chedar") is matched by its closest spelling instead.
+    const loose = new Map<string, Set<RecipeData>>();
+    for (const it of items) {
+      if (!recipes.some((r) => keywordMatches(wordIndex.get(r.slug) ?? [], it))) loose.set(it, new Set(recipeFuzzy(recipes).search(it, { limit: 40 })));
+    }
     for (const r of recipes) {
       if (meal !== 'any' && !r.mealTags.some((m) => (meal === 'snack' ? ['snack', 'dessert', 'side'].includes(m) : m === meal))) continue;
       const words = wordIndex.get(r.slug) ?? [];
-      const hits = items.filter((it) => keywordMatches(words, it));
+      const hits = items.filter((it) => loose.get(it)?.has(r) ?? keywordMatches(words, it));
       if (hits.length) out.push({ r, hits });
     }
     out.sort((a, b) => b.hits.length - a.hits.length || a.r.ingredients.length - b.r.ingredients.length || a.r.id.localeCompare(b.r.id));

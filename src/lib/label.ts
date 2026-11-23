@@ -31,6 +31,7 @@ export interface GradedIngredient {
   score: number | null;        // per-ingredient /100 (0 = cancer link)
   carc?: Carc;                 // why it scored 0
   position: number;            // 0 = first on the list
+  fuzzy?: boolean;             // matched as a close misspelling (typo or OCR error), not as written
 }
 
 export interface LabelAnalysis {
@@ -241,20 +242,28 @@ export function buildDataset(json: any, synonyms?: { map: Record<string, string>
   return { rows, byKey, byFirstWord, syn };
 }
 
-/** Look one label segment up in the extended dataset: exact, then contained phrase, then fuzzy. */
+/** Which kind of match to accept: as written ('exact'), a close misspelling only ('fuzzy'), or either. */
+export type MatchMode = 'all' | 'exact' | 'fuzzy';
+
+/**
+ * Look one label segment up in the extended dataset: exact, then contained phrase, then fuzzy.
+ * `mode` 'whole' accepts only the whole segment as written, 'contained' only a known name inside it.
+ */
 const DS_CACHE = new WeakMap<Dataset, Map<string, DatasetRow | null>>();
-export function lookupDataset(raw: string, ds: Dataset): DatasetRow | undefined {
+export function lookupDataset(raw: string, ds: Dataset, mode: MatchMode | 'whole' | 'contained' = 'all'): DatasetRow | undefined {
   let c = DS_CACHE.get(ds);
   if (!c) { c = new Map(); DS_CACHE.set(ds, c); }
-  const hit = c.get(raw);
+  const key = mode + '\u0001' + raw;
+  const hit = c.get(key);
   if (hit !== undefined) return hit ?? undefined;
-  const row = lookupUncached(raw, ds);
+  const row = mode === 'whole' ? ds.byKey.get(normKey(raw)) : mode === 'fuzzy' ? lookupFuzzy(raw, ds)
+    : lookupExact(raw, ds) ?? (mode === 'all' ? lookupFuzzy(raw, ds) : undefined);
   if (c.size > 200_000) c.clear();
-  c.set(raw, row ?? null);
+  c.set(key, row ?? null);
   return row;
 }
 
-function lookupUncached(raw: string, ds: Dataset): DatasetRow | undefined {
+function lookupExact(raw: string, ds: Dataset): DatasetRow | undefined {
   const n = normKey(raw);
   if (!n) return undefined;
   const exact = ds.byKey.get(n);
@@ -270,16 +279,27 @@ function lookupUncached(raw: string, ds: Dataset): DatasetRow | undefined {
       if ((n === k || n.startsWith(k + ' ') || n.endsWith(' ' + k) || n.includes(' ' + k + ' ')) && (!best || k.length > best.len)) best = { row, len: k.length };
     }
   }
-  if (best) return best.row;
-  // Fuzzy: one typo on words of 7+ letters, candidates sharing the first two letters.
-  if (n.length >= 7 && !/\d/.test(n)) {
-    const pre = n.slice(0, 2);
-    for (const [k, row] of ds.byKey) {
-      if (!k.startsWith(pre) || Math.abs(k.length - n.length) > 2) continue;
-      if (lev(n, k, n.length >= 12 ? 2 : 1) <= (n.length >= 12 ? 2 : 1)) return row;
-    }
+  return best?.row;
+}
+
+/**
+ * A close misspelling of a whole dataset name: one typo on names of 7+ letters (two from 12
+ * letters), same first two letters. Only when the closest name is unambiguous: if two different
+ * entries are equally close, nothing is matched, so a typo can never be read as the wrong one.
+ */
+function lookupFuzzy(raw: string, ds: Dataset): DatasetRow | undefined {
+  const n = normKey(raw);
+  if (n.length < 7 || /\d/.test(n)) return undefined;
+  const pre = n.slice(0, 2);
+  const max = n.length >= 12 ? 2 : 1;
+  let best: DatasetRow | undefined; let bestD = max + 1; let tie = false;
+  for (const [k, row] of ds.byKey) {
+    if (!k.startsWith(pre) || Math.abs(k.length - n.length) > max) continue;
+    const d = lev(n, k, max);
+    if (d > max) continue;
+    if (d < bestD) { best = row; bestD = d; tie = false; } else if (d === bestD && row !== best) tie = true;
   }
-  return undefined;
+  return tie ? undefined : best;
 }
 
 
@@ -327,18 +347,21 @@ for (const [a, list] of FOLDED) {
 
 const MATCH_CACHE = new Map<string, Additive | null>();
 
-/** Match one ingredient string against the database, honouring the product type. */
-export function matchIngredient(raw: string, kind: ProductKind = 'food'): Additive | undefined {
-  const key = kind + '\u0001' + raw;
+/**
+ * Match one ingredient string against the database, honouring the product type.
+ * `mode` 'exact' accepts only what is written; 'fuzzy' only a close misspelling of a long name.
+ */
+export function matchIngredient(raw: string, kind: ProductKind = 'food', mode: MatchMode = 'all'): Additive | undefined {
+  const key = mode + kind + '\u0001' + raw;
   const cached = MATCH_CACHE.get(key);
   if (cached !== undefined) return cached ?? undefined;
-  const found = matchUncached(raw, kind);
+  const found = mode === 'all' ? (matchExact(raw, kind) ?? matchFuzzy(raw, kind)) : mode === 'exact' ? matchExact(raw, kind) : matchFuzzy(raw, kind);
   if (MATCH_CACHE.size > 200_000) MATCH_CACHE.clear();
   MATCH_CACHE.set(key, found ?? null);
   return found;
 }
 
-function matchUncached(raw: string, kind: ProductKind): Additive | undefined {
+function matchExact(raw: string, kind: ProductKind): Additive | undefined {
   const s = fold(raw);
 
   // E-numbers / INS numbers, incl. OCR forms like "E 102" or "e-102"
@@ -366,10 +389,17 @@ function matchUncached(raw: string, kind: ProductKind): Additive | undefined {
     kept.sort((x, y) => scoreFor(x.a, kind).score - scoreFor(y.a, kind).score || (y.end - y.start) - (x.end - x.start));
     return kept[0].a;
   }
+  return undefined;
+}
 
-  // Fuzzy fallback for OCR typos on longer names ("tartrazlne", "carrageenen").
-  // Strict on purpose: one edit, or two for names of 16+ letters, and only when exactly one
-  // entry is that close — so "sodium nitrite" can never turn into "sodium citrate".
+/**
+ * Fuzzy fallback for typos and OCR errors on longer names ("tartrazlne", "carrageenen", "xantham gum").
+ * Strict on purpose: the whole segment must be within one edit of a name of 7+ letters (two edits
+ * for names of 16+ letters), and only when exactly one entry is that close, so "sodium nitrite"
+ * can never turn into "sodium citrate" and a harmless ingredient is never read as a flagged one.
+ */
+function matchFuzzy(raw: string, kind: ProductKind): Additive | undefined {
+  const s = fold(raw);
   const word = s.replace(/[^a-z\s]/g, '').trim();
   if (word.length >= 7) {
     let found: Additive | undefined; let ambiguous = false;
@@ -424,11 +454,25 @@ export function analyzeLabel(text: string, opts: AnalyzeOptions = {}): LabelAnal
     // otherwise try the label text as written, then with foreign phrases translated.
     const tr = translate(raw, syn);
     const exactTr = tr !== undefined && syn?.get(normKey(raw)) === tr;
-    const match = (exactTr ? matchIngredient(tr!, kind) : undefined) ?? matchIngredient(raw, kind) ?? (tr ? matchIngredient(tr, kind) : undefined);
+    // Order matters. A segment that either list knows exactly as written is never guessed at:
+    // curated database first, then the extended list's whole names. Only then is it tried as a
+    // close misspelling of a curated name (see matchFuzzy; "sodium nitrlte" must not fall
+    // through to the extended list's plain "sodium"), then as a known name inside a longer
+    // segment, then as a close misspelling of an extended-list name. Misspelling matches are
+    // marked `fuzzy` so the page can show what the text was read as.
+    const fromRow = (row: DatasetRow, fuzzy?: boolean): GradedIngredient =>
+      // Category-default ratings are informational: shown, but they do not move the product score.
+      ({ raw, ds: row, risk: row.specific ? bandOf(row.score) : 0, score: row.score, carc: row.carc, position, ...(fuzzy ? { fuzzy } : {}) });
+    const match = (exactTr ? matchIngredient(tr!, kind, 'exact') : undefined) ?? matchIngredient(raw, kind, 'exact') ?? (tr ? matchIngredient(tr, kind, 'exact') : undefined);
     if (match) return fromEntry(raw, match, position);
-    const row = ds ? (lookupDataset(raw, ds) ?? (tr ? lookupDataset(tr, ds) : undefined)) : undefined;
-    // Category-default ratings are informational: shown, but they do not move the product score.
-    if (row) return { raw, ds: row, risk: row.specific ? bandOf(row.score) : 0, score: row.score, carc: row.carc, position };
+    const whole = ds ? (lookupDataset(raw, ds, 'whole') ?? (tr ? lookupDataset(tr, ds, 'whole') : undefined)) : undefined;
+    if (whole) return fromRow(whole);
+    const nearMatch = matchIngredient(raw, kind, 'fuzzy') ?? (tr ? matchIngredient(tr, kind, 'fuzzy') : undefined);
+    if (nearMatch) return { ...fromEntry(raw, nearMatch, position), fuzzy: true };
+    const row = ds ? (lookupDataset(raw, ds, 'exact') ?? (tr ? lookupDataset(tr, ds, 'exact') : undefined)) : undefined;
+    if (row) return fromRow(row);
+    const nearRow = ds ? lookupDataset(raw, ds, 'fuzzy') : undefined;
+    if (nearRow) return fromRow(nearRow, true);
     return { raw, risk: null, score: null, position };
   });
 

@@ -7,6 +7,18 @@ import '../../styles/tools.css';
 import '../../styles/data.css';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+/**
+ * Every name an ingredient is known by: its name, the scanner's name, E-numbers and label
+ * spellings (`names`, what the search box matches). The long tail of label spellings is boiled
+ * down to its distinct extra words (`more`), which is all the typo-tolerant index needs.
+ */
+function namesOf(d: (typeof INGREDIENTS)[number]): { names: string[]; more: string } {
+  const names = [...new Set([d.name, d.scanner?.name ?? '', ...d.e_numbers, ...d.aliases.slice(0, 12)].filter(Boolean))];
+  const seen = new Set(names.join(' ').toLowerCase().split(/[^a-z0-9]+/));
+  const more: string[] = [];
+  for (const w of d.aliases.slice(12).join(' ').toLowerCase().split(/[^a-z]+/)) if (w.length >= 4 && !seen.has(w)) { seen.add(w); more.push(w); }
+  return { names, more: more.join(' ') };
+}
 const items: IngredientRow[] = INGREDIENTS.map((d) => ({
   id: d.id,
   name: d.name,
@@ -15,7 +27,8 @@ const items: IngredientRow[] = INGREDIENTS.map((d) => ({
   cls: d.class,
   why: d.scanner?.carcWhy || d.scanner?.why || d.evidence_note,
   products: d.products,
-  search: [d.name, d.group, d.class, ...d.e_numbers, ...d.aliases.slice(0, 12), d.scanner?.name ?? ''].join(' ').toLowerCase(),
+  group: d.group,
+  ...namesOf(d),
 }));
 const zero = items.filter((i) => i.score === 0).length;
 ---

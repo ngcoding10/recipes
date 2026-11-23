@@ -42,6 +42,7 @@ the AI features run on a shared Firebase backend that lives in another repositor
 |---|---|
 | `src/config/firebase.ts` | The public Firebase web config and App Check site key (null = off) |
 | `src/lib/core.js` | The shared Firebase module, an unchanged copy from the backend repo |
+| `src/lib/fuzzy.js`, `search.ts` | Typo-tolerant search for every search box (`fuzzy.js` is an unchanged copy from the backend repo); tests in `scripts/test-search.mjs` |
 | `src/lib/firebase.ts`, `store.ts` | Lazy Firebase, sign-in, pantry and saved-recipe storage |
 | `src/lib/ai.ts`, `ai-shared.ts` | Calls to the AI Cloud Functions, and the types of what they return |
 | `scripts/export-zero-list.mjs` | `npm run export:zero-list`: the score-0 food ingredients, for the backend |

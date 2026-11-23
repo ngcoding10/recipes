@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { FEW, fuzzyOver, withFuzzy } from '../lib/search';
 
 /** [display name, key, products, shard, average score] */
 type BrandRow = [string, string, number, number, number];
@@ -97,6 +98,9 @@ export default function Products({ base }: { base: string }) {
     }
   }
 
+  // Typo-tolerant brand index (35,000 names): built on the first search the normal matching cannot answer.
+  const brandFuzzy = useMemo(() => fuzzyOver(brands ?? [], (b) => b[0], (b) => b[2]), [brands]);
+
   const match = useMemo(() => {
     const query = q.trim();
     if (!brands || !query || /^\d{6,14}$/.test(query.replace(/\s/g, ''))) return null;
@@ -111,8 +115,17 @@ export default function Products({ base }: { base: string }) {
     }
     const c = compact(query);
     const inner = c.length >= 3 ? brands.filter((b) => b[1].includes(c)).sort((a, b) => b[2] - a[2]) : [];
+    if (inner.length >= FEW) return { brands: inner.slice(0, 18), total: inner.length, rest: '' };
+    // Nothing or very little found: brands a close misspelling away ("dorritos", "gatoraid"),
+    // trying the whole query first and then its first words (the rest filters that brand's products).
+    for (let k = words.length; k >= 1; k--) {
+      const near = brandFuzzy.search(words.slice(0, k).join(' '), { limit: 18 });
+      if (!near.length) continue;
+      if (k === words.length) { const all = withFuzzy(inner, query, brandFuzzy, { limit: 18 }); return { brands: all.slice(0, 18), total: all.length, rest: '' }; }
+      if (!inner.length) return { brands: near, total: near.length, rest: words.slice(k).join(' ') };
+    }
     return { brands: inner.slice(0, 18), total: inner.length, rest: '' };
-  }, [q, brands]);
+  }, [q, brands, brandFuzzy]);
 
   const pick = (key: string, rest = '') => { setBrandKey(key); setFilter(rest); setOpen(null); };
   const submit = (e: { preventDefault: () => void }) => {
@@ -122,13 +135,21 @@ export default function Products({ base }: { base: string }) {
     if (match && match.brands.length) pick(match.brands[0][1], match.rest);
   };
 
-  const products = useMemo(() => {
+  // This brand's products, and a typo-tolerant index over them (built only if a filter needs it).
+  const brandProducts = useMemo(() => {
     if (!shard || !brand) return [];
     const bi = shard.b.indexOf(brand[1]);
-    let list = shard.p.filter((p) => p[0] === bi);
+    return shard.p.filter((p) => p[0] === bi);
+  }, [shard, brand]);
+  const productFuzzy = useMemo(() => fuzzyOver(brandProducts, (p) => [p[2], p[3]]), [brandProducts]);
+
+  const products = useMemo(() => {
+    if (!shard || !brand) return [];
+    let list = brandProducts;
     const words = filter.toUpperCase().split(/\s+/).filter(Boolean);
     if (words.length) list = list.filter((p) => words.every((w) => (p[2] + ' ' + p[3]).toUpperCase().includes(w)));
     list = list.slice();
+    const exact = list.length;
     if (sort === 'score') list.sort((a, b) => (a[5] < 0 ? 101 : a[5]) - (b[5] < 0 ? 101 : b[5]) || a[2].localeCompare(b[2]));
     if (sort === 'name') list.sort((a, b) => a[2].localeCompare(b[2]));
     if (sort === 'date') list.sort((a, b) => b[4].localeCompare(a[4]));
@@ -136,8 +157,10 @@ export default function Products({ base }: { base: string }) {
       const i = list.findIndex((p) => (p[1] || `${p[2]}|${p[4]}`) === open);
       if (i >= limit) list.unshift(...list.splice(i, 1));
     }
+    // Nothing or very little found in this brand: add products a close misspelling away ("nacho chese"), after the exact ones.
+    if (words.length && exact < FEW) list = withFuzzy(list, filter, productFuzzy, { limit: 30 });
     return list;
-  }, [shard, brand, filter, sort, open, limit]);
+  }, [shard, brand, brandProducts, productFuzzy, filter, sort, open, limit]);
 
   const suggestions = useMemo(() => SUGGEST.map((k) => brandByKey.get(k)).filter(Boolean) as BrandRow[], [brandByKey]);
 

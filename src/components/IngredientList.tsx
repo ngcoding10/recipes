@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { fuzzyOver, normalizeQuery, withFuzzy } from '../lib/search';
 
 export interface IngredientRow {
   id: string;
@@ -8,7 +9,11 @@ export interface IngredientRow {
   cls: string;
   why: string;
   products: number;
-  search: string;
+  group: string;
+  /** The names it is known by: name, E-numbers, label spellings. */
+  names: string[];
+  /** Extra words from its rarer label spellings, for the typo-tolerant search only. */
+  more: string;
 }
 
 const BANDS = [
@@ -51,20 +56,29 @@ export default function IngredientList({ items, base }: { items: IngredientRow[]
     return c;
   }, [items]);
 
+  // What the normal search looks in: every name, plus the group and class.
+  const haystack = useMemo(() => new Map(items.map((i) => [i, [...i.names, i.group, i.cls].join(' ').toLowerCase()])), [items]);
+  // Typo-tolerant index, built on the first search that needs it; commoner ingredients win ties.
+  const fuzzy = useMemo(() => fuzzyOver(items, (i) => [...i.names, i.more], (i) => i.products, (i) => i.name), [items]);
+
   const results = useMemo(() => {
-    const words = q.toLowerCase().split(/\s+/).filter(Boolean);
-    let list = items.filter((i) => (band === 'all' || riskOf(i) === band) && words.every((w) => i.search.includes(w)));
+    const query = normalizeQuery(q).toLowerCase(); // "E 621" and "e-621" mean E621
+    const words = query.split(/\s+/).filter(Boolean);
+    const inBand = (i: IngredientRow) => band === 'all' || riskOf(i) === band;
+    let list = items.filter((i) => inBand(i) && words.every((w) => haystack.get(i)!.includes(w)));
     list = list.slice();
     if (sort === 'score') list.sort((a, b) => (a.score ?? 101) - (b.score ?? 101) || b.products - a.products);
     if (sort === 'common') list.sort((a, b) => b.products - a.products);
     if (sort === 'alpha') list.sort((a, b) => a.name.localeCompare(b.name));
     // exact name hits first when searching
     if (words.length) {
-      const ql = q.trim().toLowerCase();
+      const ql = query;
       list.sort((a, b) => Number(b.name.toLowerCase().startsWith(ql)) - Number(a.name.toLowerCase().startsWith(ql)));
     }
+    // Nothing or very little found: add close misspellings ("xantham gum", "caragenan") after the exact hits.
+    if (words.length) list = withFuzzy(list, query, fuzzy, { limit: 12, filter: inBand, primary: (i) => i.name });
     return list;
-  }, [items, q, band, sort]);
+  }, [items, q, band, sort, fuzzy, haystack]);
 
   return (
     <div>

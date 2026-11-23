@@ -271,7 +271,7 @@ export default function Scan({ base }: Props) {
                     <div>
                       {g.match ? (
                         <>
-                          <div className="ingr__name">{g.match.name}{g.match.code ? ` · ${g.match.code}` : ''} <span className="ingr__raw">{g.raw !== g.match.name ? `“${g.raw}”` : ''}</span></div>
+                          <div className="ingr__name">{g.match.name}{g.match.code ? ` · ${g.match.code}` : ''} <span className="ingr__raw">{g.fuzzy ? `read from “${g.raw}” (closest spelling)` : g.raw !== g.match.name ? `“${g.raw}”` : ''}</span></div>
                           <CarcPill carc={g.carc} />
                           {g.carc && <div className="ingr__why"><strong>Why 0:</strong> {g.carc.why}</div>}
                           <div className="ingr__why">{g.match.why}</div>
@@ -280,7 +280,7 @@ export default function Scan({ base }: Props) {
                         </>
                       ) : g.ds ? (
                         <>
-                          <div className="ingr__name">{g.ds.name}{g.ds.e ? ` · ${g.ds.e}` : ''} <span className="ingr__raw">{g.raw.toLowerCase() !== g.ds.name.toLowerCase() ? `“${g.raw}”` : ''}</span></div>
+                          <div className="ingr__name">{g.ds.name}{g.ds.e ? ` · ${g.ds.e}` : ''} <span className="ingr__raw">{g.fuzzy ? `read from “${g.raw}” (closest spelling)` : g.raw.toLowerCase() !== g.ds.name.toLowerCase() ? `“${g.raw}”` : ''}</span></div>
                           <CarcPill carc={g.carc} />
                           <div className="ingr__why">{g.carc ? <><strong>Why 0:</strong> {g.carc.why}</> : g.ds.note}</div>
                           <div className="ingr__ev">{g.ds.tier} · {g.ds.cat} · extended list</div>
@@ -304,7 +304,7 @@ export default function Scan({ base }: Props) {
                   <li key={i} className={`ingr__row${g.carc ? ' ingr__row--c' : g.risk != null ? ` ingr__row--${g.risk}` : ''}`}>
                     <span className={`ingr__dot risk--${g.carc ? 'c' : g.risk ?? 'u'}`} aria-hidden="true" />
                     <div>
-                      <div className="ingr__name">{g.raw}</div>
+                      <div className="ingr__name">{g.raw}{g.fuzzy && <span className="ingr__raw"> read as {(g.match ?? g.ds)!.name} (closest spelling)</span>}</div>
                       <div className="ingr__why">{g.carc ? `${(g.match ?? g.ds)!.name}: ${g.carc.why}` : g.match ? `${g.match.name}: ${g.match.why}` : g.ds ? `${g.ds.name}: ${g.ds.note}${g.ds.specific ? '' : ' (category default, not counted in the score)'}` : `Not in either list — most likely an ordinary ${analysis.kind === 'food' ? 'food' : 'base'} ingredient.`}</div>
                       <YukaPill yuka={g.match?.yuka} />
                     </div>
