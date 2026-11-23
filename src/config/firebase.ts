@@ -17,6 +17,13 @@ export interface FirebaseWebConfig {
   messagingSenderId?: string;
 }
 
-export const FIREBASE_CONFIG: FirebaseWebConfig | null = null;
+export const FIREBASE_CONFIG: FirebaseWebConfig | null = {
+  apiKey: 'AIzaSyBS9L5-lAQXibNvtXDXDeBDRXVIWRIg7v0',
+  authDomain: 'combination-23e84.firebaseapp.com',
+  projectId: 'combination-23e84',
+  storageBucket: 'combination-23e84.firebasestorage.app',
+  messagingSenderId: '102320113071',
+  appId: '1:102320113071:web:b7b91336dd83b42d181b5a',
+};
 
 export const APP_CHECK_SITE_KEY: string | null = null;
