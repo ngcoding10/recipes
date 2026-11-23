@@ -41,6 +41,8 @@ const NAV = [
     <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1d1915" />
     <meta name="color-scheme" content="light dark" />
     <script is:inline>
+      // One-time cleanup: the site no longer takes a personal API key, so remove any saved on this device.
+      try { localStorage.removeItem('pantry.anthropicKey'); } catch (e) {}
       // Apply a saved light/dark choice before first paint (no flash). "system" = follow the device.
       try { var t = localStorage.getItem('pantry.theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
     </script>

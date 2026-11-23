@@ -49,10 +49,10 @@ only a card linking to it (pull request from `ngcoding10/ASCoding11.github.io`).
 2. Arjun: in `ASCoding11/recipes` → **Settings → Pages → Build and deployment → Deploy from a
    branch → `gh-pages` / `(root)` → Save**. About a minute later
    https://ascoding11.github.io/recipes/ is live.
-3. Firebase (once you have set it up, [`SETUP-FIREBASE.md`](SETUP-FIREBASE.md)): **Authentication →
+3. Firebase (the shared backend, see [`BACKEND.md`](BACKEND.md)): **Authentication →
    Settings → Authorized domains** must list `ascoding11.github.io` as well as
-   `ngcoding10.github.io`. The Cloud Functions already accept requests from both addresses; if
-   you deployed them before this change, run `firebase deploy --only functions` once.
+   `ngcoding10.github.io`, and the backend's Cloud Functions must accept requests from both
+   addresses.
 
 From then on, every push to this repo updates both addresses. Nothing has to be done on ASCoding.
 

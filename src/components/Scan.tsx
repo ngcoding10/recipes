@@ -1,9 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { analyzeLabel, buildDataset, type Dataset, type LabelAnalysis, type ProductKind, type ScoringMode } from '../lib/label';
 import { CARC_LABEL, RISK_LABEL, YUKA_LABEL, type Carc } from '../data/additives';
-import { checkLabel, fileToImageBlock, getKey, KEY_EVENT, type Usage } from '../lib/ai';
-import type { LabelCheck } from '../lib/ai-shared';
-import { firebaseEnabled } from '../lib/firebase';
+import { checkLabel, fileToJpegBase64 } from '../lib/ai';
+import type { LabelCheck, Usage } from '../lib/ai-shared';
 import { useAccount } from '../lib/useAccount';
 import AiAccess from './AiAccess';
 
@@ -71,7 +70,6 @@ export default function Scan({ base }: Props) {
   const [status, setStatus] = useState('');
   const [text, setText] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const [hasKey, setHasKey] = useState(false);
   const [aiBusy, setAiBusy] = useState(false);
   const [ai, setAi] = useState<LabelCheck | null>(null);
   const [aiUsage, setAiUsage] = useState<Usage | null>(null);
@@ -87,13 +85,9 @@ export default function Scan({ base }: Props) {
   const cameraRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setHasKey(!!getKey());
-    const sync = () => setHasKey(!!getKey());
-    window.addEventListener(KEY_EVENT, sync);
     try { const m = localStorage.getItem('pantry.scanMode'); if (m === 'yuka' || m === 'evidence') setMode(m); } catch { /* ignore */ }
     // Arriving from the Products page with a label to check.
     try { const t = sessionStorage.getItem('pantry.scanText'); if (t) { sessionStorage.removeItem('pantry.scanText'); setPasteMode(true); setText(t); } } catch { /* ignore */ }
-    return () => window.removeEventListener(KEY_EVENT, sync);
   }, []);
   useEffect(() => { try { localStorage.setItem('pantry.scanMode', mode); } catch { /* ignore */ } }, [mode]);
   useEffect(() => () => { if (preview) URL.revokeObjectURL(preview); }, [preview]);
@@ -148,12 +142,12 @@ export default function Scan({ base }: Props) {
   const runAi = async () => {
     setAiBusy(true); setAiError(''); setAi(null);
     try {
-      const image = file ? await fileToImageBlock(file) : null;
+      const image = file ? await fileToJpegBase64(file) : null;
       const flagged = (analysis?.ingredients ?? []).filter((g) => g.score !== null).slice(0, 40).map((g) => `${g.match?.name ?? g.ds?.name ?? g.raw} = ${g.score}`);
-      const { result, usage } = await checkLabel({ kind: analysis?.kind ?? 'food', text, hasImage: !!image, flagged }, image, !!account);
+      const { result, usage } = await checkLabel({ kind: analysis?.kind ?? 'food', text, image, flagged }, !!account);
       result.score = Math.max(0, Math.min(100, Math.round(result.score)));
       setAi(result);
-      if (usage) setAiUsage(usage);
+      setAiUsage(usage);
     } catch (e: any) {
       setAiError(e?.message ?? 'AI check failed.');
     } finally {
@@ -334,8 +328,8 @@ export default function Scan({ base }: Props) {
           <div className="card-surface tools__card">
             <h2 className="section-title">AI check</h2>
             <p className="tools__muted" style={{ marginTop: 0 }}>Optional. Sends the photo once to Claude to judge the {analysis.kind === 'food' ? 'nutrition panel, the type of food' : 'product type, how it is used'} and anything the label reader missed, using the same scoring rule as this page.</p>
-            {!(hasKey || (firebaseEnabled && account)) ? (
-              <div style={{ marginTop: '0.75rem' }}><AiAccess onKey={setHasKey} /></div>
+            {!account ? (
+              <div style={{ marginTop: '0.75rem' }}><AiAccess /></div>
             ) : (
               <div className="tools__actions">
                 <button className="btn btn--dark" onClick={runAi} disabled={aiBusy}>{aiBusy ? <><span className="spinner" /> Checking…</> : ai ? 'Run again' : 'Run AI check'}</button>

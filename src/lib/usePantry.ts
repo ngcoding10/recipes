@@ -6,7 +6,7 @@ const synced = new Set<string>();
 
 /** The shared pantry list: on this device, and synced to the Google account when signed in. */
 export function usePantry() {
-  const { account, ready } = useAccount();
+  const { account, ready, enabled } = useAccount();
   const [items, setItems] = useState<string[]>([]);
   useEffect(() => {
     setItems(getLocalPantry());
@@ -21,5 +21,5 @@ export function usePantry() {
     migrateLocalSaved(account.uid).catch(() => {});
   }, [account?.uid]);
   const update = (next: string[]) => { setItems(next); setPantry(next, account?.uid ?? null); };
-  return { items, setItems: update, account, ready };
+  return { items, setItems: update, account, ready, enabled };
 }

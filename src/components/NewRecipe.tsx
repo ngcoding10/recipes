@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { generateRecipe, getKey, KEY_EVENT, type Usage } from '../lib/ai';
-import { DIETS, MEALS, type GeneratedRecipe, type Meal, type RecipeRequest } from '../lib/ai-shared';
-import { firebaseEnabled } from '../lib/firebase';
+import { generateRecipe } from '../lib/ai';
+import { DIETS, MEALS, type GeneratedRecipe, type Meal, type RecipeRequest, type Usage } from '../lib/ai-shared';
 import { usePantry } from '../lib/usePantry';
 import { deleteSaved, listSaved, saveRecipe, SAVED_EVENT, type SavedRecipe } from '../lib/store';
 import { matchIngredient, lookupDataset, buildDataset, type Dataset } from '../lib/label';
@@ -64,7 +63,7 @@ function asText(g: GeneratedRecipe): string {
 }
 
 export default function NewRecipe({ base }: { base: string }) {
-  const { items, setItems, account } = usePantry();
+  const { items, setItems, account, enabled } = usePantry();
   const [meal, setMeal] = useState<Meal>('dinner');
   const [servings, setServings] = useState(2);
   const [maxMinutes, setMaxMinutes] = useState(0);
@@ -72,7 +71,6 @@ export default function NewRecipe({ base }: { base: string }) {
   const [strict, setStrict] = useState(false);
   const [avoidZero, setAvoidZero] = useState(true);
   const [note, setNote] = useState('');
-  const [hasKey, setHasKey] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
   const [result, setResult] = useState<{ recipe: GeneratedRecipe; request: RecipeRequest } | null>(null);
@@ -86,10 +84,6 @@ export default function NewRecipe({ base }: { base: string }) {
     setMeal(defaultMeal());
     const q = new URLSearchParams(window.location.search);
     const m = q.get('meal'); if (m && (MEALS as readonly string[]).includes(m)) setMeal(m as Meal);
-    setHasKey(!!getKey());
-    const sync = () => setHasKey(!!getKey());
-    window.addEventListener(KEY_EVENT, sync);
-    return () => window.removeEventListener(KEY_EVENT, sync);
   }, []);
   // ?have=a,b from the Cook page adds to the pantry once
   useEffect(() => {
@@ -115,9 +109,8 @@ export default function NewRecipe({ base }: { base: string }) {
     fetch(`${base}/data/ingredients.json`).then((r) => r.json()).then((j) => setDs(buildDataset(j))).catch(() => {});
   }, [result, ds, base]);
 
-  // Decided from state set after mount (not localStorage during render) so server and client HTML match.
-  const route: 'account' | 'own-key' | 'none' = firebaseEnabled && account ? 'account' : hasKey ? 'own-key' : 'none';
-  const canRun = route !== 'none';
+  // The AI runs only for signed-in people.
+  const canRun = !!account;
 
   const run = async () => {
     setBusy(true); setError(''); setSavedId(''); setCopied(false);
@@ -125,7 +118,7 @@ export default function NewRecipe({ base }: { base: string }) {
     try {
       const { recipe, usage: u } = await generateRecipe(request, !!account);
       setResult({ recipe, request });
-      if (u) setUsage(u);
+      setUsage(u);
       setTimeout(() => document.getElementById('new-result')?.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     } catch (e: any) {
       setError(e?.message ?? 'Something went wrong.');
@@ -206,12 +199,12 @@ export default function NewRecipe({ base }: { base: string }) {
               {busy ? <><span className="spinner" /> Writing your {MEAL_INFO[meal].label.toLowerCase()}…</> : `Create a ${MEAL_INFO[meal].label.toLowerCase()} recipe`}
             </button>
             <p className="tools__hint">
-              {route === 'account' ? `Runs on your Google account${usage ? ` · ${usage.used} of ${usage.limit} used today` : ''}.` : 'Runs on your own Anthropic API key from the Account page.'}
+              {`Free with your Google sign-in${usage ? ` · ${usage.used} of ${usage.limit} used today` : ''}.`}
               {' '}{items.length ? `Built from ${items.length} ingredient${items.length > 1 ? 's' : ''}.` : 'No ingredients listed: it will suggest something from basic staples.'}
             </p>
           </>
         ) : (
-          <AiAccess onKey={setHasKey} />
+          <AiAccess />
         )}
         {error && <p className="notice notice--red" style={{ marginTop: '0.75rem' }} role="alert">{error}</p>}
       </section>
@@ -289,7 +282,7 @@ export default function NewRecipe({ base }: { base: string }) {
             ))}
           </ul>
         )}
-        {!account && firebaseEnabled && saved.length > 0 && <p className="tools__hint">Sign in with Google on the Account page to keep these on every device.</p>}
+        {!account && enabled && saved.length > 0 && <p className="tools__hint">Sign in with Google on the Account page to keep these on every device.</p>}
       </section>
     </div>
   );

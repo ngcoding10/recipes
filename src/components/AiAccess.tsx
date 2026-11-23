@@ -1,34 +1,43 @@
 import { useState } from 'react';
-import { firebaseEnabled, signInWithGoogle } from '../lib/firebase';
-import ApiKeyBox from './ApiKeyBox';
+import { signInWithGoogle } from '../lib/firebase';
+import { useAccount } from '../lib/useAccount';
 
 /**
- * Shown where an AI feature needs access: "Sign in with Google" when the site has Firebase set
- * up (the owner's key pays, with a daily limit), and always the option to use your own key.
+ * A "Sign in with Google" button that opens Google's window straight from the click. Firebase
+ * is loaded as soon as the button is on the page (useAccount does that); until it is ready the
+ * button is disabled, because a click that first has to wait for a download gets its sign-in
+ * window blocked by the browser.
  */
-export default function AiAccess({ onKey }: { onKey?: (has: boolean) => void }) {
+export function GoogleSignInButton({ large }: { large?: boolean }) {
+  const { ready } = useAccount();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
-  const [ownKey, setOwnKey] = useState(!firebaseEnabled);
 
-  const signIn = async () => {
+  const signIn = () => {
+    // Nothing may be awaited before this call.
+    const opening = signInWithGoogle();
     setBusy(true); setErr('');
-    try { await signInWithGoogle(); } catch (e: any) { setErr(e?.message ?? 'Sign-in failed.'); } finally { setBusy(false); }
+    opening.catch((e: any) => setErr(e?.message ?? 'Sign-in failed.')).finally(() => setBusy(false));
   };
 
   return (
+    <>
+      <button type="button" className={`btn btn--outline btn--google${large ? ' btn--lg' : ''}`} onClick={signIn} disabled={!ready || busy}>
+        <GoogleMark /> {!ready ? 'Loading…' : busy ? 'Opening Google…' : 'Sign in with Google'}
+      </button>
+      {err && <p className="notice notice--red" role="alert" style={{ marginTop: '0.75rem' }}>{err}</p>}
+    </>
+  );
+}
+
+/** Shown where an AI feature needs access: the AI features run only for signed-in people. */
+export default function AiAccess() {
+  const { enabled } = useAccount();
+  if (!enabled) return <p className="tools__muted" style={{ margin: 0 }}>The AI features need a Google sign-in, and sign-in is not set up yet on this site. Everything else works without it.</p>;
+  return (
     <div className="ai-access">
-      {firebaseEnabled && (
-        <>
-          <button className="btn btn--outline btn--google" onClick={signIn} disabled={busy}>
-            <GoogleMark /> {busy ? 'Opening Google…' : 'Sign in with Google'}
-          </button>
-          <p className="tools__hint" style={{ marginTop: '0.5rem' }}>Free to use with a daily limit. Your pantry and saved recipes follow you to any device.</p>
-          {err && <p className="notice notice--red" style={{ marginTop: '0.5rem' }}>{err}</p>}
-          {!ownKey && <button type="button" className="btn-link" style={{ marginTop: '0.5rem' }} onClick={() => setOwnKey(true)}>Or use your own Anthropic API key</button>}
-        </>
-      )}
-      {ownKey && <div style={{ marginTop: firebaseEnabled ? '0.75rem' : 0 }}><ApiKeyBox compact onChange={onKey} /></div>}
+      <GoogleSignInButton />
+      <p className="tools__hint" style={{ marginTop: '0.5rem' }}>Free to use with a daily limit. Your pantry and saved recipes follow you to any device.</p>
     </div>
   );
 }

@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
-import { firebaseEnabled, signInWithGoogle, signOutNow } from '../lib/firebase';
+import { signOutNow } from '../lib/firebase';
 import { useAccount } from '../lib/useAccount';
-import { clearDeviceData, deleteAccountData, listSaved } from '../lib/store';
+import { clearDeviceData, deleteMyPantryData, listSaved } from '../lib/store';
 import { usePantry } from '../lib/usePantry';
-import { GoogleMark } from './AiAccess';
+import { GoogleSignInButton } from './AiAccess';
 
 type Theme = 'system' | 'light' | 'dark';
 function applyTheme(t: Theme) {
@@ -12,7 +12,7 @@ function applyTheme(t: Theme) {
 }
 
 export function AccountCard() {
-  const { account, ready } = useAccount();
+  const { account, ready, enabled } = useAccount();
   const { items } = usePantry();
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState('');
@@ -26,11 +26,11 @@ export function AccountCard() {
     try { await fn(); if (ok) setMsg(ok); } catch (e: any) { setErr(e?.message ?? 'Something went wrong.'); } finally { setBusy(false); }
   };
 
-  if (!firebaseEnabled) {
+  if (!enabled) {
     return (
       <div>
         <h2 className="section-title">Google sign-in</h2>
-        <p className="tools__muted">Sign-in is not switched on for this site yet. Everything still works: your pantry and saved recipes are kept on this device, and the AI features can use your own API key below.</p>
+        <p className="tools__muted">Sign-in is not set up yet on this site. Everything else still works: your pantry and saved recipes are kept on this device. The AI features (new recipes and the AI label check) need a sign-in, so they are switched off for now.</p>
       </div>
     );
   }
@@ -39,9 +39,9 @@ export function AccountCard() {
     return (
       <div>
         <h2 className="section-title">Sign in</h2>
-        <p className="tools__muted" style={{ marginTop: 0 }}>Sign in with Google to keep your pantry and saved recipes on every device, and to use the AI features without your own key (with a daily limit).</p>
-        <button className="btn btn--outline btn--google btn--lg" onClick={() => act(signInWithGoogle)} disabled={busy}><GoogleMark /> {busy ? 'Opening Google…' : 'Sign in with Google'}</button>
-        {err && <p className="notice notice--red" role="alert" style={{ marginTop: '0.75rem' }}>{err}</p>}
+        <p className="tools__muted" style={{ marginTop: 0 }}>Sign in with Google to keep your pantry and saved recipes on every device, and to use the AI features (free, with a daily limit).</p>
+        <GoogleSignInButton large />
+        {msg && <p className="notice notice--green" style={{ marginTop: '0.75rem' }}>{msg}</p>}
         <p className="tools__hint">We store your Google name and email (from Google), your pantry list and the recipes you save. Nothing else. See the <a href="../privacy/">privacy page</a>.</p>
       </div>
     );
@@ -58,8 +58,15 @@ export function AccountCard() {
         <button className="btn btn--outline" onClick={() => act(signOutNow, 'Signed out.')} disabled={busy}>Sign out</button>
         <button className="btn btn--ghost" disabled={busy} onClick={() => {
           if (!confirm('Delete your pantry and every saved recipe from your account? This cannot be undone.')) return;
-          act(async () => { await deleteAccountData(account.uid); clearDeviceData(); await signOutNow(); }, 'Your saved data was deleted and you are signed out.');
-        }}>Delete my data</button>
+          act(async () => {
+            const { accountDeleted } = await deleteMyPantryData();
+            clearDeviceData();
+            if (!accountDeleted) await signOutNow();
+            setMsg(accountDeleted
+              ? 'Your Pantry data was deleted. You use no other app with this sign-in, so the sign-in was removed too.'
+              : 'Your Pantry data was deleted and you are signed out. Your sign-in is kept because another app still uses it.');
+          });
+        }}>Delete my Pantry data</button>
       </div>
       {msg && <p className="notice notice--green" style={{ marginTop: '0.75rem' }}>{msg}</p>}
       {err && <p className="notice notice--red" role="alert" style={{ marginTop: '0.75rem' }}>{err}</p>}

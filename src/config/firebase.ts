@@ -1,13 +1,12 @@
 /**
- * Firebase web config: paste it here to switch on Google sign-in, cloud-saved pantries and
- * recipes, and AI that runs on the site owner's key (see docs/SETUP-FIREBASE.md).
+ * The public web config of the shared Firebase project. Both values are public identifiers
+ * (not secrets), pasted from the Firebase console:
+ *   FIREBASE_CONFIG     Project settings → Your apps → Web app → Config
+ *   APP_CHECK_SITE_KEY  App Check → the web app's reCAPTCHA Enterprise site key
+ * The backend itself (rules, Cloud Functions) lives in another repository: see docs/BACKEND.md.
  *
- * Firebase console → Project settings → Your apps → Web app → "SDK setup and configuration"
- * → Config. These values are public identifiers, not secrets; access is controlled by the
- * Firestore rules and the Cloud Functions in /functions.
- *
- * While this is null the site works exactly as before: everything stays on the device and the
- * AI features use a personal API key from the Account page.
+ * While FIREBASE_CONFIG is null the site is local-only: no sign-in, the pantry and saved
+ * recipes stay on the device, and the AI features say that sign-in is not set up yet.
  */
 export interface FirebaseWebConfig {
   apiKey: string;
@@ -18,14 +17,6 @@ export interface FirebaseWebConfig {
   messagingSenderId?: string;
 }
 
-export const FIREBASE_CONFIG: FirebaseWebConfig | null = {
-  apiKey: 'AIzaSyA5wjBDa_YKyDWrQOUb4AUjv6TYws72B-M',
-  authDomain: 'the-pantry-8e315.firebaseapp.com',
-  projectId: 'the-pantry-8e315',
-  storageBucket: 'the-pantry-8e315.firebasestorage.app',
-  messagingSenderId: '437309141882',
-  appId: '1:437309141882:web:80a022d359f9b32a869cc3',
-};
+export const FIREBASE_CONFIG: FirebaseWebConfig | null = null;
 
-/** Region the Cloud Functions are deployed to (must match functions/src/index.ts). */
-export const FUNCTIONS_REGION = 'us-central1';
+export const APP_CHECK_SITE_KEY: string | null = null;

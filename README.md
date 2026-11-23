@@ -1,12 +1,12 @@
 # 🥬 The Pantry
 
 A recipe library you can cook from, a tool that writes new recipes from what you have, and a label
-scanner that scores every ingredient. Static site on GitHub Pages; Google sign-in and the AI backend
-run on Firebase when it is switched on.
+scanner that scores every ingredient. Static site on GitHub Pages; Google sign-in, cloud saving and
+the AI features run on a shared Firebase backend that lives in another repository.
 
 - **Live site:** https://ngcoding10.github.io/recipes/ (also served at https://ascoding11.github.io/recipes/, same accounts; see [`docs/ASCODING.md`](docs/ASCODING.md))
 - **Built with:** [Astro](https://astro.build) + React islands, Fraunces + Manrope, no CSS framework.
-- **Switching on Google sign-in and free AI:** [`docs/SETUP-FIREBASE.md`](docs/SETUP-FIREBASE.md)
+- **Backend (sign-in, database, AI):** [`docs/BACKEND.md`](docs/BACKEND.md)
 - **How ingredients are scored:** [`docs/SCORING.md`](docs/SCORING.md)
 
 ---
@@ -22,28 +22,30 @@ run on Firebase when it is switched on.
 | **Scan** (`/scan/`) | Photograph a food, cosmetic or household label (or paste the text, in English, Spanish, French, Italian, German, Portuguese or Dutch). Text is read on-device, every ingredient is scored, and the worst are explained. Optional AI second opinion. |
 | **Products** (`/products/`) | 416,454 US packaged foods by brand, product or barcode, each scored by the same scanner ([how the data was built](data-pipeline/README.md); re-score with `npm run build:products`). |
 | **Ingredients** (`/ingredients/`) | 552 additives and questionable ingredients with score, regulatory status, sources and the brands that use them most. |
-| **Account** (`/account/`) | Sign in with Google, light/dark/system theme, optional own API key, delete your data. |
+| **Account** (`/account/`) | Sign in with Google, light/dark/system theme, delete your Pantry data. |
 | **Privacy** (`/privacy/`) | What is stored where. |
 
 ### Accounts and AI (who pays)
 
-- **Signed out:** your pantry list and saved recipes stay in this browser. AI features work if you
-  paste your own Anthropic API key on the Account page (stored only in the browser, sent only to
-  api.anthropic.com).
-- **Signed in with Google** (once Firebase is set up): the pantry and saved recipes sync through
-  Firestore, and AI requests go to the site's Cloud Functions, which use the owner's key from
-  Secret Manager with a per-account and site-wide daily limit. Firestore rules let each account
-  read and write only its own data.
-- Model: `claude-opus-5-5` with structured outputs (`src/lib/ai-shared.ts`, shared by browser and
-  server). About 5–7 cents per recipe. **Never commit a key to this repo**; it is public.
+- **Signed out:** your pantry list and saved recipes stay in this browser. The AI features (New
+  recipe, the AI label check) ask you to sign in.
+- **Signed in with Google:** the pantry and saved recipes sync through Firestore
+  (`pantry_users/{uid}`), and AI requests go to the backend's Cloud Functions
+  (`pantryGenerateRecipe`, `pantryCheckLabel`), which hold the prompts and the API key and apply
+  a per-account and site-wide daily limit. Firestore rules let each account read and write only
+  its own data. *Delete my Pantry data* on the Account page removes all of it.
+- **While `FIREBASE_CONFIG` is `null`** (the shared project is not created yet) the site is
+  local-only and the AI features say that sign-in is not set up yet.
+- There is no backend code and no secret in this repo. **Never commit a key here**; it is public.
 
-| Folder | What |
+| File | What |
 |---|---|
-| `src/config/firebase.ts` | Firebase web config (null = off) |
-| `src/lib/ai.ts`, `ai-shared.ts` | AI client (own key or Cloud Function), prompts and schemas |
+| `src/config/firebase.ts` | The public Firebase web config and App Check site key (null = off) |
+| `src/lib/core.js` | The shared Firebase module, an unchanged copy from the backend repo |
 | `src/lib/firebase.ts`, `store.ts` | Lazy Firebase, sign-in, pantry and saved-recipe storage |
-| `functions/` | Cloud Functions `generateRecipe`, `checkLabel` (`npm test` there) |
-| `firestore.rules`, `firebase.json` | Database rules and deploy config |
+| `src/lib/ai.ts`, `ai-shared.ts` | Calls to the AI Cloud Functions, and the types of what they return |
+| `scripts/export-zero-list.mjs` | `npm run export:zero-list`: the score-0 food ingredients, for the backend |
+| [`docs/BACKEND.md`](docs/BACKEND.md) | Where the backend lives and how to test against its emulators |
 
 ### How the scan score works
 
@@ -202,14 +204,14 @@ data/flagged_ingredients_rated.csv ← 27k-row rated ingredient list (source for
   lib/
     filters.ts           ← search, facets, meal tabs
     label.ts             ← OCR text → ingredients → score
-    ai.ts                ← browser-side Anthropic client (BYO key)
+    ai.ts                ← calls the AI Cloud Functions (sign-in required)
     collection.ts        ← entry → RecipeData mapping
   components/
     RecipeLibrary.tsx    ← library island (search, tabs, filters)
     IngredientsPanel.tsx ← servings / proportional scaler
     Pantry.tsx           ← cook with what I have
     Scan.tsx             ← label scanner
-    ApiKeyBox.tsx        ← key entry
+    AiAccess.tsx         ← "Sign in with Google" button
   pages/                 ← index, [slug], pantry, scan, settings
   styles/                ← global (design tokens), library, recipe, tools
   layouts/Base.astro     ← app shell: header, mobile tab bar

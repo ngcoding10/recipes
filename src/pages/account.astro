@@ -1,8 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import ApiKeyBox from '../components/ApiKeyBox.tsx';
 import { AccountCard, ThemePicker, DeviceData } from '../components/AccountPanel.tsx';
-import { MODEL } from '../lib/ai-shared';
 import '../styles/tools.css';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
@@ -11,7 +9,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <section class="page-head container container--narrow">
     <p class="page-head__eyebrow">Account</p>
     <h1 class="page-head__title">Your <em>account</em> and settings.</h1>
-    <p class="page-head__lede">Sign in to keep your pantry and saved recipes everywhere. Everything else on this site works without an account.</p>
+    <p class="page-head__lede">Sign in to keep your pantry and saved recipes everywhere and to use the AI features. Everything else on this site works without an account.</p>
   </section>
 
   <div class="container container--narrow tools">
@@ -22,11 +20,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     <div class="card-surface tools__card">
       <h2 class="section-title">Appearance</h2>
       <ThemePicker client:load />
-    </div>
-
-    <div class="card-surface tools__card">
-      <ApiKeyBox client:load />
-      <p class="tools__hint">Model: <code>{MODEL}</code>.</p>
     </div>
 
     <div class="card-surface tools__card">

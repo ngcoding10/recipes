@@ -14,8 +14,8 @@ export default defineConfig({
     format: 'directory',
   },
   vite: {
-    // Firestore and the Anthropic SDK are large but load only on demand (dynamic import), never
-    // with the page, so the default 500 KB chunk warning does not apply to them.
+    // The Firebase SDK is large but loads only on demand (dynamic import), never
+    // with the page, so the default 500 KB chunk warning does not apply to it.
     build: { chunkSizeWarningLimit: 800 },
   },
 });

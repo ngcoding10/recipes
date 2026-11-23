@@ -2,11 +2,14 @@
  * Your pantry list and saved AI recipes.
  *
  * Signed out: kept on this device (localStorage).
- * Signed in with Google: kept in Firestore under users/{uid}, so they follow you to any device.
+ * Signed in with Google: kept in Firestore under pantry_users/{uid}, so they follow you to any device.
  * The first time you sign in, anything saved on the device is merged into the account.
  */
 import type { GeneratedRecipe, RecipeRequest } from './ai-shared';
-import { firebaseEnabled, loadFirebase } from './firebase';
+import { APP_NAME, firebaseEnabled, loadFirebase } from './firebase';
+
+/** Firestore: pantry_users/{uid} holds the pantry list, pantry_users/{uid}/recipes the saved recipes. */
+const USERS = 'pantry_users';
 
 const PANTRY_KEY = 'pantry.items';
 const SAVED_KEY = 'pantry.savedRecipes';
@@ -34,9 +37,8 @@ export function setPantry(items: string[], uid: string | null): void {
   clearTimeout(pushTimer);
   pushTimer = setTimeout(async () => {
     try {
-      const { db } = await loadFirebase();
-      const { doc, setDoc, serverTimestamp } = await import('firebase/firestore');
-      await setDoc(doc(db, 'users', uid), { pantry: clean, updatedAt: serverTimestamp() });
+      const { db, F } = await loadFirebase();
+      await F.setDoc(F.doc(db, USERS, uid), { pantry: clean, updatedAt: F.serverTimestamp() });
     } catch { /* offline: Firestore retries from its local cache */ }
   }, 600);
 }
@@ -45,9 +47,8 @@ export function setPantry(items: string[], uid: string | null): void {
 export async function syncPantry(uid: string): Promise<string[]> {
   const local = getLocalPantry();
   try {
-    const { db } = await loadFirebase();
-    const { doc, getDoc } = await import('firebase/firestore');
-    const snap = await getDoc(doc(db, 'users', uid));
+    const { db, F } = await loadFirebase();
+    const snap = await F.getDoc(F.doc(db, USERS, uid));
     const remote: string[] = (snap.exists() && Array.isArray(snap.get('pantry')) ? snap.get('pantry') : []) as string[];
     const merged = [...new Set([...remote, ...local])];
     if (merged.length !== remote.length) setPantry(merged, uid);
@@ -63,9 +64,8 @@ export async function syncPantry(uid: string): Promise<string[]> {
 // ---------------------------------------------------------------------------------------------
 export async function listSaved(uid: string | null): Promise<SavedRecipe[]> {
   if (!uid || !firebaseEnabled) return readLocal<SavedRecipe[]>(SAVED_KEY, []).sort((a, b) => b.createdAt - a.createdAt);
-  const { db } = await loadFirebase();
-  const { collection, getDocs, orderBy, query, limit } = await import('firebase/firestore');
-  const snap = await getDocs(query(collection(db, 'users', uid, 'recipes'), orderBy('createdAt', 'desc'), limit(100)));
+  const { db, F } = await loadFirebase();
+  const snap = await F.getDocs(F.query(F.collection(db, USERS, uid, 'recipes'), F.orderBy('createdAt', 'desc'), F.limit(100)));
   return snap.docs.map((d) => ({ id: d.id, recipe: d.get('recipe'), request: d.get('request') ?? null, createdAt: d.get('createdAt')?.toMillis?.() ?? Date.now() }));
 }
 
@@ -78,9 +78,8 @@ export async function saveRecipe(recipe: GeneratedRecipe, request: RecipeRequest
     emit(SAVED_EVENT);
     return id;
   }
-  const { db } = await loadFirebase();
-  const { addDoc, collection, serverTimestamp } = await import('firebase/firestore');
-  const ref = await addDoc(collection(db, 'users', uid, 'recipes'), { recipe, request, createdAt: serverTimestamp() });
+  const { db, F } = await loadFirebase();
+  const ref = await F.addDoc(F.collection(db, USERS, uid, 'recipes'), { recipe, request, createdAt: F.serverTimestamp() });
   emit(SAVED_EVENT);
   return ref.id;
 }
@@ -89,9 +88,8 @@ export async function deleteSaved(id: string, uid: string | null): Promise<void>
   if (!uid || !firebaseEnabled || id.startsWith('local-')) {
     writeLocal(SAVED_KEY, readLocal<SavedRecipe[]>(SAVED_KEY, []).filter((r) => r.id !== id));
   } else {
-    const { db } = await loadFirebase();
-    const { deleteDoc, doc } = await import('firebase/firestore');
-    await deleteDoc(doc(db, 'users', uid, 'recipes', id));
+    const { db, F } = await loadFirebase();
+    await F.deleteDoc(F.doc(db, USERS, uid, 'recipes', id));
   }
   emit(SAVED_EVENT);
 }
@@ -106,13 +104,20 @@ export async function migrateLocalSaved(uid: string): Promise<number> {
   return local.length;
 }
 
-/** Delete everything stored for this account (pantry and saved recipes). */
-export async function deleteAccountData(uid: string): Promise<void> {
-  const { db } = await loadFirebase();
-  const { collection, deleteDoc, doc, getDocs } = await import('firebase/firestore');
-  const snap = await getDocs(collection(db, 'users', uid, 'recipes'));
-  await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
-  await deleteDoc(doc(db, 'users', uid));
+/**
+ * Delete everything The Pantry stores for the signed-in person (pantry and saved recipes).
+ * A Cloud Function does it; it also removes the sign-in itself when the person has nothing
+ * left in any other app on the shared backend (`accountDeleted`).
+ */
+export async function deleteMyPantryData(): Promise<{ accountDeleted: boolean }> {
+  clearTimeout(pushTimer); // a pantry save still waiting must not bring the data back
+  const core = await loadFirebase();
+  try {
+    const res = await core.deleteMyData(APP_NAME);
+    return { accountDeleted: !!res.accountDeleted };
+  } catch (e: any) {
+    throw new Error(String(e?.message ?? 'Could not delete your data. Try again.').replace(/\s*\[\d{3}\]$/, ''));
+  }
 }
 
 /** Delete everything kept on this device. */

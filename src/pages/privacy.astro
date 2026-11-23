@@ -17,7 +17,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <ul class="tools__list">
         <li><strong>Label photos.</strong> The Scan page reads the text on your phone or computer. The photo is not uploaded unless you press <em>Run AI check</em>.</li>
         <li><strong>Pantry list and saved recipes</strong> when you are signed out, in your browser's local storage.</li>
-        <li><strong>Your own Anthropic API key</strong>, if you add one. It is sent only to api.anthropic.com when you use an AI feature.</li>
         <li><strong>Your theme and scoring choices.</strong></li>
       </ul>
       <p class="tools__muted">Recipe checkboxes and scaled amounts are not stored at all.</p>
@@ -30,12 +29,12 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <li><strong>Stored in your account</strong> (Google Firebase, Firestore): your pantry list and the recipes you choose to save. Only you can read them; the database rules block everyone else.</li>
         <li><strong>A daily counter</strong> of how many AI requests your account made, so the free daily limit works.</li>
       </ul>
-      <p class="tools__muted">You can delete all of it from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my data</em>.</p>
+      <p class="tools__muted">The sign-in is shared with the site owner's other apps on the same Firebase project; each app keeps its own data, and using The Pantry creates nothing in the others. You can delete everything The Pantry stores from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my Pantry data</em>. If you use none of the other apps, that also removes the sign-in itself.</p>
     </div>
 
     <div class="card-surface tools__card">
       <h2 class="section-title">When you use an AI feature</h2>
-      <p class="tools__muted" style="margin-top:0">Your ingredient list, the options you chose, and for the AI check the label text and photo, are sent to Anthropic's Claude API to write the answer. Anthropic does not use API data to train its models by default. Nothing is sent until you press the button.</p>
+      <p class="tools__muted" style="margin-top:0">The AI features need a Google sign-in. Your ingredient list, the options you chose, and for the AI check the label text and photo, go to the site's server (a Google Cloud Function) and from there to Anthropic's Claude API to write the answer. The server does not keep them. Anthropic does not use API data to train its models by default. Nothing is sent until you press the button.</p>
     </div>
 
     <div class="card-surface tools__card">
