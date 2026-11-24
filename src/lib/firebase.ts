@@ -11,8 +11,17 @@ import { createCore, wantsEmulator, type Core, type CoreUser } from './core.js';
 /** The app's name on the shared backend: prefix of its collections, functions and storage keys. */
 export const APP_NAME = 'pantry';
 
+/**
+ * Build-time switch for tests only: `PUBLIC_NO_FIREBASE=1 astro build` makes a copy of the site
+ * with no Firebase config at all, so the signed-out, local-only site can be tested without any
+ * way of reaching the real project (scripts/e2e-emulator.mjs). The value is fixed into the
+ * built files; nothing in a browser can change it, and it can only switch Firebase off.
+ */
+const OFF = import.meta.env.PUBLIC_NO_FIREBASE === '1';
+const CONFIG = OFF ? null : FIREBASE_CONFIG;
+
 /** True when the site was built with a Firebase config (the same on the server and in the browser). */
-export const firebaseConfigured = FIREBASE_CONFIG !== null;
+export const firebaseConfigured = CONFIG !== null;
 /** Local testing: localhost with ?emulator in the address talks to the Firebase emulators. */
 const emulator = wantsEmulator(APP_NAME);
 /** True when sign-in and cloud saving are available. Browser-only when it comes from emulator mode. */
@@ -35,8 +44,8 @@ export function loadFirebase(): Promise<Core> {
       const c = createCore({
         appName: APP_NAME,
         sdk: { app, auth, firestore, functions, appCheck },
-        config: FIREBASE_CONFIG,
-        appCheckSiteKey: APP_CHECK_SITE_KEY,
+        config: CONFIG,
+        appCheckSiteKey: OFF ? null : APP_CHECK_SITE_KEY,
         emulator,
       });
       // Local testing only: Google's sign-in window cannot be driven by a test, so emulator

@@ -19,3 +19,5 @@ scripts/__pycache__/
 # firebase emulator logs
 *-debug.log
 shots/
+# second build made by scripts/e2e-emulator.mjs
+.e2e/

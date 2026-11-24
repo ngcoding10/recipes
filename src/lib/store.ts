@@ -47,17 +47,18 @@ export function setPantry(items: string[], uid: string | null): void {
 
 /** On sign-in: merge the account's pantry with this device's and return the result. */
 export async function syncPantry(uid: string): Promise<string[]> {
-  const local = getLocalPantry();
   try {
     const { db, F } = await loadFirebase();
     const snap = await F.getDoc(F.doc(db, USERS, uid));
+    // Read the device's list only now: anything added while the account was loading must be kept.
+    const local = getLocalPantry();
     const remote: string[] = (snap.exists() && Array.isArray(snap.get('pantry')) ? snap.get('pantry') : []) as string[];
     const merged = [...new Set([...remote, ...local])];
     if (merged.length !== remote.length) setPantry(merged, uid);
     else { writeLocal(PANTRY_KEY, merged); emit(PANTRY_EVENT); }
     return merged;
   } catch {
-    return local;
+    return getLocalPantry();
   }
 }
 

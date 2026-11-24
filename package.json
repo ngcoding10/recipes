@@ -14,7 +14,8 @@
     "audit": "node scripts/audit-scores.mjs",
     "test": "node scripts/test-label.mjs && node scripts/test-search.mjs",
     "build:products": "node data-pipeline/rescore.mjs",
-    "export:zero-list": "node scripts/export-zero-list.mjs"
+    "export:zero-list": "node scripts/export-zero-list.mjs",
+    "test:e2e": "node scripts/e2e-emulator.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^4.3.0",
