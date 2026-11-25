@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import '../styles/tools.css';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+<Base title="Terms | The Pantry" description="The rules for using The Pantry, and why its scores and AI recipes are not advice.">
+  <section class="page-head container container--narrow">
+    <p class="page-head__eyebrow">Terms</p>
+    <h1 class="page-head__title">The <em>rules</em> for using The Pantry.</h1>
+    <p class="page-head__lede">The Pantry is a free personal project. By using it, you agree to these terms. If you don't agree, please don't use it. Last updated: 24 November 2026.</p>
+  </section>
+
+  <div class="container container--narrow tools prose">
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Health and safety</h2>
+      <p class="tools__muted" style="margin-top:0">Ingredient scores, label checks and AI recipes are for information only. They may be wrong or out of date. They are not medical, nutritional or allergy advice. If you have an allergy, a health condition or special dietary needs, check labels yourself and ask a qualified professional.</p>
+      <p class="tools__muted">AI recipes are written by a machine. Before you cook, check the ingredients, the allergens and the cooking temperatures yourself. Make sure meat, fish and eggs are cooked safely. You use the recipes and scores at your own risk.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Who can use it</h2>
+      <p class="tools__muted" style="margin-top:0">You must be at least 13 years old. If you are under the age of adulthood where you live, a parent or guardian should agree to these terms with you.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Your account</h2>
+      <ul class="tools__list">
+        <li>Signing in is optional and uses Google. You need it for the AI features.</li>
+        <li>You are responsible for what happens on your account.</li>
+        <li>You can delete your Pantry data any time on the <a href={`${base}/account/`}>Account page</a>.</li>
+      </ul>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">AI features</h2>
+      <p class="tools__muted" style="margin-top:0">AI features send your request through the developer's server to Anthropic's Claude API. There is a daily limit per person, and it may change. Don't send photos or text you don't want processed this way. The <a href={`${base}/privacy/`}>privacy page</a> says what is sent.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Rules</h2>
+      <p class="tools__muted" style="margin-top:0">Don't break the law, try to get around the daily limit, read other people's data, or overload the site with automated requests or scraping. We may block access if you do.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Recipes and data</h2>
+      <p class="tools__muted" style="margin-top:0">Recipes come from public Instagram reels, and each recipe page links to the original. Recipes and photos belong to their creators. Product and ingredient data come from USDA FoodData Central and Open Food Facts (Open Database License). Creators who want a recipe taken down can ask on the project's GitHub page.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">No warranty</h2>
+      <p class="tools__muted" style="margin-top:0">The Pantry is free and provided "as is", with no warranty. It may be down, wrong or changed at any time, and the developer may stop it. To the extent the law allows, the developer is not liable for any loss or harm from using it, including lost data or illness.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Changes and contact</h2>
+      <p class="tools__muted" style="margin-top:0">We may update these terms and will change the date at the top when we do. Using the site after a change means you accept the new terms. Questions? Open an issue on the <a href="https://github.com/ngcoding10/recipes/issues">project's GitHub page</a>. The <a href={`${base}/privacy/`}>privacy page</a> explains what we collect.</p>
+    </div>
+  </div>
+</Base>

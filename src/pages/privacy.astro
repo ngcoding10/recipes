@@ -8,14 +8,14 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   <section class="page-head container container--narrow">
     <p class="page-head__eyebrow">Privacy</p>
     <h1 class="page-head__title">What we keep, and <em>where</em>.</h1>
-    <p class="page-head__lede">Short version: this site currently shows no ads and uses no tracking or analytics. Most features run entirely on your device.</p>
+    <p class="page-head__lede">Short version: this site currently shows no ads and uses no tracking or analytics. If that ever changes, this page will be updated first. Last updated: 24 November 2026.</p>
   </section>
 
   <div class="container container--narrow tools prose">
     <div class="card-surface tools__card">
       <h2 class="section-title">On your device only</h2>
       <ul class="tools__list">
-        <li><strong>Label photos.</strong> The Scan page reads the text on your phone or computer. The photo is not uploaded unless you press <em>Run AI check</em>.</li>
+        <li><strong>Label photos.</strong> The Scan page reads the text in your browser. The reader's code loads from jsDelivr. The photo is not uploaded unless you press <em>Run AI check</em>.</li>
         <li><strong>Pantry list and saved recipes</strong> when you are signed out, in your browser's local storage.</li>
         <li><strong>Your theme and scoring choices.</strong></li>
       </ul>
@@ -27,14 +27,27 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <ul class="tools__list">
         <li><strong>From Google:</strong> your name, email address and profile picture, used to show who is signed in. We do not get your password or access to anything else in your Google account.</li>
         <li><strong>Stored in your account</strong> (Google Firebase, Firestore): your pantry list and the recipes you choose to save. Only you can read them; the database rules block everyone else.</li>
+        <li><strong>Sign-in details</strong> are handled by Google Firebase Authentication (Google sign-in).</li>
         <li><strong>A daily counter</strong> of how many AI requests your account made, so the free daily limit works.</li>
       </ul>
-      <p class="tools__muted">The sign-in is shared with the site owner's other apps on the same Firebase project; each app keeps its own data, and using The Pantry creates nothing in the others. You can delete everything The Pantry stores from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my Pantry data</em>. If you use none of the other apps, that also removes the sign-in itself; otherwise you stay signed in.</p>
+      <p class="tools__muted">One sign-in and one optional username are shared across the developer's apps (The Pantry, Where Have You Been and Movi). Using one app does not create a profile in another. You can delete the data The Pantry stores from the <a href={`${base}/account/`}>Account page</a> with <em>Delete my Pantry data</em>. The sign-in itself is removed when no app has data left for you.</p>
     </div>
 
     <div class="card-surface tools__card">
       <h2 class="section-title">When you use an AI feature</h2>
-      <p class="tools__muted" style="margin-top:0">The AI features need a Google sign-in. Your ingredient list, the options you chose, and for the AI check the label text and photo, go to the site's server (a Google Cloud Function) and from there to Anthropic's Claude API to write the answer. The server does not keep them. Anthropic does not use API data to train its models by default. Nothing is sent until you press the button.</p>
+      <p class="tools__muted" style="margin-top:0">The AI features need a Google sign-in. Your ingredient list, the options you chose, and for the AI check the label text and photo, go to the site's server (a Google Cloud Function) and from there to Anthropic's Claude API to write the answer. There is a daily limit per person. The app does not store label photos. Nothing is sent until you press the button.</p>
+    </div>
+
+    <div class="card-surface tools__card">
+      <h2 class="section-title">Services and hosting</h2>
+      <ul class="tools__list">
+        <li><strong>Google Firebase</strong> (United States) provides sign-in, the Firestore database and Cloud Functions.</li>
+        <li><strong>Firebase App Check with Google reCAPTCHA Enterprise</strong> looks at device and browser signals to tell real visitors from bots.</li>
+        <li><strong>Anthropic</strong> receives AI requests, as described above.</li>
+        <li><strong>jsDelivr</strong> serves the label reader's code.</li>
+        <li><strong>GitHub Pages</strong> hosts the site. GitHub may log IP addresses, as any web host does.</li>
+      </ul>
+      <p class="tools__muted">This is a personal project run by an individual developer. It is not meant for children under 13.</p>
     </div>
 
     <div class="card-surface tools__card">
